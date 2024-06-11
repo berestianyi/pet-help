@@ -3,16 +3,24 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
-        <form class="w-25" style="min-width: 400px; min-height: 500px">
-
+        <form class="w-25" style="min-width: 400px; min-height: 500px" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <h1 class="mb-3" >Login</h1>
+            {% if errors %}
+                <div class="alert alert-danger" role="alert">
+                {% for error in errors %}
+                    {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingEmailInput" placeholder="name@example.com">
-                <label for="floatingEmailInput">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                <label for="email">Email</label>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password">Password</label>
             </div>
 
             <div class="row mb-2">
@@ -23,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col d-flex justify-content-end">
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
                             class="btn btn-primary btn-block mb-4">Sign in
                     </button>
                 </div>
@@ -36,5 +44,4 @@
             </div>
         </form>
     </div>
-
 {% endblock %}

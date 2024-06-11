@@ -1,0 +1,10 @@
+<input type="text" class="form-control border-danger text-danger" id="floatingUserInput" placeholder="name@example.com"
+       name="username"
+       hx-get="/username/validation" hx-target="#usernameError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label class="text-danger" for="floatingUserInput">Username</label>
+<div class="ms-1 me-1 text-danger" >
+    {% for error in errors %}
+        <h6>{{ error }}</h6>
+    {% endfor %}
+</div>

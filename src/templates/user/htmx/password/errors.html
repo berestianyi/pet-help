@@ -1,0 +1,10 @@
+<input type="password" class="form-control text-danger border-danger" id="floatingPassword" placeholder="Password"
+       name="password"
+       hx-get="/password/validation" hx-target="#passwordError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingPassword" class="text-danger">Password</label>
+<div class="ms-1 me-1 text-danger">
+    {% for error in errors %}
+        <h6>{{ error }}</h6>
+    {% endfor %}
+</div>

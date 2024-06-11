@@ -1,0 +1,10 @@
+<input type="email" class="form-control border-danger text-danger" id="floatingEmailInput" placeholder="name@example.com"
+       name="email"
+       hx-get="/email/validation" hx-target="#emailError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingEmailInput" class="text-danger">Email address</label>
+<div class="ms-1 me-1 text-danger">
+    {% for error in errors %}
+        <h6>{{ error }}</h6>
+    {% endfor %}
+</div>

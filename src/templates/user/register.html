@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+        <form class="w-25" style="min-width: 400px; min-height: 500px" method="POST">
+            <div hx-post="/from/validation" hx-trigger="change" hx-target="#submitButton">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <h1 class="mb-3">Registration</h1>
+                <div class="form-floating mb-3" id="usernameError">
+                    <input type="text" class="form-control" id="floatingUserInput" placeholder="name@example.com"
+                           name="username"
+                           hx-get="/username/validation" hx-target="#usernameError" hx-swap="innerHTML"
+                           hx-trigger="keyup changed delay:0.5s">
+                    <label for="floatingUserInput">Username</label>
+                </div>
+
+                <div class="form-floating mb-3" id="emailError">
+                    <input type="email" class="form-control" id="floatingEmailInput" placeholder="name@example.com"
+                           name="email"
+                           hx-get="/email/validation" hx-target="#emailError" hx-swap="innerHTML"
+                           hx-trigger="keyup changed delay:0.5s">
+                    <label for="floatingEmailInput">Email address</label>
+                </div>
+
+                <div class="form-floating mb-3" id="passwordError">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                           name="password"
+                           hx-get="/password/validation" hx-target="#passwordError" hx-swap="innerHTML"
+                           hx-trigger="keyup changed delay:0.5s">
+                    <label for="floatingPassword">Password</label>
+                </div>
+
+                <div class="form-floating mb-3" id="password2Error">
+                    <input type="password" class="form-control" id="floatingPassword2" placeholder="Password"
+                           name="password2"
+                           hx-post="/password/validation" hx-target="#password2Error" hx-swap="innerHTML"
+                           hx-trigger="keyup changed delay:0.5s">
+                    <label for="floatingPassword2">Repeat password</label>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col d-flex justify-content-start align-content-center ms-1">
+                        <p>Have account? <a href="{{ url_for('login') }}">Login</a></p>
+                    </div>
+                    <div class="col d-flex justify-content-end" id="submitButton">
+                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                class="btn btn-primary btn-block mb-4" disabled>Register
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

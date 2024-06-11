@@ -1,0 +1,5 @@
+<input type="email" class="form-control text-success border-success" id="floatingEmailInput" placeholder="name@example.com"
+       name="email"
+       hx-get="/email/validation" hx-target="#emailError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingEmailInput" class="text-success">Email address</label>

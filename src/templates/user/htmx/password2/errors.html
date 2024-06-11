@@ -1,0 +1,10 @@
+<input type="password" class="form-control text-danger border-danger" id="floatingPassword2" placeholder="Password"
+       name="password2"
+       hx-post="/password/validation" hx-target="#password2Error" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingPassword2" class="text-danger">Repeat password</label>
+<div class="ms-1 me-1 text-danger">
+    {% for error in errors %}
+        <h6>{{ error }}</h6>
+    {% endfor %}
+</div>

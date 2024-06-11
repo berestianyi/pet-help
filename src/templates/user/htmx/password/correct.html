@@ -1,0 +1,5 @@
+<input type="password" class="form-control border-success text-success" id="floatingPassword" placeholder="Password"
+       name="password"
+       hx-get="/password/validation" hx-target="#passwordError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingPassword" class="text-success">Password</label>

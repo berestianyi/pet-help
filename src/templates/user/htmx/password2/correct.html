@@ -1,0 +1,5 @@
+<input type="password" class="form-control border-success text-success" id="floatingPassword2" placeholder="Password"
+       name="password2"
+       hx-post="/password/validation" hx-target="#password2Error" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingPassword2" class="text-success">Repeat password</label>

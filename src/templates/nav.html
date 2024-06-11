@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-xxl">
+            <h4><a class="navbar-brand"
+                        style="font-family: 'Monomaniac One', sans-serif; font-weight: 400; font-size: 32px;">PetsHelp</a>
+            </h4>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav text-dark mx-auto" style="font-size: 20px">
+                    <a class="nav-link active" href="#">About us</a>
+                    <a class="nav-link active ms-5" href="#">Adoption</a>
+                    <a class="nav-link active ms-5" href="#">Our team</a>
+                    <a class="nav-link active ms-5" href="#">How to help</a>
+                </div>
+                <div class="d-flex" role="search">
+                    <a href="{{ url_for('logout') }}">log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {#    <div class="d-flex" role="search">#}
+    {#                    <a href="{{ url_for('logout') }}">log out</a>#}
+    {#                </div>#}
+    <div class="container-xxl">
+        {% block body %}{% endblock %}
+    </div>
+{% endblock %}

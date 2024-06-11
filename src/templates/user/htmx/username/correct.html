@@ -1,0 +1,5 @@
+<input type="text" class="form-control border-success text-success" id="floatingUserInput" placeholder="username"
+       name="username"
+       hx-get="/username/validation" hx-target="#usernameError" hx-swap="innerHTML"
+       hx-trigger="keyup changed delay:0.5s" value="{{ value }}">
+<label for="floatingUserInput" class="text-success" >Username</label>
