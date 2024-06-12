@@ -3,8 +3,8 @@
 {% block content %}
     <nav class="navbar navbar-expand-lg">
         <div class="container-xxl">
-            <h4><a class="navbar-brand"
-                        style="font-family: 'Monomaniac One', sans-serif; font-weight: 400; font-size: 32px;">PetsHelp</a>
+            <h4><a class="navbar-brand ms-3" href="{{ url_for('mainpage') }}"
+                   style="font-family: 'Monomaniac One', sans-serif; font-weight: 400; font-size: 32px;">PetsHelp</a>
             </h4>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,20 +12,30 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav text-dark mx-auto" style="font-size: 20px">
-                    <a class="nav-link active" href="#">About us</a>
-                    <a class="nav-link active ms-5" href="#">Adoption</a>
-                    <a class="nav-link active ms-5" href="#">Our team</a>
-                    <a class="nav-link active ms-5" href="#">How to help</a>
+                    <h5><a class="nav-link active" href="#">About us</a></h5>
+                    <h5><a class="nav-link active ms-lg-5" href="{{ url_for('questionnaire') }}">Adoption</a></h5>
+                    <h5><a class="nav-link active ms-lg-5" href="#">Our team</a></h5>
+                    <h5><a class="nav-link active ms-lg-5" href="#">How to help</a></h5>
                 </div>
-                <div class="d-flex" role="search">
-                    <a href="{{ url_for('logout') }}">log out</a>
+                <div class="d-flex align-content-center me-3" role="search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         class="bi bi-person me-1" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                    </svg>
+                    {% if current_user.is_authenticated %}
+                        <h5>
+                            <a href="{{ url_for('logout') }}" class="text-decoration-none text-dark">Logout</a>
+                        </h5>
+                    {% else %}
+                        <h5>
+                            <a href="{{ url_for('login') }}"
+                               class="text-decoration-none text-dark">Login/Registration</a>
+                        </h5>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </nav>
-    {#    <div class="d-flex" role="search">#}
-    {#                    <a href="{{ url_for('logout') }}">log out</a>#}
-    {#                </div>#}
     <div class="container-xxl">
         {% block body %}{% endblock %}
     </div>

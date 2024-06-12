@@ -35,59 +35,67 @@
                     </div>
                 </div>
             </div>
-            <h4 class="mb-3">Pet filter</h4>
-            <div class="row mb-3">
-                <div class="col" hx-get="/form/filter/breeds" hx-target="#breeds" hx-swap="outerHTML" hx-trigger="change">
-                    <select class="form-select" id="species" name="species" aria-label="Default select example">
-                        <option selected>All species</option>
-                        {% for specie in species %}
-                            <option value="{{ specie.id }}">{{ specie.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col">
-                    <select class="form-select" id="breeds" name="breeds" aria-label="Default select example" disabled>
-                        <option selected>All breeds</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <select class="form-select" id="sizes" name="sizes" aria-label="Default select example">
-                        <option selected>All sizes</option>
-                        {% for size in sizes %}
-                            <option value="{{ size.value }}">{{ size.value }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col">
-                    <select class="form-select" id="genders" name="genders" aria-label="Default select example">
-                        <option selected>All genders</option>
-                        {% for gender in genders %}
-                            <option value="{{ gender.value }}">{{ gender.value }}</option>
-                        {% endfor %}
-                    </select>
+            <form id="petFilter" hx-post="/form/filter" hx-target="#petFilter" hx-swap="innerHTML" hx-trigger="change">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <h4 class="mb-3">Pet filter</h4>
+                <div class="row mb-3">
+                    <div class="col">
+                        <select class="form-select" id="species" name="species" aria-label="Species">
+                            <option selected>All species</option>
+                            {% for specie in species %}
+                                <option value="{{ specie.name }}">{{ specie.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="breeds" name="breeds"
+                                aria-label="Breeds" disabled>
+                            <option selected>All breeds</option>
+                        </select>
+                    </div>
                 </div>
 
-            </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <select class="form-select" id="ages" name="ages" aria-label="Default select example">
-                        <option selected>All ages</option>
-                        <option value="0-3">0-3</option>
-                        <option value="4-6">4-6</option>
-                        <option value="7">7+</option>
-                    </select>
+                <div class="row mb-3">
+                    <div class="col">
+                        <select class="form-select" id="sizes" name="sizes"
+                                aria-label="Default select example">
+                            <option selected>All sizes</option>
+                            {% for size in sizes %}
+                                <option value="{{ size.value }}">{{ size.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="genders" name="genders"
+                                aria-label="Genders">
+                            <option selected>All genders</option>
+                            {% for gender in genders %}
+                                <option value="{{ gender.value }}">{{ gender.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-                <div class="col">
-                    <select class="form-select" id="sterilized" name="sterilized" aria-label="Default select example">
-                        <option selected>Sterilized?</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <select class="form-select" id="ages" name="ages" aria-label="Ages">
+                            <option selected>All ages</option>
+                            {% for age in ages.keys() %}
+                                <option value="{{ age }}">{{ age }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="sterilized" name="sterilized"
+                                aria-label="Sterilized">
+                            <option selected>Sterilized?</option>
+                            {% for value in sterilized.keys() %}
+                                <option value="{{ value }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-            </div>
+                </div>
+            </form>
         </div>
         <div style="min-width: 500px; width: 700px">
             <div class="w-100 d-flex flex-wrap">
