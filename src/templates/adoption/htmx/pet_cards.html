@@ -1,0 +1,9 @@
+{% for pet in pets %}
+    <div class="card m-2" style="width: 200px; height: 250px">
+        <img src="{{ url_for('static', filename='images/pets/dog.png') }}" class="card-img-top h-75"
+             alt="...">
+        <div class="card-body mx-auto h-25">
+            <h4 class="card-text">{{ pet.name }}</h4>
+        </div>
+    </div>
+{% endfor %}

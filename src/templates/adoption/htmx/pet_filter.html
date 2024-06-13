@@ -1,76 +1,79 @@
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-<h4 class="mb-3">Pet filter</h4>
-<div class="row mb-3">
-    <div class="col">
-        <select class="form-select" id="species" name="species" aria-label="Species">
-            <option selected>{{ specie }}</option>
-            {% if html_option.species %}
-                <option value="All species">All species</option>
-            {% endif %}
-            {% for specie in species %}
-                <option value="{{ specie.name }}">{{ specie.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="col">
-        <select class="form-select" id="breeds" name="breeds" aria-label="Default select example" {{ disabled.breeds }}>
-            <option selected>{{ breed }}</option>
-            {% if html_option.breeds %}
-                <option value="All breeds">All breeds</option>
-            {% endif %}
-            {% for pet in pets %}
-                <option value="{{ pet.name }}">{{ pet.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col">
-        <select class="form-select" id="sizes" name="sizes" aria-label="Default select example" {{ disabled.sizes }}>
-            <option selected>{{ size }}</option>
-            {% if html_option.sizes %}
-                <option value="All sizes">All sizes</option>
-            {% endif %}
-            {% for size in sizes %}
-                <option value="{{ size.value }}">{{ size.value }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="col">
-        <select class="form-select" id="genders" name="genders" aria-label="Genders" {{ disabled.genders }}>
-            <option selected>{{ gender }}</option>
-            {% if html_option.genders %}
-                <option value="All genders">All genders</option>
-            {% endif %}
-            {% for gender in genders %}
-                <option value="{{ gender.value }}">{{ gender.value }}</option>
-            {% endfor %}
-        </select>
-    </div>
-</div>
-<div class="row mb-3">
-    <div class="col">
-        <select class="form-select" id="ages" name="ages" aria-label="Ages" {{ disabled.ages }}>
-            <option selected>{{ age }}</option>
-            {% if html_option.ages %}
-                <option value="All ages">All ages</option>
-            {% endif %}
-            {% for age in ages.keys() %}
-                <option value="{{ age }}">{{ age }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="col">
-        <select class="form-select" id="sterilized" name="sterilized" aria-label="Sterilized" {{ disabled.sterilized }}>
-            <option selected>{{ sterilize }}</option>
-            {% if html_option.sterilized %}
-                <option value="Sterilized?">Sterilized?</option>
-            {% endif %}
-            {% for value in sterilized.keys() %}
-                <option value="{{ value }}">{{ value }}</option>
-            {% endfor %}
-        </select>
+<div hx-post="/cards/pets" hx-target="#pets" hx-swap="innerHTML" hx-trigger="change">
+    <h4 class="mb-3">Pet filter</h4>
+    <div class="row mb-3">
+        <div class="col">
+            <select class="form-select" id="species" name="species" aria-label="Species">
+                <option selected>{{ specie }}</option>
+                {% if html_option.species %}
+                    <option value="All species">All species</option>
+                {% endif %}
+                {% for specie in species %}
+                    <option value="{{ specie }}">{{ specie }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select" id="breeds" name="breeds"
+                    aria-label="Default select example">
+                <option selected>{{ breed }}</option>
+                {% if html_option.breeds %}
+                    <option value="All breeds">All breeds</option>
+                {% endif %}
+                {% for breed in breeds %}
+                    <option value="{{ breed }}">{{ breed }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col">
+            <select class="form-select" id="sizes" name="sizes"
+                    aria-label="Default select example">
+                <option selected>{{ size }}</option>
+                {% if html_option.sizes %}
+                    <option value="All sizes">All sizes</option>
+                {% endif %}
+                {% for size in sizes %}
+                    <option value="{{ size.value }}">{{ size.value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select" id="genders" name="genders" aria-label="Genders">
+                <option selected>{{ gender }}</option>
+                {% if html_option.genders %}
+                    <option value="All genders">All genders</option>
+                {% endif %}
+                {% for gender in genders %}
+                    <option value="{{ gender.value }}">{{ gender.value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <select class="form-select" id="ages" name="ages" aria-label="Ages">
+                <option selected>{{ age }}</option>
+                {% if html_option.ages %}
+                    <option value="All ages">All ages</option>
+                {% endif %}
+                {% for age in ages.keys() %}
+                    <option value="{{ age }}">{{ age }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select" id="sterilized" name="sterilized"
+                    aria-label="Sterilized">
+                <option selected>{{ sterilize }}</option>
+                {% if html_option.sterilized %}
+                    <option value="Sterilized?">Sterilized?</option>
+                {% endif %}
+                {% for value in sterilized.keys() %}
+                    <option value="{{ value }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 </div>

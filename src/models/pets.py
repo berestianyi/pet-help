@@ -29,6 +29,7 @@ class Species(db.Model):
 class Pet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
+    breed = db.Column(db.String(80), unique=True, nullable=True)
     gender = db.Column(Enum(PetGender), nullable=False, default=PetGender.FEMALE)
     age = db.Column(db.Integer, nullable=False)
     is_sterilized = db.Column(db.Boolean, nullable=False, default=False)

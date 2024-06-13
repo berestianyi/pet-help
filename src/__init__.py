@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)
+app.config['WTF_CSRF_CHECK_DEFAULT'] = False
 csrf = CSRFProtect(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)

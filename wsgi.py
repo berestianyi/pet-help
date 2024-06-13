@@ -11,6 +11,7 @@ api.add_resource(user.FormValidation, '/from/validation', strict_slashes=False)
 api.add_resource(adoption.Questionnaire, '/questionnaire', strict_slashes=False)
 api.add_resource(adoption.FormFilter, '/form/filter', strict_slashes=False)
 api.add_resource(adoption.SpeciesFilter, '/form/filter/breeds', strict_slashes=False)
+api.add_resource(adoption.PetsCards, '/cards/pets', strict_slashes=False)
 api.add_resource(index.MainPage, '/', strict_slashes=False)
 
 

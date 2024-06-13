@@ -2,9 +2,9 @@
 
 {% block title %}Questionnaire{% endblock %}
 {% block body %}
+
     <div class="d-flex row justify-content-center justify-content-xl-between mt-5" style="height: 100vh;">
         <div class="w-25" style="min-width: 450px;">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <h1>Questionnaire</h1>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Write your full name</label>
@@ -35,75 +35,82 @@
                     </div>
                 </div>
             </div>
-            <form id="petFilter" hx-post="/form/filter" hx-target="#petFilter" hx-swap="innerHTML" hx-trigger="change">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <h4 class="mb-3">Pet filter</h4>
-                <div class="row mb-3">
-                    <div class="col">
-                        <select class="form-select" id="species" name="species" aria-label="Species">
-                            <option selected>All species</option>
-                            {% for specie in species %}
-                                <option value="{{ specie.name }}">{{ specie.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-select" id="breeds" name="breeds"
-                                aria-label="Breeds" disabled>
-                            <option selected>All breeds</option>
-                        </select>
-                    </div>
-                </div>
+            <div>
+                <form id="petFilter" hx-post="/form/filter" hx-target="#petFilter" hx-swap="innerHTML"
+                      hx-trigger="change">
+                    <div hx-post="/cards/pets" hx-target="#pets" hx-swap="innerHTML" hx-trigger="change">
+                        <h4 class="mb-3">Pet filter</h4>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <select class="form-select" id="species" name="species" aria-label="Species">
+                                    <option selected>All species</option>
+                                    {% for specie in species %}
+                                        <option value="{{ specie.name }}">{{ specie.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" id="breeds" name="breeds"
+                                        aria-label="Default select example">
+                                    <option selected>All breeds</option>
+                                    {% for pet in pets %}
+                                        <option value="{{ pet.breed }}">{{ pet.breed }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="row mb-3">
-                    <div class="col">
-                        <select class="form-select" id="sizes" name="sizes"
-                                aria-label="Default select example">
-                            <option selected>All sizes</option>
-                            {% for size in sizes %}
-                                <option value="{{ size.value }}">{{ size.value }}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <select class="form-select" id="sizes" name="sizes"
+                                        aria-label="Default select example">
+                                    <option selected>All sizes</option>
+                                    {% for size in sizes %}
+                                        <option value="{{ size.value }}">{{ size.value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" id="genders" name="genders"
+                                        aria-label="Genders">
+                                    <option selected>All genders</option>
+                                    {% for gender in genders %}
+                                        <option value="{{ gender.value }}">{{ gender.value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <select class="form-select" id="ages" name="ages" aria-label="Ages">
+                                    <option selected>All ages</option>
+                                    {% for age in ages.keys() %}
+                                        <option value="{{ age }}">{{ age }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select class="form-select" id="sterilized" name="sterilized"
+                                        aria-label="Sterilized">
+                                    <option selected>Sterilized?</option>
+                                    {% for value in sterilized.keys() %}
+                                        <option value="{{ value }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <select class="form-select" id="genders" name="genders"
-                                aria-label="Genders">
-                            <option selected>All genders</option>
-                            {% for gender in genders %}
-                                <option value="{{ gender.value }}">{{ gender.value }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <select class="form-select" id="ages" name="ages" aria-label="Ages">
-                            <option selected>All ages</option>
-                            {% for age in ages.keys() %}
-                                <option value="{{ age }}">{{ age }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-select" id="sterilized" name="sterilized"
-                                aria-label="Sterilized">
-                            <option selected>Sterilized?</option>
-                            {% for value in sterilized.keys() %}
-                                <option value="{{ value }}">{{ value }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div style="min-width: 500px; width: 700px">
             <div class="w-100 d-flex flex-wrap">
                 <div class="w-100 d-flex justify-content-center"><h4>You can select your pet here</h4></div>
-                <div class="d-flex flex-wrap justify-content-center">
+                <div id="pets" class="d-flex flex-wrap justify-content-center">
                     {% for pet in pets %}
                         <div class="card m-2" style="width: 200px; height: 250px">
-                            <img src="{{ url_for('static', filename='images/pets/dog.png') }}" class="card-img-top h-75"
+                            <img src="{{ url_for('static', filename='images/pets/dog.png') }}"
+                                 class="card-img-top h-75"
                                  alt="...">
                             <div class="card-body mx-auto h-25">
                                 <h4 class="card-text">{{ pet.name }}</h4>
@@ -111,6 +118,25 @@
                         </div>
                     {% endfor %}
                 </div>
+                <nav class="m-auto" aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
