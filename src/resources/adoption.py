@@ -17,12 +17,12 @@ class DataMixin:
     }
 
     html_all_option = {
-        'species': True,
-        'breeds': True,
-        'genders': True,
-        'sizes': True,
-        'ages': True,
-        'sterilized': True
+        'species': False,
+        'breeds': False,
+        'genders': False,
+        'sizes': False,
+        'ages': False,
+        'sterilized': False
     }
 
     def query_filter(self, query, specie, gender, size, age, sterilize, breed):
@@ -44,6 +44,7 @@ class DataMixin:
                 query = query.filter(Pet.age >= age_range[0], Pet.age <= age_range[1])
         if sterilize != 'Sterilized?':
             query = query.filter(Pet.is_sterilized == self.sterilized[sterilize])
+
         return query
 
     def breeds_filter(self, breed, specie):
@@ -78,7 +79,6 @@ class DataMixin:
         else:
             species_list = Species.query.filter(Species.name != specie).all()
             species = [specie.name for specie in species_list]
-            self.html_all_option['breeds'] = False
             self.html_all_option['species'] = True
         return species
 
@@ -124,30 +124,70 @@ class DataMixin:
 class Questionnaire(Resource, DataMixin):
 
     def get(self):
-        pets = Pet.query.limit(6).all()
-        species = Species.query.all()
+        species = [pets.name for pets in Species.query.all()]
+        breeds = [pets.breed for pets in Pet.query.all()]
         genders = list(PetGender)
         sizes = list(PetSize)
+        page = request.form.get('page_num', 1, type=int)
+        per_page = int(request.form.get('per_page', 6, type=int))
+
+        query = Pet.query
+        total_pets = query.count()
+
+        total_pages = (total_pets + per_page - 1) // per_page
+        has_next = page < total_pages
+        has_prev = page > 1
+        next_num = page + 1 if has_next else None
+        prev_num = page - 1 if has_prev else None
+
+        try:
+            pets = query.offset((page - 1) * per_page).limit(per_page).all()
+        except:
+            pets = None
+
+        if total_pets <= 6:
+            show = False
+        else:
+            show = True
+
+        pagination = {
+            'total_pages': total_pages,
+            'current_page': page,
+            'has_next': has_next,
+            'has_prev': has_prev,
+            'next_num': next_num,
+            'prev_num': prev_num,
+            'show': show
+        }
 
         return make_response(render_template(
             'adoption/adoption.html',
             pets=pets,
+            pets_id=[pet.id for pet in pets],
             species=species,
             sizes=sizes,
+            breeds=breeds,
             genders=genders,
             ages=self.ages,
             sterilized=self.sterilized,
+            specie='All species',
+            gender='All genders',
+            size='All sizes',
+            age='All ages',
+            sterilize='Sterilized?',
+            breed='All breeds',
+            html_option=self.html_all_option,
+            pagination=pagination,
         ))
 
     def post(self):
-        return {'questionnaire': Questionnaire()}
+        print(request.form)
 
 
 class FormFilter(Resource, DataMixin):
     method_decorators = [csrf.exempt]
 
     def post(self):
-        print("FormFilter", request.form)
         specie = request.form.get('species')
         gender = request.form.get('genders')
         size = request.form.get('sizes')
@@ -184,33 +224,63 @@ class PetsCards(Resource, DataMixin):
     method_decorators = [csrf.exempt]
 
     def post(self):
+        print(request.form)
         specie = request.form.get('species')
         gender = request.form.get('genders')
         size = request.form.get('sizes')
         age = request.form.get('ages')
         sterilize = request.form.get('sterilized')
         breed = request.form.get('breeds')
+        page = request.form.get('page_num', 1, type=int)
+        per_page = int(request.form.get('per_page', 6, type=int))
 
         query = Pet.query
 
         query = self.query_filter(query, specie, gender, size, age, sterilize, breed)
 
+        total_pets = query.count()
+
+        total_pages = (total_pets + per_page - 1) // per_page
+        has_next = page < total_pages
+        has_prev = page > 1
+        next_num = page + 1 if has_next else None
+        prev_num = page - 1 if has_prev else None
+
+        if total_pets <= 6:
+            show = False
+        else:
+            show = True
+
+        pagination = {
+            'total_pages': total_pages,
+            'current_page': page,
+            'has_next': has_next,
+            'has_prev': has_prev,
+            'next_num': next_num,
+            'prev_num': prev_num,
+            'show': show
+        }
+
         try:
-            pets = query.limit(6).all()
+            pets = query.offset((page - 1) * per_page).limit(per_page).all()
         except:
             pets = None
 
         return make_response(render_template(
             'adoption/htmx/pet_cards.html',
-            pets=pets))
+            pets=pets,
+            pets_id=[pet.id for pet in pets],
+            page_num=page,
+            pagination=pagination,
+        ))
 
 
-class SpeciesFilter(Resource):
-    def get(self):
-        specie = request.args.get('species')
-        try:
-            specie_pets = Pet.query.filter_by(species_id=specie).all()
-        except:
-            return make_response(render_template('adoption/htmx/empty_breed_filter.html'))
-        else:
-            return make_response(render_template('adoption/htmx/breed_filter.html', specie_pets=specie_pets))
+class Info(Resource):
+    method_decorators = [csrf.exempt]
+
+    def post(self):
+        pets = request.form.getlist('pets')
+
+        pet_ids = [int(pet) for pet in pets]
+        print(pet_ids)
+        print(request.form)

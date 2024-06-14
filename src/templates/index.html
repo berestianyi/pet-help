@@ -3,12 +3,20 @@
 
 {% block body %}
     <div class="row" style="height: 1024px;">
-        <div class="col">
-            <h1>They need your care!</h1>
+        <div class="col h-100" style="margin-top: 200px">
+            <h1 style="font-size: 96px">They need your care!</h1>
+            <h1>Take the tailed one into the family</h1>
+            <div style="margin-top: 200px">
+                <button type="button" class="btn btn-success w-75 mb-3" style="font-size: 40px;">Adopt an animal</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-success w-75" style="font-size: 40px">Help shelter</button>
+            </div>
         </div>
         <div class="col">
-            <img class="w-100" src="{{ url_for('static', filename='images/index/dog1.png') }}" alt="..." style="border-radius: 50% 0 0 0">
-             <h1>They need your care!</h1>
+            <img class="w-100" src="{{ url_for('static', filename='images/index/dog1.png') }}" alt="..."
+                 style="border-radius: 50% 0 0 0">
+            <h1>They need your care!</h1>
         </div>
     </div>
     <div class="row">
