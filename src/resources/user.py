@@ -1,5 +1,5 @@
 from flask import render_template, make_response, request, redirect, url_for, Response
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from flask_restful import Resource
 
 from src import bcrypt, db, login_manager, app
@@ -148,3 +148,13 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+class Profile(Resource):
+    @login_required
+    def get(self):
+        user = current_user
+        return make_response(render_template('user/profile.html', user=user))
+
+    @login_required
+    def post(self):
+        pass

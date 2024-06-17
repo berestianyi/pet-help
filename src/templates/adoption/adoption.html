@@ -5,21 +5,21 @@
 
     <form method="POST">
         <div class="d-flex row justify-content-center justify-content-xl-between mt-5" style="height: 100vh;">
-            <div class="w-25" style="min-width: 450px;">
+            <div class="w-25" style="min-width: 450px; max-height: 650px">
                 <h1>Questionnaire</h1>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Write your full name</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                    <label for="fullName" class="form-label">Write your full name</label>
+                    <input type="text" class="form-control" id="fullName" name="fullName"
                            placeholder="Taras Hryhorovych Shevchenko">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Tell about yourself</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="description" class="form-label">Tell about yourself</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="datepicker" class="form-label">Select your date of birth</label>
-                        <input id="datepicker" width="200"/>
+                        <input id="datepicker" name="datepicker" width="200"/>
                         <script>
                             $('#datepicker').datepicker({
                                 uiLibrary: 'bootstrap5'
@@ -30,7 +30,7 @@
                         <p class="mb-2">Write your phone number</p>
                         <div class="input-group mb-3" style="width: 200px">
                             <span class="input-group-text" id="basic-addon1">+38</span>
-                            <input type="text" class="form-control" id="phoneNumber" placeholder="(999) 999-9999"
+                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="(999) 999-9999"
                                    aria-label="Phone"
                                    aria-describedby="basic-addon1">
                         </div>
@@ -39,109 +39,13 @@
                 <div hx-post="/cards/pets" hx-target="#pets" hx-swap="innerHTML" hx-trigger="change">
                     <div id="petFilter" hx-post="/form/filter" hx-target="#petFilter" hx-swap="innerHTML"
                          hx-trigger="change">
-{#                        <div>#}
-{#                            <h4 class="mb-3">Pet filter</h4>#}
-{#                            <div class="row mb-3">#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="species" name="species" aria-label="Species">#}
-{#                                        <option selected>{{ specie }}</option>#}
-{#                                        {% if html_option.species %}#}
-{#                                            <option value="All species">All species</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for specie in species %}#}
-{#                                            <option value="{{ specie }}">{{ specie }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="breeds" name="breeds"#}
-{#                                            aria-label="Default select example">#}
-{#                                        <option selected>{{ breed }}</option>#}
-{#                                        {% if html_option.breeds %}#}
-{#                                            <option value="All breeds">All breeds</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for breed in breeds %}#}
-{#                                            <option value="{{ breed }}">{{ breed }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                            </div>#}
-{##}
-{#                            <div class="row mb-3">#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="sizes" name="sizes"#}
-{#                                            aria-label="Default select example">#}
-{#                                        <option selected>{{ size }}</option>#}
-{#                                        {% if html_option.sizes %}#}
-{#                                            <option value="All sizes">All sizes</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for size in sizes %}#}
-{#                                            <option value="{{ size.value }}">{{ size.value }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="genders" name="genders" aria-label="Genders">#}
-{#                                        <option selected>{{ gender }}</option>#}
-{#                                        {% if html_option.genders %}#}
-{#                                            <option value="All genders">All genders</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for gender in genders %}#}
-{#                                            <option value="{{ gender.value }}">{{ gender.value }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row mb-3">#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="ages" name="ages" aria-label="Ages">#}
-{#                                        <option selected>{{ age }}</option>#}
-{#                                        {% if html_option.ages %}#}
-{#                                            <option value="All ages">All ages</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for age in ages.keys() %}#}
-{#                                            <option value="{{ age }}">{{ age }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                                <div class="col">#}
-{#                                    <select class="form-select" id="sterilized" name="sterilized"#}
-{#                                            aria-label="Sterilized">#}
-{#                                        <option selected>{{ sterilize }}</option>#}
-{#                                        {% if html_option.sterilized %}#}
-{#                                            <option value="Sterilized?">Sterilized?</option>#}
-{#                                        {% endif %}#}
-{#                                        {% for value in sterilized.keys() %}#}
-{#                                            <option value="{{ value }}">{{ value }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
                         {% include 'adoption/htmx/pet_filter.html' %}
                     </div>
                 </div>
             </div>
-            <div id="pets" style="min-width: 500px; width: 700px">
-{#                <div class="w-100 d-flex flex-wrap">#}
-{#                    <div class="w-100 d-flex justify-content-center"><h4>You can select your pet here</h4></div>#}
-{#                    <div class="d-flex flex-wrap justify-content-center">#}
-{#                        {% for pet in pets %}#}
-{#                            <div class="card m-2" style="width: 200px; height: 250px">#}
-{#                                <img src="{{ url_for('static', filename='images/pets/dog.png') }}"#}
-{#                                     class="card-img-top h-75"#}
-{#                                     alt="...">#}
-{#                                <div class="card-body mx-auto h-25">#}
-{#                                    <h4 class="card-text">{{ pet.name }}</h4>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-{#                <button id="dd" type="button" class="btn btn-dark" hx-post="/info" hx-ext='json-enc'  hx-vals='js:{pets: {{ pets_id | tojson }}}' hx-trigger="click" hx-swap="none" hx-target="#dd">Dark</button>#}
-{#                </div>#}
+            <div id="pets" style="min-width: 500px; width: 700px; max-height: 650px">
                 {% include 'adoption/htmx/pet_cards.html' %}
             </div>
-            <button type="submit" class="btn btn-dark">Submit</button>
         </div>
     </form>
     <script>

@@ -1,6 +1,8 @@
 import uuid
 
-from src import db, bcrypt
+from flask_admin.contrib.sqla import ModelView
+
+from src import db, bcrypt, admin
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -33,3 +35,10 @@ class User(db.Model, UserMixin):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
         }
+
+
+class UserView(ModelView):
+    form_columns = ['id', 'username', 'email', 'personal_info_id', 'created_at', 'updated_at']
+
+
+admin.add_view(UserView(User, db.session))

@@ -16,6 +16,7 @@ flask-wtf = "^1.2.1"
 flask-migrate = "^4.0.7"
 flask-bcrypt = "^1.0.1"
 flask-login = "^0.6.3"
+flask-admin = "^1.6.1"
 
 
 [build-system]

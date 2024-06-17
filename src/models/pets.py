@@ -1,8 +1,9 @@
 import enum
 
+from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import Enum
 
-from src import db
+from src import db, admin
 
 
 class PetSize(enum.Enum):
@@ -25,6 +26,9 @@ class Species(db.Model):
     def __repr__(self):
         return f'<Species {self.name}>'
 
+    def __str__(self):
+        return self.name
+
 
 class Pet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +39,7 @@ class Pet(db.Model):
     is_sterilized = db.Column(db.Boolean, nullable=False, default=False)
     size = db.Column(Enum(PetSize), nullable=False, default=PetSize.MEDIUM)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
+    species = db.relationship('Species', backref='pet', lazy=True)
 
     def __init__(self, name, gender, age, is_sterilized, size, species):
         self.name = name
@@ -45,3 +50,8 @@ class Pet(db.Model):
         self.species = species
 
 
+class PetView(ModelView):
+    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species']
+
+
+admin.add_view(PetView(Pet, db.session))

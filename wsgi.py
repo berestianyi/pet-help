@@ -7,6 +7,7 @@ api.add_resource(user.Email, '/email/validation', strict_slashes=False)
 api.add_resource(user.Password, '/password/validation', strict_slashes=False)
 api.add_resource(user.Username, '/username/validation', strict_slashes=False)
 api.add_resource(user.FormValidation, '/from/validation', strict_slashes=False)
+api.add_resource(user.Profile, '/profile', strict_slashes=False)
 
 api.add_resource(adoption.Questionnaire, '/questionnaire', strict_slashes=False)
 api.add_resource(adoption.FormFilter, '/form/filter', strict_slashes=False)

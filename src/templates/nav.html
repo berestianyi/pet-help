@@ -24,7 +24,7 @@
                     </svg>
                     {% if current_user.is_authenticated %}
                         <h5>
-                            <a href="{{ url_for('logout') }}" class="text-decoration-none text-dark">Logout</a>
+                            <a href="{{ url_for('profile') }}" class="text-decoration-none text-dark">Profile</a>
                         </h5>
                     {% else %}
                         <h5>
