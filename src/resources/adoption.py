@@ -4,6 +4,7 @@ from flask_restful import Resource
 from src import csrf, db
 from src.models import Pet, Species, PetGender, PetSize, PersonalInfo
 from src import models
+from src.utils.validation.validation import Validation
 
 
 class DataMixin:
@@ -161,6 +162,15 @@ class Questionnaire(Resource, DataMixin):
             'show': show
         }
 
+        selected_input = {
+            'specie': 'All species',
+            'gender': 'All genders',
+            'size': 'All sizes',
+            'age': 'All ages',
+            'sterilize': 'Sterilized?',
+            'breed': 'All breeds',
+        }
+
         return make_response(render_template(
             'adoption/adoption.html',
             pets=pets,
@@ -171,12 +181,7 @@ class Questionnaire(Resource, DataMixin):
             genders=genders,
             ages=self.ages,
             sterilized=self.sterilized,
-            specie='All species',
-            gender='All genders',
-            size='All sizes',
-            age='All ages',
-            sterilize='Sterilized?',
-            breed='All breeds',
+            selected=selected_input,
             html_option=self.html_all_option,
             pagination=pagination,
         ))
@@ -206,48 +211,27 @@ class Questionnaire(Resource, DataMixin):
 
         return make_response(render_template('adoption/thank_you.html'))
 
-#
-class FormFilter(Resource, DataMixin):
+
+class Info(Resource):
     method_decorators = [csrf.exempt]
 
     def post(self):
-        specie = request.form.get('species')
-        gender = request.form.get('genders')
-        size = request.form.get('sizes')
-        age = request.form.get('ages')
-        sterilize = request.form.get('sterilized')
-        breed = request.form.get('breeds')
+        pets = request.form.getlist('pets')
 
-        species_list = self.species_filter(specie)
-        genders_list = self.genders_filter(gender)
-        sizes_list = self.sizes_filter(size)
-        ages_list = self.ages_filter(age)
-        sterilizes_list = self.sterilized_filter(sterilize)
-        breed, breeds_list = self.breeds_filter(breed, specie)
-
-        return make_response(render_template(
-            'adoption/htmx/pet_filter.html',
-            breeds=breeds_list,
-            breed=breed,
-            specie=specie,
-            gender=gender,
-            size=size,
-            species=species_list,
-            sizes=sizes_list,
-            genders=genders_list,
-            age=age,
-            ages=ages_list,
-            sterilize=sterilize,
-            sterilized=sterilizes_list,
-            html_option=self.html_all_option
-        ))
+        pet_ids = [int(pet) for pet in pets]
+        print(pet_ids)
+        print(request.form)
 
 
-class PetsCards(Resource, DataMixin):
+class QuestionnaireHTMX(Resource, DataMixin):
     method_decorators = [csrf.exempt]
 
     def post(self):
         print(request.form)
+        full_name = request.form.get('fullName')
+        phone = request.form.get('phoneNumber')
+        description = request.form.get('description')
+        birth_date = request.form.get('datepicker')
         specie = request.form.get('species')
         gender = request.form.get('genders')
         size = request.form.get('sizes')
@@ -256,6 +240,15 @@ class PetsCards(Resource, DataMixin):
         breed = request.form.get('breeds')
         page = request.form.get('page_num', 1, type=int)
         per_page = int(request.form.get('per_page', 6, type=int))
+
+        species_list = self.species_filter(specie)
+        genders_list = self.genders_filter(gender)
+        sizes_list = self.sizes_filter(size)
+        ages_list = self.ages_filter(age)
+        sterilizes_list = self.sterilized_filter(sterilize)
+        breed, breeds_list = self.breeds_filter(breed, specie)
+
+        birth_date_error = Validation.date_format(birth_date)
 
         query = Pet.query
 
@@ -284,26 +277,38 @@ class PetsCards(Resource, DataMixin):
             'show': show
         }
 
+        selected_input = {
+            'specie': specie,
+            'gender': gender,
+            'size': size,
+            'age': age,
+            'sterilize': sterilize,
+            'breed': breed,
+        }
+
         try:
             pets = query.offset((page - 1) * per_page).limit(per_page).all()
         except:
             pets = None
 
         return make_response(render_template(
-            'adoption/htmx/pet_cards.html',
+            'adoption/questionnaire.html',
             pets=pets,
             pets_id=[pet.id for pet in pets],
             page_num=page,
             pagination=pagination,
+            html_option=self.html_all_option,
+            selected=selected_input,
+            breeds=breeds_list,
+            species=species_list,
+            sizes=sizes_list,
+            genders=genders_list,
+            ages=ages_list,
+            sterilized=sterilizes_list,
+            birth_date_str=birth_date_error,
+            birth_date=birth_date,
+            description=description,
+            full_name=full_name,
+            phone=phone
+
         ))
-
-
-class Info(Resource):
-    method_decorators = [csrf.exempt]
-
-    def post(self):
-        pets = request.form.getlist('pets')
-
-        pet_ids = [int(pet) for pet in pets]
-        print(pet_ids)
-        print(request.form)

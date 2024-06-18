@@ -2,10 +2,11 @@ from flask import render_template, make_response, request, redirect, url_for, Re
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_restful import Resource
 
-from src import bcrypt, db, login_manager, app
+from src import bcrypt, db, login_manager, app, csrf
 from src.utils import Validation, validate_register_form, validate_input, render_validation_response
 
 from src.models.user import User
+from src import models
 
 
 @login_manager.user_loader
@@ -29,7 +30,7 @@ class Login(Resource):
                 if bcrypt.check_password_hash(user.password, password):
                     print(f'hello {user.username}')
                     login_user(user)
-                    return redirect(url_for('questionnaire'))
+                    return redirect(url_for('mainpage'))
                 else:
                     errors.append('Password is incorrect.')
             except ValueError:
@@ -153,8 +154,46 @@ class Profile(Resource):
     @login_required
     def get(self):
         user = current_user
-        return make_response(render_template('user/profile.html', user=user))
+        try:
+            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            print(user)
+            print(personal_info)
+            full_name = personal_info.full_name
+            phone = personal_info.phone
+            description = personal_info.description
+            birth_date = personal_info.birth_date
+        except:
+            full_name = phone = description = birth_date = ''
+
+        return make_response(render_template(
+            'user/profile.html',
+            user=user,
+            full_name=full_name,
+            phone=phone,
+            description=description,
+            birth_date=birth_date
+        ))
 
     @login_required
     def post(self):
-        pass
+        full_name = request.form.get('fullName')
+        phone = request.form.get('phoneNumber')
+        description = request.form.get('description')
+        birth_date = request.form.get('datepicker')
+
+        new_personal_info = models.PersonalInfo(
+            full_name=full_name,
+            phone=phone,
+            description=description,
+            birth_date=birth_date
+        )
+        user = current_user
+
+        user.personal_info_id = new_personal_info.id
+
+        db.session.add(new_personal_info)
+        db.session.commit()
+
+        return redirect(url_for('profile'))
+
+#

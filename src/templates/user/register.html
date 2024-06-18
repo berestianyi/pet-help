@@ -2,6 +2,11 @@
 
 {% block title %}Register{% endblock %}
 {% block content %}
+    <div class="d-flex mt-3 ms-3">
+        <h4><a class="navbar-brand ms-3" href="{{ url_for('mainpage') }}"
+               style="font-family: 'Monomaniac One', sans-serif; font-weight: 400; font-size: 32px;">PetsHelp</a>
+        </h4>
+    </div>
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
         <form class="w-25" style="min-width: 400px; min-height: 500px" method="POST">
             <div hx-post="/from/validation" hx-trigger="change" hx-target="#submitButton">

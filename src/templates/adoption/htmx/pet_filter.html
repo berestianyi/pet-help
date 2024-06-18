@@ -3,7 +3,7 @@
     <div class="row mb-3">
         <div class="col">
             <select class="form-select" id="species" name="species" aria-label="Species">
-                <option selected>{{ specie }}</option>
+                <option selected>{{ selected.specie }}</option>
                 {% if html_option.species %}
                     <option value="All species">All species</option>
                 {% endif %}
@@ -15,7 +15,7 @@
         <div class="col">
             <select class="form-select" id="breeds" name="breeds"
                     aria-label="Default select example">
-                <option selected>{{ breed }}</option>
+                <option selected>{{ selected.breed }}</option>
                 {% if html_option.breeds %}
                     <option value="All breeds">All breeds</option>
                 {% endif %}
@@ -30,7 +30,7 @@
         <div class="col">
             <select class="form-select" id="sizes" name="sizes"
                     aria-label="Default select example">
-                <option selected>{{ size }}</option>
+                <option selected>{{ selected.size }}</option>
                 {% if html_option.sizes %}
                     <option value="All sizes">All sizes</option>
                 {% endif %}
@@ -41,7 +41,7 @@
         </div>
         <div class="col">
             <select class="form-select" id="genders" name="genders" aria-label="Genders">
-                <option selected>{{ gender }}</option>
+                <option selected>{{ selected.gender }}</option>
                 {% if html_option.genders %}
                     <option value="All genders">All genders</option>
                 {% endif %}
@@ -54,7 +54,7 @@
     <div class="row mb-3">
         <div class="col">
             <select class="form-select" id="ages" name="ages" aria-label="Ages">
-                <option selected>{{ age }}</option>
+                <option selected>{{ selected.age }}</option>
                 {% if html_option.ages %}
                     <option value="All ages">All ages</option>
                 {% endif %}
@@ -66,7 +66,7 @@
         <div class="col">
             <select class="form-select" id="sterilized" name="sterilized"
                     aria-label="Sterilized">
-                <option selected>{{ sterilize }}</option>
+                <option selected>{{ selected.sterilize }}</option>
                 {% if html_option.sterilized %}
                     <option value="Sterilized?">Sterilized?</option>
                 {% endif %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{#    <div class="container-fluid">#}
+        {% include 'nav.html' %}
+        <div class="container-lg">
+            {% block body %}{% endblock %}
+        </div>
+        {% include 'footer.html' %}
+{#    </div>#}
+{% endblock %}

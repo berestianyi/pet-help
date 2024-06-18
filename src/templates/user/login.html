@@ -2,15 +2,20 @@
 
 {% block title %}Login{% endblock %}
 {% block content %}
+    <div class="d-flex mt-3 ms-3">
+        <h4><a class="navbar-brand ms-3" href="{{ url_for('mainpage') }}"
+               style="font-family: 'Monomaniac One', sans-serif; font-weight: 400; font-size: 32px;">PetsHelp</a>
+        </h4>
+    </div>
     <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
         <form class="w-25" style="min-width: 400px; min-height: 500px" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <h1 class="mb-3" >Login</h1>
+            <h1 class="mb-3">Login</h1>
             {% if errors %}
                 <div class="alert alert-danger" role="alert">
-                {% for error in errors %}
-                    {{ error }}
-                {% endfor %}
+                    {% for error in errors %}
+                        {{ error }}
+                    {% endfor %}
                 </div>
             {% endif %}
             <div class="form-floating mb-3">

@@ -1,4 +1,5 @@
 import re
+from typing import Tuple
 
 from flask import render_template, make_response
 
@@ -55,6 +56,13 @@ class Validation:
         existing_user_email = User.query.filter_by(email=email).first()
         if existing_user_email:
             return 'This email address already exists.'
+
+    @staticmethod
+    def date_format(value) -> str | None:
+        if not re.match(r'^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/([0-9]{4})$', value):
+            return 'Date is not valid'
+        else:
+            return None
 
 
 def validate_input(validations):

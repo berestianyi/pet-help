@@ -1,0 +1,15 @@
+<div id="test" class="d-flex row justify-content-center justify-content-xl-between mt-5" hx-post="/questionnaire/htmx"
+     hx-target="#test" hx-swap="outerHTML" hx-trigger="change">
+    <div class="w-25 mb-5" style="min-width: 450px; max-height: 650px">
+        <h1>Questionnaire</h1>
+        {% include 'user/personal_info.html' %}
+        <div>
+            <div>
+                {% include 'adoption/htmx/pet_filter.html' %}
+            </div>
+        </div>
+    </div>
+    <div id="pets" style="min-width: 500px; width: 700px; height: auto">
+        {% include 'adoption/htmx/pet_cards.html' %}
+    </div>
+</div>
