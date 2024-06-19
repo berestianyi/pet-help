@@ -16,7 +16,6 @@ def load_data():
                 content = json.load(file)
                 print(f"Loaded {filename}: {content}")
 
-
         load_fixtures(db, [
             os.path.join(FIXTURES_DIR, 'species.json'),
             os.path.join(FIXTURES_DIR, 'pet.json'),
