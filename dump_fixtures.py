@@ -15,7 +15,7 @@ def ensure_fixtures_dir():
 
 def dump_fixtures_to_yaml():
     with app.app_context():
-        models = [User, PersonalInfo, Pet, Species, Questionnaire]
+        models = [Pet, Species]
         fixture_data = {model.__name__.lower(): [] for model in models}
 
         for model in models:
