@@ -4,7 +4,33 @@
 ```
  git clone https://github.com/berestianyi/pet-help.git
 ```
+## Initialize poetry
 
+```commandline
+$ poetry init
 
-SECRET_KEY=your_secret_key
-DATABASE_URL = 'postgresql:///my_app'
+$ poetry start
+
+$ poetry update
+```
+
+## Add .env file with your database data
+
+```commandline
+$ echo DATABASE_URL=postgres://user:password@localhost:5432/dbname > .env
+$ echo SECRET_KEY=mysecretkey >> .env
+```
+
+## Connect to database
+
+```commandline
+poerty run flask db init
+```
+
+```commandline
+poerty run flask db migrate
+```
+
+```commandline
+poerty run flask upgrade
+```
