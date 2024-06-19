@@ -1,4 +1,4 @@
-from flask import render_template, make_response, request
+from flask import render_template, make_response, request, redirect, url_for
 from flask_login import current_user
 from flask_restful import Resource
 
@@ -196,24 +196,27 @@ class Questionnaire(Resource, DataMixin):
         pet_id = request.form.get('selectedCardId')
         user = current_user
 
-        personal_info = (
-            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user.is_authenticated else None
-        )
-
-        if not personal_info:
-            personal_info = models.PersonalInfo(
-                full_name=full_name, phone=phone, description=description, birth_date=birth_date
+        try:
+            personal_info = (
+                models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+                if user.is_authenticated else None
             )
-            db.session.add(personal_info)
-            db.session.commit()
-            if user.is_authenticated:
-                user.personal_info_id = personal_info.id
-                db.session.commit()
 
-        questionnaire = models.Questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
-        db.session.add(questionnaire)
-        db.session.commit()
+            if not personal_info:
+                personal_info = models.PersonalInfo(
+                    full_name=full_name, phone=phone, description=description, birth_date=birth_date
+                )
+                db.session.add(personal_info)
+                db.session.commit()
+                if user.is_authenticated:
+                    user.personal_info_id = personal_info.id
+                    db.session.commit()
+
+            questionnaire = models.Questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
+            db.session.add(questionnaire)
+            db.session.commit()
+        except:
+            return redirect(url_for('questionnaire'))
 
         return make_response(render_template('adoption/thank_you.html'))
 

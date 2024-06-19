@@ -34,3 +34,10 @@ poerty run flask db migrate
 ```commandline
 poerty run flask upgrade
 ```
+
+
+# Load fixtures of pets
+
+```commandline
+python load_fixtures.py
+```
