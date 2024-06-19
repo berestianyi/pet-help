@@ -156,12 +156,10 @@ class Profile(Resource):
         user = current_user
         try:
             personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            print(user)
-            print(personal_info)
             full_name = personal_info.full_name
             phone = personal_info.phone
             description = personal_info.description
-            birth_date = personal_info.birth_date
+            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
         except:
             full_name = phone = description = birth_date = ''
 
@@ -187,11 +185,12 @@ class Profile(Resource):
             description=description,
             birth_date=birth_date
         )
+        db.session.add(new_personal_info)
+        db.session.commit()
+
         user = current_user
 
         user.personal_info_id = new_personal_info.id
-
-        db.session.add(new_personal_info)
         db.session.commit()
 
         return redirect(url_for('profile'))

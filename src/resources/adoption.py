@@ -1,4 +1,5 @@
 from flask import render_template, make_response, request
+from flask_login import current_user
 from flask_restful import Resource
 
 from src import csrf, db
@@ -152,6 +153,20 @@ class Questionnaire(Resource, DataMixin):
         else:
             show = True
 
+        user = current_user
+
+        try:
+            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            full_name = personal_info.full_name
+            phone = personal_info.phone
+            description = personal_info.description
+            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
+            personal_info_disabled = 'disabled'
+        except:
+            full_name = phone = description = birth_date = personal_info_disabled = ''
+
+
+
         pagination = {
             'total_pages': total_pages,
             'current_page': page,
@@ -184,6 +199,12 @@ class Questionnaire(Resource, DataMixin):
             selected=selected_input,
             html_option=self.html_all_option,
             pagination=pagination,
+            user=user,
+            full_name=full_name,
+            phone=phone,
+            description=description,
+            birth_date=birth_date,
+            personal_info_disabled=personal_info_disabled
         ))
 
     def post(self):
@@ -193,14 +214,39 @@ class Questionnaire(Resource, DataMixin):
         phone = request.form.get('phoneNumber')
         pet_id = request.form.get('selectedCardId')
 
-        new_personal_info = PersonalInfo(
-            full_name=full_name,
-            description=description,
-            birth_date=birth_date,
-            phone=phone)
+        user = current_user
 
-        db.session.add(new_personal_info)
-        db.session.commit()
+        if user:
+            new_personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+
+            if new_personal_info:
+                full_name = new_personal_info.full_name
+                phone = new_personal_info.phone
+                description = new_personal_info.description
+                birth_date = new_personal_info.birth_date.strftime('%m/%d/%Y')
+            else:
+                new_personal_info = models.PersonalInfo(
+                    full_name=full_name,
+                    phone=phone,
+                    description=description,
+                    birth_date=birth_date
+                )
+                db.session.add(new_personal_info)
+                db.session.commit()
+
+                user = current_user
+
+                user.personal_info_id = new_personal_info.id
+                db.session.commit()
+        else:
+            new_personal_info = PersonalInfo(
+                full_name=full_name,
+                description=description,
+                birth_date=birth_date,
+                phone=phone)
+
+            db.session.add(new_personal_info)
+            db.session.commit()
 
         new_questionnaire = models.Questionnaire(
             pet_id=pet_id,
@@ -248,7 +294,23 @@ class QuestionnaireHTMX(Resource, DataMixin):
         sterilizes_list = self.sterilized_filter(sterilize)
         breed, breeds_list = self.breeds_filter(breed, specie)
 
-        birth_date_error = Validation.date_format(birth_date)
+        user = current_user
+
+        if user:
+            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            if personal_info:
+                full_name = personal_info.full_name
+                phone = personal_info.phone
+                description = personal_info.description
+                birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
+                birth_date_error = ''
+                personal_info_disabled = 'disabled'
+            else:
+                birth_date_error = Validation.date_format(birth_date)
+                personal_info_disabled = ''
+        else:
+            birth_date_error = Validation.date_format(birth_date)
+            personal_info_disabled = ''
 
         query = Pet.query
 
@@ -309,6 +371,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
             birth_date=birth_date,
             description=description,
             full_name=full_name,
-            phone=phone
+            phone=phone,
+            personal_info_disabled=personal_info_disabled
 
         ))
