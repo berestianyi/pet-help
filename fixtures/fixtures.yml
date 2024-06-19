@@ -1,0 +1,368 @@
+user:
+- id: 2
+  username: admin
+  email: berestvania@gmail.com
+  password: $2b$12$/mck6oTmu5X2il1zqLbR7eZhagmMDT3gfh.tExlKG6FHC4CAzWb2q
+  created_at: '2024-06-11T11:03:49.309781'
+  updated_at: '2024-06-19T11:56:10.481898'
+  uuid: 9ce3e49d-f0cc-4e40-810e-65a80c513cf4
+  personal_info:
+    id: 8
+    full_name: Ivan Berestianyi
+    birth_date: '2024-05-29'
+    age: 18
+    description: python developer!
+    phone: (380) 990-1919
+    questionnaires: []
+- id: 3
+  username: Draakul
+  email: vania@gmail.com
+  password: $2b$12$1Nh2hDCi.7hL4jJslVkUXuN/IQtMW/HZ0e8lfjzciOhcO1c5ObYlq
+  created_at: '2024-06-19T11:56:45.007449'
+  updated_at: '2024-06-19T12:25:05.618425'
+  uuid: e21f4f2e-061a-4eb9-a17a-231c213d0277
+  personal_info:
+    id: 11
+    full_name: fngn
+    birth_date: '1920-05-30'
+    age: 18
+    description: drgrdgdrgdr
+    phone: (099) 019-9155
+    questionnaires:
+    - id: 5
+      personal_info_id: 11
+      pet_id: 4
+      pet:
+        id: 4
+        name: Mike
+        breed: Bullmastiff
+        gender: Male
+        age: 6
+        is_sterilized: true
+        size: Large
+        species:
+          id: 1
+          name: Dog
+- id: 4
+  username: admin1
+  email: admin1@gmail.com
+  password: $2b$12$hPEVSYHJ7uedE7TZkz50ou0t4SIkRHwL.agsKydtTqMAigcnFyW5q
+  created_at: '2024-06-19T14:25:01.834351'
+  updated_at: '2024-06-19T14:25:01.834351'
+  uuid: e0d52fa4-acab-4e4f-921b-54f0d4f15993
+  personal_info: null
+personalinfo:
+- id: 1
+  full_name: fngn
+  birth_date: '2001-03-01'
+  age: 18
+  description: w4eergerg
+  phone: (380) 990-1919
+  questionnaires:
+  - id: 1
+    personal_info_id: 1
+    pet_id: 2
+    pet:
+      id: 2
+      name: Sonya
+      breed: Beagle
+      gender: Female
+      age: 1
+      is_sterilized: false
+      size: Small
+      species:
+        id: 1
+        name: Dog
+- id: 2
+  full_name: Ivan Berestianyi
+  birth_date: '2002-04-06'
+  age: 18
+  description: Im python dev
+  phone: (099) 019-1957
+  questionnaires: []
+- id: 3
+  full_name: Ivan Berestianyi
+  birth_date: '2002-04-06'
+  age: 18
+  description: Im python developer
+  phone: (099) 019-1957
+  questionnaires: []
+- id: 4
+  full_name: fngn
+  birth_date: '2024-05-29'
+  age: 18
+  description: dfbdfdbdfb
+  phone: (380) 990-1919
+  questionnaires: []
+- id: 5
+  full_name: Ivan Berestianyi
+  birth_date: '2002-02-27'
+  age: 18
+  description: Im python developer
+  phone: (099) 019-9155
+  questionnaires: []
+- id: 6
+  full_name: Ivan Berestianyi
+  birth_date: '2024-05-29'
+  age: 18
+  description: python dev
+  phone: (380) 990-1919
+  questionnaires: []
+- id: 7
+  full_name: Ivan Berestianyi
+  birth_date: '2024-05-29'
+  age: 18
+  description: python developer
+  phone: (380) 990-1919
+  questionnaires: []
+- id: 8
+  full_name: Ivan Berestianyi
+  birth_date: '2024-05-29'
+  age: 18
+  description: python developer!
+  phone: (380) 990-1919
+  questionnaires: []
+- id: 9
+  full_name: Ivan
+  birth_date: '2020-01-30'
+  age: 18
+  description: dev
+  phone: (099) 019-9155
+  questionnaires:
+  - id: 2
+    personal_info_id: 9
+    pet_id: 1
+    pet:
+      id: 1
+      name: Fin
+      breed: Bulldog
+      gender: Male
+      age: 3
+      is_sterilized: true
+      size: Small
+      species:
+        id: 1
+        name: Dog
+- id: 10
+  full_name: fngn
+  birth_date: '2024-05-30'
+  age: 18
+  description: drgrdgdrgdr
+  phone: (099) 019-9155
+  questionnaires:
+  - id: 3
+    personal_info_id: 10
+    pet_id: 4
+    pet:
+      id: 4
+      name: Mike
+      breed: Bullmastiff
+      gender: Male
+      age: 6
+      is_sterilized: true
+      size: Large
+      species:
+        id: 1
+        name: Dog
+  - id: 4
+    personal_info_id: 10
+    pet_id: 4
+    pet:
+      id: 4
+      name: Mike
+      breed: Bullmastiff
+      gender: Male
+      age: 6
+      is_sterilized: true
+      size: Large
+      species:
+        id: 1
+        name: Dog
+- id: 11
+  full_name: fngn
+  birth_date: '1920-05-30'
+  age: 18
+  description: drgrdgdrgdr
+  phone: (099) 019-9155
+  questionnaires:
+  - id: 5
+    personal_info_id: 11
+    pet_id: 4
+    pet:
+      id: 4
+      name: Mike
+      breed: Bullmastiff
+      gender: Male
+      age: 6
+      is_sterilized: true
+      size: Large
+      species:
+        id: 1
+        name: Dog
+pet:
+- id: 1
+  name: Fin
+  breed: Bulldog
+  gender: Male
+  age: 3
+  is_sterilized: true
+  size: Small
+  species:
+    id: 1
+    name: Dog
+- id: 2
+  name: Sonya
+  breed: Beagle
+  gender: Female
+  age: 1
+  is_sterilized: false
+  size: Small
+  species:
+    id: 1
+    name: Dog
+- id: 3
+  name: Jack
+  breed: English Springer Spaniel
+  gender: Male
+  age: 2
+  is_sterilized: true
+  size: Large
+  species:
+    id: 1
+    name: Dog
+- id: 4
+  name: Mike
+  breed: Bullmastiff
+  gender: Male
+  age: 6
+  is_sterilized: true
+  size: Large
+  species:
+    id: 1
+    name: Dog
+- id: 5
+  name: Jessica
+  breed: English Cocker Spaniel
+  gender: Female
+  age: 4
+  is_sterilized: false
+  size: Medium
+  species:
+    id: 1
+    name: Dog
+- id: 6
+  name: Bobie
+  breed: Arabian Mau
+  gender: Female
+  age: 1
+  is_sterilized: false
+  size: Small
+  species:
+    id: 2
+    name: Cat
+- id: 7
+  name: Hokye
+  breed: Cyprus
+  gender: Female
+  age: 4
+  is_sterilized: true
+  size: Small
+  species:
+    id: 2
+    name: Cat
+- id: 8
+  name: Bobik
+  breed: Korean Bobtail
+  gender: Male
+  age: 2
+  is_sterilized: true
+  size: Medium
+  species:
+    id: 2
+    name: Cat
+- id: 9
+  name: Pupy
+  breed: Ocicat
+  gender: Male
+  age: 6
+  is_sterilized: false
+  size: Small
+  species:
+    id: 2
+    name: Cat
+species:
+- id: 1
+  name: Dog
+- id: 2
+  name: Cat
+questionnaire:
+- id: 1
+  personal_info_id: 1
+  pet_id: 2
+  pet:
+    id: 2
+    name: Sonya
+    breed: Beagle
+    gender: Female
+    age: 1
+    is_sterilized: false
+    size: Small
+    species:
+      id: 1
+      name: Dog
+- id: 2
+  personal_info_id: 9
+  pet_id: 1
+  pet:
+    id: 1
+    name: Fin
+    breed: Bulldog
+    gender: Male
+    age: 3
+    is_sterilized: true
+    size: Small
+    species:
+      id: 1
+      name: Dog
+- id: 3
+  personal_info_id: 10
+  pet_id: 4
+  pet:
+    id: 4
+    name: Mike
+    breed: Bullmastiff
+    gender: Male
+    age: 6
+    is_sterilized: true
+    size: Large
+    species:
+      id: 1
+      name: Dog
+- id: 4
+  personal_info_id: 10
+  pet_id: 4
+  pet:
+    id: 4
+    name: Mike
+    breed: Bullmastiff
+    gender: Male
+    age: 6
+    is_sterilized: true
+    size: Large
+    species:
+      id: 1
+      name: Dog
+- id: 5
+  personal_info_id: 11
+  pet_id: 4
+  pet:
+    id: 4
+    name: Mike
+    breed: Bullmastiff
+    gender: Male
+    age: 6
+    is_sterilized: true
+    size: Large
+    species:
+      id: 1
+      name: Dog
