@@ -151,7 +151,7 @@ class Questionnaire(Resource, DataMixin):
 
         personal_info = (
             models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user else None
+            if user.is_authenticated else None
         )
 
         full_name = personal_info.full_name if personal_info else ''
@@ -198,7 +198,7 @@ class Questionnaire(Resource, DataMixin):
 
         personal_info = (
             models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user else None
+            if user.is_authenticated else None
         )
 
         if not personal_info:
@@ -207,7 +207,7 @@ class Questionnaire(Resource, DataMixin):
             )
             db.session.add(personal_info)
             db.session.commit()
-            if user:
+            if user.is_authenticated:
                 user.personal_info_id = personal_info.id
                 db.session.commit()
 
@@ -258,7 +258,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
         user = current_user
         personal_info = (
             models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user else None
+            if user.is_authenticated else None
         )
 
         if personal_info is None:
@@ -298,7 +298,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
         }
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
-
 
         return make_response(render_template(
             'adoption/questionnaire.html',
