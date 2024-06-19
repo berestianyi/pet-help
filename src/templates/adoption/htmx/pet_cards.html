@@ -4,7 +4,9 @@
     <div class="d-flex flex-wrap justify-content-center">
         {% if pets %}
             {% for pet in pets %}
-                <div class="card m-2" data-card-id="{{ pet.id }}" style="width: 200px; height: 250px">
+                <div class="card m-2" data-card-id="{{ pet.id }}" style="width: 200px; height: 250px" hx-target="#test"
+                     hx-swap="outerHTML" hx-trigger="click"
+                     hx-vals='{"selectedCardId": {{ pet.id }}'>
                     {% if pet.species_id == 1 %}
                         <img src="{{ url_for('static', filename='images/pets/dog.png') }}"
                              class="card-img-top h-75"
@@ -31,6 +33,14 @@
                 $('.card').removeClass('selected');
                 $(this).addClass('selected');
                 $('#selectedCardId').val($(this).data('card-id'));
+
+                htmx.trigger(this, 'htmx:configRequest', {
+                    detail: {
+                        parameters: {
+                            selectedCardId: $(this).data('card-id')
+                        }
+                    }
+                });
             });
         });
     </script>

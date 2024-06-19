@@ -64,6 +64,20 @@ class Validation:
         else:
             return None
 
+    @staticmethod
+    def at_least_3_chars(value) -> str | None:
+        if len(value) < 3:
+            return 'Field is too short'
+        else:
+            return None
+
+    @staticmethod
+    def correct_phone_number(value) -> str | None:
+        if not re.match(r'\(\d{3}\) \d{3}-\d{4}', value):
+            return 'Phone number is invalid.'
+        else:
+            return None
+
 
 def validate_input(validations):
     errors = [error for error in validations if error is not None]

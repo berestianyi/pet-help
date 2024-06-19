@@ -30,9 +30,20 @@ class Questionnaire(db.Model):
 
 
 class PersonalInfoView(ModelView):
-    form_columns = ['id', 'full_name', 'age', 'description', 'phone']
+    column_list = ['id', 'full_name', 'birth_date', 'age', 'description', 'phone']
 
+
+class QuestionnaireView(ModelView):
+    column_list = ['personal_info.full_name', 'personal_info.birth_date', 'personal_info.age', 'personal_info.description', 'personal_info.phone', 'pet.name']
+    column_labels = {
+        'personal_info.full_name': 'Full Name',
+        'personal_info.birth_date': 'Birth Date',
+        'personal_info.age': 'Age',
+        'personal_info.description': 'Description',
+        'personal_info.phone': 'Phone',
+        'pet.name': 'Pet Name'
+    }
 
 admin.add_view(PersonalInfoView(PersonalInfo, db.session))
-
+admin.add_view(QuestionnaireView(Questionnaire, db.session))
 

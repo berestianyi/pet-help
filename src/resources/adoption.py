@@ -3,7 +3,7 @@ from flask_login import current_user
 from flask_restful import Resource
 
 from src import csrf, db
-from src.models import Pet, Species, PetGender, PetSize, PersonalInfo
+from src.models import Pet, Species, PetGender, PetSize
 from src import models
 from src.utils.validation.validation import Validation
 
@@ -127,55 +127,38 @@ class DataMixin:
 class Questionnaire(Resource, DataMixin):
 
     def get(self):
-        species = [pets.name for pets in Species.query.all()]
-        breeds = [pets.breed for pets in Pet.query.all()]
-        genders = list(PetGender)
-        sizes = list(PetSize)
+        species = [s.name for s in Species.query.all()]
+        breeds = [p.breed for p in Pet.query.all()]
+        genders, sizes = list(PetGender), list(PetSize)
         page = request.form.get('page_num', 1, type=int)
-        per_page = int(request.form.get('per_page', 6, type=int))
+        per_page = request.form.get('per_page', 6, type=int)
 
         query = Pet.query
         total_pets = query.count()
 
-        total_pages = (total_pets + per_page - 1) // per_page
-        has_next = page < total_pages
-        has_prev = page > 1
-        next_num = page + 1 if has_next else None
-        prev_num = page - 1 if has_prev else None
+        pagination = {
+            'total_pages': -(-total_pets // per_page),
+            'current_page': page,
+            'has_next': page < -(-total_pets // per_page),
+            'has_prev': page > 1,
+            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
+            'prev_num': page - 1 if page > 1 else None,
+            'show': total_pets > 6
+        }
 
-        try:
-            pets = query.offset((page - 1) * per_page).limit(per_page).all()
-        except:
-            pets = None
-
-        if total_pets <= 6:
-            show = False
-        else:
-            show = True
-
+        pets = query.offset((page - 1) * per_page).limit(per_page).all()
         user = current_user
 
-        try:
-            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            full_name = personal_info.full_name
-            phone = personal_info.phone
-            description = personal_info.description
-            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
-            personal_info_disabled = 'disabled'
-        except:
-            full_name = phone = description = birth_date = personal_info_disabled = ''
+        personal_info = (
+            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            if user else None
+        )
 
-
-
-        pagination = {
-            'total_pages': total_pages,
-            'current_page': page,
-            'has_next': has_next,
-            'has_prev': has_prev,
-            'next_num': next_num,
-            'prev_num': prev_num,
-            'show': show
-        }
+        full_name = personal_info.full_name if personal_info else ''
+        phone = personal_info.phone if personal_info else ''
+        description = personal_info.description if personal_info else ''
+        birth_date = personal_info.birth_date.strftime('%m/%d/%Y') if personal_info else ''
+        personal_info_disabled = 'disabled' if personal_info else ''
 
         selected_input = {
             'specie': 'All species',
@@ -204,55 +187,32 @@ class Questionnaire(Resource, DataMixin):
             phone=phone,
             description=description,
             birth_date=birth_date,
-            personal_info_disabled=personal_info_disabled
+            personal_info_disabled=personal_info_disabled,
         ))
 
     def post(self):
-        full_name = request.form.get('fullName')
-        description = request.form.get('description')
-        birth_date = request.form.get('datepicker')
-        phone = request.form.get('phoneNumber')
+        full_name, description = request.form.get('fullName'), request.form.get('description')
+        birth_date, phone = request.form.get('datepicker'), request.form.get('phoneNumber')
         pet_id = request.form.get('selectedCardId')
-
         user = current_user
 
-        if user:
-            new_personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-
-            if new_personal_info:
-                full_name = new_personal_info.full_name
-                phone = new_personal_info.phone
-                description = new_personal_info.description
-                birth_date = new_personal_info.birth_date.strftime('%m/%d/%Y')
-            else:
-                new_personal_info = models.PersonalInfo(
-                    full_name=full_name,
-                    phone=phone,
-                    description=description,
-                    birth_date=birth_date
-                )
-                db.session.add(new_personal_info)
-                db.session.commit()
-
-                user = current_user
-
-                user.personal_info_id = new_personal_info.id
-                db.session.commit()
-        else:
-            new_personal_info = PersonalInfo(
-                full_name=full_name,
-                description=description,
-                birth_date=birth_date,
-                phone=phone)
-
-            db.session.add(new_personal_info)
-            db.session.commit()
-
-        new_questionnaire = models.Questionnaire(
-            pet_id=pet_id,
-            personal_info_id=new_personal_info.id
+        personal_info = (
+            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            if user else None
         )
-        db.session.add(new_questionnaire)
+
+        if not personal_info:
+            personal_info = models.PersonalInfo(
+                full_name=full_name, phone=phone, description=description, birth_date=birth_date
+            )
+            db.session.add(personal_info)
+            db.session.commit()
+            if user:
+                user.personal_info_id = personal_info.id
+                db.session.commit()
+
+        questionnaire = models.Questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
+        db.session.add(questionnaire)
         db.session.commit()
 
         return make_response(render_template('adoption/thank_you.html'))
@@ -274,6 +234,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
 
     def post(self):
         print(request.form)
+        pet_id = request.form.get('selectedCardId')
         full_name = request.form.get('fullName')
         phone = request.form.get('phoneNumber')
         description = request.form.get('description')
@@ -295,48 +256,36 @@ class QuestionnaireHTMX(Resource, DataMixin):
         breed, breeds_list = self.breeds_filter(breed, specie)
 
         user = current_user
+        personal_info = (
+            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+            if user else None
+        )
 
-        if user:
-            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if personal_info:
-                full_name = personal_info.full_name
-                phone = personal_info.phone
-                description = personal_info.description
-                birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
-                birth_date_error = ''
-                personal_info_disabled = 'disabled'
-            else:
-                birth_date_error = Validation.date_format(birth_date)
-                personal_info_disabled = ''
-        else:
+        if personal_info is None:
             birth_date_error = Validation.date_format(birth_date)
-            personal_info_disabled = ''
+        else:
+            birth_date_error = None
+
+        personal_info_disabled = 'disabled' if personal_info else ''
+
+        if personal_info:
+            full_name = personal_info.full_name
+            phone = personal_info.phone
+            description = personal_info.description
+            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
 
         query = Pet.query
-
         query = self.query_filter(query, specie, gender, size, age, sterilize, breed)
-
         total_pets = query.count()
 
-        total_pages = (total_pets + per_page - 1) // per_page
-        has_next = page < total_pages
-        has_prev = page > 1
-        next_num = page + 1 if has_next else None
-        prev_num = page - 1 if has_prev else None
-
-        if total_pets <= 6:
-            show = False
-        else:
-            show = True
-
         pagination = {
-            'total_pages': total_pages,
+            'total_pages': -(-total_pets // per_page),
             'current_page': page,
-            'has_next': has_next,
-            'has_prev': has_prev,
-            'next_num': next_num,
-            'prev_num': prev_num,
-            'show': show
+            'has_next': page < -(-total_pets // per_page),
+            'has_prev': page > 1,
+            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
+            'prev_num': page - 1 if page > 1 else None,
+            'show': total_pets > 6
         }
 
         selected_input = {
@@ -348,10 +297,8 @@ class QuestionnaireHTMX(Resource, DataMixin):
             'breed': breed,
         }
 
-        try:
-            pets = query.offset((page - 1) * per_page).limit(per_page).all()
-        except:
-            pets = None
+        pets = query.offset((page - 1) * per_page).limit(per_page).all()
+
 
         return make_response(render_template(
             'adoption/questionnaire.html',
@@ -372,6 +319,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
             description=description,
             full_name=full_name,
             phone=phone,
-            personal_info_disabled=personal_info_disabled
+            personal_info_disabled=personal_info_disabled,
 
         ))
