@@ -64,7 +64,7 @@ class Pet(db.Model):
             'age': self.age,
             'is_sterilized': self.is_sterilized,
             'size': self.size.value,
-            'species': self.species.to_dict() if self.species else None
+            'species_id': self.species_id if self.species_id else None
         }
 
 
