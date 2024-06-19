@@ -47,13 +47,15 @@ class Pet(db.Model):
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
     species = db.relationship('Species', backref='pet', lazy=True)
 
-    def __init__(self, name, gender, age, is_sterilized, size, species):
+    def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed):
+        self.id = pk
         self.name = name
         self.gender = gender
+        self.breed = breed
         self.age = age
         self.is_sterilized = is_sterilized
         self.size = size
-        self.species = species
+        self.species_id = species_id
 
     def to_dict(self):
         return {
