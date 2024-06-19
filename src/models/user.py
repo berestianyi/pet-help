@@ -32,8 +32,11 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
+            'password': self.password,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            'uuid': self.uuid,
+            'personal_info': self.personal_info.to_dict() if self.personal_info else None
         }
 
 

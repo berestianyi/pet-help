@@ -1,0 +1,16 @@
+[
+    {
+        "model": "Species",
+        "fields": {
+            "id": 1,
+            "name": "Dog"
+        }
+    },
+    {
+        "model": "Species",
+        "fields": {
+            "id": 2,
+            "name": "Cat"
+        }
+    }
+]

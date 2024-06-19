@@ -1,0 +1,146 @@
+[
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 1,
+            "name": "Fin",
+            "breed": "Bulldog",
+            "gender": "Male",
+            "age": 3,
+            "is_sterilized": true,
+            "size": "Small",
+            "species": {
+                "id": 1,
+                "name": "Dog"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 2,
+            "name": "Sonya",
+            "breed": "Beagle",
+            "gender": "Female",
+            "age": 1,
+            "is_sterilized": false,
+            "size": "Small",
+            "species": {
+                "id": 1,
+                "name": "Dog"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 3,
+            "name": "Jack",
+            "breed": "English Springer Spaniel",
+            "gender": "Male",
+            "age": 2,
+            "is_sterilized": true,
+            "size": "Large",
+            "species": {
+                "id": 1,
+                "name": "Dog"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 4,
+            "name": "Mike",
+            "breed": "Bullmastiff",
+            "gender": "Male",
+            "age": 6,
+            "is_sterilized": true,
+            "size": "Large",
+            "species": {
+                "id": 1,
+                "name": "Dog"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 5,
+            "name": "Jessica",
+            "breed": "English Cocker Spaniel",
+            "gender": "Female",
+            "age": 4,
+            "is_sterilized": false,
+            "size": "Medium",
+            "species": {
+                "id": 1,
+                "name": "Dog"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 6,
+            "name": "Bobie",
+            "breed": "Arabian Mau",
+            "gender": "Female",
+            "age": 1,
+            "is_sterilized": false,
+            "size": "Small",
+            "species": {
+                "id": 2,
+                "name": "Cat"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 7,
+            "name": "Hokye",
+            "breed": "Cyprus",
+            "gender": "Female",
+            "age": 4,
+            "is_sterilized": true,
+            "size": "Small",
+            "species": {
+                "id": 2,
+                "name": "Cat"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 8,
+            "name": "Bobik",
+            "breed": "Korean Bobtail",
+            "gender": "Male",
+            "age": 2,
+            "is_sterilized": true,
+            "size": "Medium",
+            "species": {
+                "id": 2,
+                "name": "Cat"
+            }
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 9,
+            "name": "Pupy",
+            "breed": "Ocicat",
+            "gender": "Male",
+            "age": 6,
+            "is_sterilized": false,
+            "size": "Small",
+            "species": {
+                "id": 2,
+                "name": "Cat"
+            }
+        }
+    }
+]

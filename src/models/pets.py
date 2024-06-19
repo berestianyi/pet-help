@@ -29,6 +29,12 @@ class Species(db.Model):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
+
 
 class Pet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,6 +54,18 @@ class Pet(db.Model):
         self.is_sterilized = is_sterilized
         self.size = size
         self.species = species
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'breed': self.breed,
+            'gender': self.gender.value,
+            'age': self.age,
+            'is_sterilized': self.is_sterilized,
+            'size': self.size.value,
+            'species': self.species.to_dict() if self.species else None
+        }
 
 
 class PetView(ModelView):

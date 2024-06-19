@@ -21,12 +21,31 @@ class PersonalInfo(db.Model):
     def __repr__(self):
         return F'<PersonalInfo {self.full_name}>'
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'full_name': self.full_name,
+            'birth_date': self.birth_date.isoformat(),
+            'age': self.age,
+            'description': self.description,
+            'phone': self.phone,
+            'questionnaires': [q.to_dict() for q in self.questionnaires]
+        }
+
 
 class Questionnaire(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     personal_info_id = db.Column(db.Integer, db.ForeignKey('personal_info.id'), nullable=False)
     pet_id = db.Column(db.Integer, db.ForeignKey('pet.id'), nullable=False)
     pet = db.relationship('Pet', backref='questionnaires')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'personal_info_id': self.personal_info_id,
+            'pet_id': self.pet_id,
+            'pet': self.pet.to_dict() if self.pet else None
+        }
 
 
 class PersonalInfoView(ModelView):

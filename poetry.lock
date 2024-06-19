@@ -166,6 +166,22 @@ bcrypt = ">=3.1.1"
 Flask = "*"
 
 [[package]]
+name = "flask-fixtures"
+version = "0.3.8"
+description = "A simple library for adding database fixtures for unit tests using nothing but JSON or YAML."
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask-Fixtures-0.3.8.tar.gz", hash = "sha256:2b8191f995896c0dee384b18b0ee236ab636b921856636c9ff1429c1ad10cb8b"},
+    {file = "Flask_Fixtures-0.3.8-py2.py3-none-any.whl", hash = "sha256:d4c5896cf0e463d8a21a56cb2cab86feea016e171a2706f38701fdb15edf6935"},
+]
+
+[package.dependencies]
+Flask = "*"
+Flask-SQLAlchemy = "*"
+six = "*"
+
+[[package]]
 name = "flask-login"
 version = "0.6.3"
 description = "User authentication and session management for Flask."
@@ -689,4 +705,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6c7137cae956706fef02f79e1489c2fc43747dd1113a5a0f3fb87fb4e5667b33"
+content-hash = "a24feed230102c3ac2a883f85ce7b0d222a6a53a7abc8960c7d0142bc841d843"

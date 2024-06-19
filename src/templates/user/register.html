@@ -16,7 +16,7 @@
                     <input type="text" class="form-control" id="floatingUserInput" placeholder="name@example.com"
                            name="username"
                            hx-get="/username/validation" hx-target="#usernameError" hx-swap="innerHTML"
-                           hx-trigger="keyup changed delay:0.5s">
+                           hx-trigger="keyup changed delay:1s">
                     <label for="floatingUserInput">Username</label>
                 </div>
 
@@ -24,7 +24,7 @@
                     <input type="email" class="form-control" id="floatingEmailInput" placeholder="name@example.com"
                            name="email"
                            hx-get="/email/validation" hx-target="#emailError" hx-swap="innerHTML"
-                           hx-trigger="keyup changed delay:0.5s">
+                           hx-trigger="keyup changed delay:1s">
                     <label for="floatingEmailInput">Email address</label>
                 </div>
 
@@ -32,7 +32,7 @@
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
                            name="password"
                            hx-get="/password/validation" hx-target="#passwordError" hx-swap="innerHTML"
-                           hx-trigger="keyup changed delay:0.5s">
+                           hx-trigger="keyup changed delay:1s">
                     <label for="floatingPassword">Password</label>
                 </div>
 
@@ -40,7 +40,7 @@
                     <input type="password" class="form-control" id="floatingPassword2" placeholder="Password"
                            name="password2"
                            hx-post="/password/validation" hx-target="#password2Error" hx-swap="innerHTML"
-                           hx-trigger="keyup changed delay:0.5s">
+                           hx-trigger="keyup changed delay:1s">
                     <label for="floatingPassword2">Repeat password</label>
                 </div>
 
