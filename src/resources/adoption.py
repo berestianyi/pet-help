@@ -188,7 +188,7 @@ class Questionnaire(Resource, DataMixin):
             description=description,
             birth_date=birth_date,
             personal_info_disabled=personal_info_disabled,
-            submit_button_disabled='disabled'
+            submit_button_disabled='disabled',
         ))
 
     def post(self):
@@ -334,6 +334,5 @@ class QuestionnaireHTMX(Resource, DataMixin):
             full_name=full_name,
             phone=phone,
             personal_info_disabled=personal_info_disabled,
-            submit_button_disabled=submit_button_disabled
-
+            submit_button_disabled=submit_button_disabled,
         ))

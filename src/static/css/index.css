@@ -1,0 +1,19 @@
+.card.selected {
+    border: 2px solid #004B22;
+}
+
+.adopt-animal {
+    width: 400px;
+    height: 80px;
+    background-color: #004B22;
+    border: none;
+    border-radius: 20px;
+}
+
+.help-shelter {
+     width: 400px;
+    height: 80px;
+    border-color: #004B22;
+    border-radius: 20px;
+    background-color: #ffffff;
+}

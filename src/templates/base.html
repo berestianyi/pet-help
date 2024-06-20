@@ -14,13 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6-beta.29/jquery.inputmask.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/json-enc.js"></script>
-    <style>
-    .card.selected {
-      border: 2px solid #007bff;
-    }
-  </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='css/index.css') }}">
 </head>
-<body class="container-fluid" style="height: 100%">
+<body style=" min-height: 100vh; display: flex; flex-direction: column;">
 
 {% block content %}{% endblock %}
 

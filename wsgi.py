@@ -14,6 +14,7 @@ api.add_resource(adoption.QuestionnaireHTMX, '/questionnaire/htmx', strict_slash
 api.add_resource(adoption.Info, '/info', strict_slashes=False)
 
 api.add_resource(index.MainPage, '/', strict_slashes=False)
+api.add_resource(index.AboutUs, '/about', strict_slashes=False)
 
 
 if __name__ == '__main__':
