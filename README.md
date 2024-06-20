@@ -32,7 +32,7 @@ poerty run flask db migrate
 ```
 
 ```commandline
-poerty run flask upgrade
+poerty run flask db upgrade
 ```
 
 
