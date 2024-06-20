@@ -188,6 +188,7 @@ class Questionnaire(Resource, DataMixin):
             description=description,
             birth_date=birth_date,
             personal_info_disabled=personal_info_disabled,
+            submit_button_disabled='disabled'
         ))
 
     def post(self):
@@ -216,6 +217,7 @@ class Questionnaire(Resource, DataMixin):
             db.session.add(questionnaire)
             db.session.commit()
         except:
+
             return redirect(url_for('questionnaire'))
 
         return make_response(render_template('adoption/thank_you.html'))
@@ -281,6 +283,16 @@ class QuestionnaireHTMX(Resource, DataMixin):
         query = self.query_filter(query, specie, gender, size, age, sterilize, breed)
         total_pets = query.count()
 
+        submit_button_disabled = 'disabled'
+
+        if all([
+            Validation.date_format(birth_date) is None,
+            Validation.correct_phone_number(phone) is None,
+            Validation.at_least_3_chars(description) is None,
+            Validation.at_least_3_chars(full_name) is None,
+        ]):
+            submit_button_disabled = ''
+
         pagination = {
             'total_pages': -(-total_pets // per_page),
             'current_page': page,
@@ -322,5 +334,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
             full_name=full_name,
             phone=phone,
             personal_info_disabled=personal_info_disabled,
+            submit_button_disabled=submit_button_disabled
 
         ))
