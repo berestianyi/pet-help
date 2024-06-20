@@ -63,7 +63,7 @@ class Register(Resource):
         return redirect(url_for('login'))
 
 
-class Password(Resource):
+class PasswordHTMX(Resource):
     def get(self):
         password = request.args.get('password')
 
@@ -95,7 +95,7 @@ class Password(Resource):
         )
 
 
-class Email(Resource):
+class EmailHTMX(Resource):
     def get(self):
         email = request.args.get('email')
         validations = [Validation.email_only(email),
@@ -111,7 +111,7 @@ class Email(Resource):
         )
 
 
-class Username(Resource):
+class UsernameHTMX(Resource):
     def get(self):
         username = request.args.get('username')
         validations = [
@@ -128,7 +128,7 @@ class Username(Resource):
         )
 
 
-class FormValidation(Resource):
+class FormValidationHTMX(Resource):
     def post(self):
         username = request.form.get('username')
         email = request.form.get('email')
