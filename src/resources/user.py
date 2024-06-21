@@ -2,7 +2,7 @@ from flask import render_template, make_response, request, redirect, url_for, Re
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_restful import Resource
 
-from src import bcrypt, db, login_manager, app, csrf
+from src import bcrypt, db, login_manager, app
 from src.utils import Validation, validate_register_form, validate_input, render_validation_response
 
 from src.models.user import User

@@ -1,6 +1,8 @@
 import enum
+import os
 
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.form.upload import ImageUploadField
 from sqlalchemy import Enum
 
 from src import db, admin
@@ -46,6 +48,7 @@ class Pet(db.Model):
     size = db.Column(Enum(PetSize), nullable=False, default=PetSize.MEDIUM)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
     species = db.relationship('Species', backref='pet', lazy=True)
+    image = db.Column(db.String(300), nullable=True)
 
     def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed):
         self.id = pk
@@ -71,7 +74,19 @@ class Pet(db.Model):
 
 
 class PetView(ModelView):
-    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species']
+    file_path = os.path.join(os.path.dirname(__file__), '../static')
+
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+
+    form_extra_fields = {
+        'image': ImageUploadField('Image',
+                                  base_path=file_path,
+                                  relative_path='uploads/',
+                                  thumbnail_size=(100, 100, True))
+    }
+
+    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species', 'image']
 
 
 admin.add_view(PetView(Pet, db.session))

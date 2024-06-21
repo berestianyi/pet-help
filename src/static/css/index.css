@@ -17,3 +17,11 @@
     border-radius: 20px;
     background-color: #ffffff;
 }
+
+.card-input-element {
+            display: none;
+        }
+        .card-input-element:checked + .card {
+            border: 2px solid #004B22;
+            background-color: #ade6ae;
+        }

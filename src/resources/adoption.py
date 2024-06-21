@@ -1,11 +1,16 @@
-from flask import render_template, make_response, request, redirect, url_for
+from flask import render_template, make_response, request, redirect, url_for, send_from_directory
 from flask_login import current_user
 from flask_restful import Resource
 
-from src import csrf, db
+from src import csrf, db, app
 from src.models import Pet, Species, PetGender, PetSize
 from src import models
 from src.utils.validation.validation import Validation
+
+
+@app.route('/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 class DataMixin:
@@ -147,6 +152,7 @@ class Questionnaire(Resource, DataMixin):
         }
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
+        pet_status_list = [{"id": pet.id, "name": pet.name, "image": pet.image, "checked": ""} for pet in pets]
         user = current_user
 
         personal_info = (
@@ -171,7 +177,7 @@ class Questionnaire(Resource, DataMixin):
 
         return make_response(render_template(
             'adoption/adoption.html',
-            pets=pets,
+            pets=pet_status_list,
             pets_id=[pet.id for pet in pets],
             species=species,
             sizes=sizes,
@@ -239,7 +245,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
 
     def post(self):
         print(request.form)
-        pet_id = request.form.get('selectedCardId')
+        pet_id = request.form.get('selectedCard')
         full_name = request.form.get('fullName')
         phone = request.form.get('phoneNumber')
         description = request.form.get('description')
@@ -290,6 +296,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
             Validation.correct_phone_number(phone) is None,
             Validation.at_least_3_chars(description) is None,
             Validation.at_least_3_chars(full_name) is None,
+            pet_id is not None
         ]):
             submit_button_disabled = ''
 
@@ -314,9 +321,14 @@ class QuestionnaireHTMX(Resource, DataMixin):
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
 
+        pet_status_list = [
+            {"id": pet.id, "name": pet.name, "image": pet.image, "checked": "checked" if pet.id == int(pet_id) else ""}
+            for pet in pets]
+        print(pet_status_list)
+
         return make_response(render_template(
             'adoption/questionnaire.html',
-            pets=pets,
+            pets=pet_status_list,
             pets_id=[pet.id for pet in pets],
             page_num=page,
             pagination=pagination,

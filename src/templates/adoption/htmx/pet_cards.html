@@ -1,24 +1,19 @@
-<div class="w-100 d-flex flex-wrap h-auto">
-    <input type="hidden" name="selectedCardId" id="selectedCardId" value="" hx-target="#test"
-           hx-swap="outerHTML" hx-trigger="click">
+<div class="w-100 d-flex flex-wrap h-auto" hx-post="/questionnaire/htmx" hx-trigger="change from:#selectedCardId"
+     hx-target="#test" hx-swap="outerHTML">
     <div class="w-100 d-flex justify-content-center"><h4>Select a pet</h4></div>
     <div class="d-flex flex-wrap justify-content-center">
         {% if pets %}
             {% for pet in pets %}
-                <div class="card m-2" data-card-id="{{ pet.id }}" style="width: 200px; height: 250px">
-                    {% if pet.species_id == 1 %}
-                        <img src="{{ url_for('static', filename='images/pets/dog.png') }}"
-                             class="card-img-top h-75"
-                             alt="...">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='images/pets/cat.png') }}"
-                             class="card-img-top h-75"
-                             alt="...">
-                    {% endif %}
+                <input type="radio" id="card{{ pet.id }}" name="selectedCard" class="card-input-element"
+                       value="{{ pet.id }}" {{ pet.checked }}>
+                <label for="card{{ pet.id }}" class="card m-2" data-card-id="{{ pet.id }}"
+                       style="width: 200px; height: 250px">
+                    <img src="{{ url_for('uploaded_file', filename=pet.image) }}"
+                         class="card-img-top h-75" alt="...">
                     <div class="card-body mx-auto h-25">
                         <h4 class="card-text">{{ pet.name }}</h4>
                     </div>
-                </div>
+                </label>
             {% endfor %}
         {% else %}
             <div class="d-flex">
@@ -26,15 +21,6 @@
             </div>
         {% endif %}
     </div>
-    <script>
-        $(document).ready(function () {
-            $('.card').on('click', function () {
-                $('.card').removeClass('selected');
-                $(this).addClass('selected');
-                $('#selectedCardId').val($(this).data('card-id'));
-            });
-        });
-    </script>
     {% if pagination.show %}
         <nav class="m-auto" aria-label="Page navigation example">
             <ul class="pagination">
