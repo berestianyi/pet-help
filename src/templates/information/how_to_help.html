@@ -4,7 +4,150 @@
 {% block body %}
     <div class="container-lg">
         <div class="d-flex flex-column">
+            <div class="d-flex flex-wrap flex-row justify-content-lg-between justify-content-center mt-5">
+                <div class="mt-3" style="width: 600px; min-width: 450px">
+                    <h2>How to Help</h2>
+                    <h5>At PetsHelp, we believe that everyone has the power to make a difference in the lives of pets in
+                        need. Our mission thrives on the collective efforts of individuals and communities coming
+                        together to support animal welfare. Here’s how you can join us in our mission and help us create
+                        a world where every pet has a loving home.</h5>
+                </div>
+                <div class="card" style="width: 600px; min-width: 450px">
+                    <div class="card-body">
+                        <h5 class="card-title">Donate</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Your generous donations provide vital support
+                            for our operations and directly benefit the pets in our care. Here’s how you can
+                            contribute:</h6>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span style="font-weight: 500">Monetary Donations:</span> Financial contributions help us
+                            cover essential costs such as
+                            medical treatments, food, shelter, and more. You can make a one-time donation or become
+                            a monthly donor to provide consistent support.
+                        </li>
+                        <li class="list-group-item">
+                            <span style="font-weight: 500">In-Kind Donations:</span> Donate supplies such as pet food,
+                            toys, bedding, and other
+                            necessities. These items help us care for pets while they wait for their forever homes.
+                            Check our website for a list of needed items and drop-off locations.
+                        </li>
+                    </ul>
 
+                </div>
+            </div>
+            <div class="d-flex flex-wrap flex-row justify-content-lg-between justify-content-center mt-5">
+                <div class="d-flex flex-column flex-wrap" style="width: 600px; min-width: 450px">
+                    <div class="card mb-5">
+                        <img src="{{ url_for('static', filename='images/index/how_to_help/dog.jpg') }}"
+                             class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">How to Get Started</h5>
+                            <p class="card-text">Ready to help? Here’s how you can get involved:</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><span style="font-weight: 500">Make a Donation:</span> Visit our
+                                donation page to contribute
+                                financially or see our list of needed in-kind donations.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Apply to Volunteer:</span> Fill
+                                out our volunteer application form on
+                                our website to get started. Let us know how you’d like to help, and we’ll match you with
+                                the right opportunities.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Spread the Word:</span> Follow us
+                                on social media and share our mission
+                                with your network. Every share helps us reach more people and find more loving homes for
+                                pets.
+                            </li>
+                            <li class="list-group-item"><span
+                                    style="font-weight: 500">Contact Us for Partnerships:</span> Reach out to our team
+                                at
+                                partnerships@pethelp.com to discuss collaboration opportunities. We’re excited to work
+                                with you!
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Volunteer</h5>
+                            <p class="card-text">Our dedicated volunteers are the heart of PetHelp. Their time and
+                                energy make it possible for us to provide the best care for our pets. Here’s how you can
+                                get involved:</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><span style="font-weight: 500">Foster a Pet:</span> Open your
+                                home to a pet in need. Fostering
+                                provides temporary care for pets until they find their forever homes. It's a rewarding
+                                experience that helps save lives.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Adoption Events:</span> Help us
+                                organize and run adoption events. From
+                                setting up booths to interacting with potential adopters, your assistance is invaluable
+                                in creating a successful event.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Transport Assistance:</span>
+                                Volunteer to transport pets to and from
+                                veterinary appointments, adoption events, or foster homes. Your help ensures that pets
+                                receive the care they need.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Fundraising:</span> Join our
+                                fundraising efforts to support our
+                                programs and services. Whether it's organizing events, managing online campaigns, or
+                                reaching out to donors, your efforts will help us continue our work.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-wrap mb-5" style="width: 600px; min-width: 450px">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <h5 class="card-title">Partner With Us</h5>
+                            <p class="card-text">Partnerships are essential to our success. By working together with
+                                other organizations, we can maximize our impact and help more pets. Here’s how you can
+                                partner with us:</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><span style="font-weight: 500">Shelters and Rescue Organizations:</span>
+                                Collaborate with us to list
+                                your pets on our platform. Together, we can increase their visibility and find more
+                                loving homes.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Veterinary Clinics:</span>
+                                Partner with us to provide medical care for
+                                our pets. Your expertise ensures that our animals are healthy and ready for adoption.
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: 500">Businesses:</span> Support our
+                                mission through corporate sponsorships,
+                                donations, or by hosting adoption events at your location.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='images/index/how_to_help/cat.jpg') }}"
+                             class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Support Our Programs</h5>
+                            <p class="card-text">Our programs are designed to provide comprehensive support to pets and
+                                their new families. Here’s how you can support these efforts:</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><span style="font-weight: 500">Sponsor a Pet:</span> Provide
+                                financial support for the care of a
+                                specific pet until they find their forever home. Your sponsorship helps cover the costs
+                                of food, medical care, and other necessities.
+                            </li>
+                            <li class="list-group-item"><span
+                                    style="font-weight: 500">Join Our Monthly Giving Program:</span> Become a monthly
+                                donor and
+                                provide consistent support that allows us to plan and expand our programs. Monthly
+                                giving is an easy and effective way to make a lasting impact.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
