@@ -18,7 +18,7 @@ app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 app.config['WTF_CSRF_CHECK_DEFAULT'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join('static')
+app.config['UPLOAD_FOLDER'] = '/src/static/'
 csrf = CSRFProtect(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)

@@ -10,7 +10,7 @@ from src.utils.validation.validation import Validation
 
 @app.route('/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory('static', filename)
 
 
 class DataMixin:
@@ -327,7 +327,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
         pet_status_list = [
             {"id": pet.id, "name": pet.name, "image": pet.image, "checked": "checked" if pet.id == int(pet_id) else ""}
             for pet in pets]
-        print(pet_status_list)
 
         return make_response(render_template(
             'adoption/questionnaire.html',
