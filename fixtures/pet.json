@@ -2,66 +2,15 @@
     {
         "model": "Pet",
         "fields": {
-            "id": 1,
-            "name": "Fin",
-            "breed": "Bulldog",
-            "gender": "Male",
-            "age": 3,
-            "is_sterilized": true,
-            "size": "Small",
-            "species_id": 1
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 2,
-            "name": "Sonya",
-            "breed": "Beagle",
-            "gender": "Female",
-            "age": 1,
-            "is_sterilized": false,
-            "size": "Small",
-            "species_id": 1
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 3,
-            "name": "Jack",
-            "breed": "English Springer Spaniel",
-            "gender": "Male",
-            "age": 2,
-            "is_sterilized": true,
-            "size": "Large",
-            "species_id": 1
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 4,
-            "name": "Mike",
-            "breed": "Bullmastiff",
+            "id": 9,
+            "name": "Pupy",
+            "breed": "Ocicat",
             "gender": "Male",
             "age": 6,
-            "is_sterilized": true,
-            "size": "Large",
-            "species_id": 1
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 5,
-            "name": "Jessica",
-            "breed": "English Cocker Spaniel",
-            "gender": "Female",
-            "age": 4,
             "is_sterilized": false,
-            "size": "Medium",
-            "species_id": 1
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
         }
     },
     {
@@ -74,20 +23,8 @@
             "age": 1,
             "is_sterilized": false,
             "size": "Small",
-            "species_id": 2
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 7,
-            "name": "Hokye",
-            "breed": "Cyprus",
-            "gender": "Female",
-            "age": 4,
-            "is_sterilized": true,
-            "size": "Small",
-            "species_id": 2
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
         }
     },
     {
@@ -100,20 +37,92 @@
             "age": 2,
             "is_sterilized": true,
             "size": "Medium",
-            "species_id": 2
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
         }
     },
     {
         "model": "Pet",
         "fields": {
-            "id": 9,
-            "name": "Pupy",
-            "breed": "Ocicat",
+            "id": 1,
+            "name": "Fin",
+            "breed": "Bulldog",
             "gender": "Male",
-            "age": 6,
+            "age": 3,
+            "is_sterilized": true,
+            "size": "Small",
+            "species_id": 1,
+            "image": "uploads/man-with-dog-allergy-front-view.jpg"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 2,
+            "name": "Sonya",
+            "breed": "Beagle",
+            "gender": "Female",
+            "age": 1,
             "is_sterilized": false,
             "size": "Small",
-            "species_id": 2
+            "species_id": 1,
+            "image": "uploads/woman-trying-concentrate-her-dog.jpg"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 3,
+            "name": "Jack",
+            "breed": "English Springer Spaniel",
+            "gender": "Male",
+            "age": 2,
+            "is_sterilized": true,
+            "size": "Large",
+            "species_id": 1,
+            "image": "uploads/amazing-beagle-dog-resting-after-active-games-balcony-summer-day.jpg"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 4,
+            "name": "Mike",
+            "breed": "Bullmastiff",
+            "gender": "Male",
+            "age": 6,
+            "is_sterilized": true,
+            "size": "Large",
+            "species_id": 1,
+            "image": "uploads/full-shot-cute-dog-making-mess.jpg"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 7,
+            "name": "Hokye",
+            "breed": "Cyprus",
+            "gender": "Female",
+            "age": 4,
+            "is_sterilized": true,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/dog-laying-floor-after-making-mess.jpg"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 5,
+            "name": "Jessica",
+            "breed": "English Cocker Spaniel",
+            "gender": "Female",
+            "age": 4,
+            "is_sterilized": false,
+            "size": "Medium",
+            "species_id": 1,
+            "image": "uploads/full-shot-cute-dog-making-mess.jpg"
         }
     }
 ]

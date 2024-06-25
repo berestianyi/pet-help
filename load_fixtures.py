@@ -41,7 +41,8 @@ def load_fixtures_json():
                     age=fields['age'],
                     is_sterilized=fields['is_sterilized'],
                     size=fields['size'],
-                    species_id=fields['species_id']
+                    species_id=fields['species_id'],
+                    image=fields['image'],
                 )
                 db.session.add(pet)
             db.session.commit()

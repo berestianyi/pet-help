@@ -50,7 +50,7 @@ class Pet(db.Model):
     species = db.relationship('Species', backref='pet', lazy=True)
     image = db.Column(db.String(300), nullable=True)
 
-    def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed):
+    def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed, image):
         self.id = pk
         self.name = name
         self.gender = gender
@@ -58,7 +58,8 @@ class Pet(db.Model):
         self.age = age
         self.is_sterilized = is_sterilized
         self.size = size
-        self.species_id = species_id
+        self.species_id = species_id,
+        self.image = image
 
     def to_dict(self):
         return {
@@ -69,7 +70,8 @@ class Pet(db.Model):
             'age': self.age,
             'is_sterilized': self.is_sterilized,
             'size': self.size.value,
-            'species_id': self.species_id if self.species_id else None
+            'species_id': self.species_id if self.species_id else None,
+            'image': self.image
         }
 
 
