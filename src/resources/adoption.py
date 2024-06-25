@@ -320,6 +320,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
         }
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
+
         if pet_id is None:
             pet_id = 0
 
