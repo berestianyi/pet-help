@@ -320,6 +320,8 @@ class QuestionnaireHTMX(Resource, DataMixin):
         }
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
+        if pet_id is None:
+            pet_id = 0
 
         pet_status_list = [
             {"id": pet.id, "name": pet.name, "image": pet.image, "checked": "checked" if pet.id == int(pet_id) else ""}
