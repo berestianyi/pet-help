@@ -155,7 +155,7 @@ class Profile(Resource):
     def get(self):
         user = current_user
 
-        personal_info = crud.get_personal_info(user.id)
+        personal_info = crud.get_personal_info(user)
         if personal_info:
             full_name, phone, description, birth_date = crud.get_personal_info_fields(personal_info)
         else:
