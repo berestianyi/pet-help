@@ -7,6 +7,7 @@ from src.utils import Validation, validate_register_form, validate_input, render
 
 from src.models.user import User
 from src import models
+from src import crud
 
 
 @login_manager.user_loader
@@ -57,9 +58,8 @@ class Register(Resource):
         if validate_input(syntax_validation):
             return Response(status=204)
 
-        new_user = User(username=username, email=email, password=password)
-        db.session.add(new_user)
-        db.session.commit()
+        crud.add_user(username=username, email=email, password=password)
+
         return redirect(url_for('login'))
 
 
@@ -154,13 +154,11 @@ class Profile(Resource):
     @login_required
     def get(self):
         user = current_user
-        try:
-            personal_info = models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            full_name = personal_info.full_name
-            phone = personal_info.phone
-            description = personal_info.description
-            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
-        except:
+
+        personal_info = crud.get_personal_info(user.id)
+        if personal_info:
+            full_name, phone, description, birth_date = crud.get_personal_info_fields(personal_info)
+        else:
             full_name = phone = description = birth_date = ''
 
         return make_response(render_template(
@@ -178,21 +176,8 @@ class Profile(Resource):
         phone = request.form.get('phoneNumber')
         description = request.form.get('description')
         birth_date = request.form.get('datepicker')
-
-        new_personal_info = models.PersonalInfo(
-            full_name=full_name,
-            phone=phone,
-            description=description,
-            birth_date=birth_date
-        )
-        db.session.add(new_personal_info)
-        db.session.commit()
-
         user = current_user
 
-        user.personal_info_id = new_personal_info.id
-        db.session.commit()
+        crud.add_personal_info(user, full_name, phone, description, birth_date)
 
         return redirect(url_for('profile'))
-
-#

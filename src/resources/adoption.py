@@ -7,6 +7,8 @@ from src.models import Pet, Species, PetGender, PetSize
 from src import models
 from src.utils.validation.validation import Validation
 
+from src import crud
+
 
 @app.route('/<filename>')
 def uploaded_file(filename):
@@ -128,6 +130,18 @@ class DataMixin:
             new_sterilized.pop(sterilize, None)
         return new_sterilized
 
+    @staticmethod
+    def paginate(total_pets, page, per_page) -> dict:
+        return {
+            'total_pages': -(-total_pets // per_page),
+            'current_page': page,
+            'has_next': page < -(-total_pets // per_page),
+            'has_prev': page > 1,
+            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
+            'prev_num': page - 1 if page > 1 else None,
+            'show': total_pets > 6
+        }
+
 
 class Questionnaire(Resource, DataMixin):
 
@@ -141,24 +155,13 @@ class Questionnaire(Resource, DataMixin):
         query = Pet.query
         total_pets = query.count()
 
-        pagination = {
-            'total_pages': -(-total_pets // per_page),
-            'current_page': page,
-            'has_next': page < -(-total_pets // per_page),
-            'has_prev': page > 1,
-            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
-            'prev_num': page - 1 if page > 1 else None,
-            'show': total_pets > 6
-        }
+        pagination = self.paginate(total_pets, page, per_page)
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
         pet_status_list = [{"id": pet.id, "name": pet.name, "image": pet.image, "checked": ""} for pet in pets]
         user = current_user
 
-        personal_info = (
-            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user.is_authenticated else None
-        )
+        personal_info = crud.get_personal_info(user=user)
 
         full_name = personal_info.full_name if personal_info else ''
         phone = personal_info.phone if personal_info else ''
@@ -204,40 +207,19 @@ class Questionnaire(Resource, DataMixin):
         user = current_user
 
         try:
-            personal_info = (
-                models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-                if user.is_authenticated else None
-            )
+            personal_info = crud.get_personal_info(user=user)
 
             if not personal_info:
-                personal_info = models.PersonalInfo(
-                    full_name=full_name, phone=phone, description=description, birth_date=birth_date
-                )
-                db.session.add(personal_info)
-                db.session.commit()
-                if user.is_authenticated:
-                    user.personal_info_id = personal_info.id
-                    db.session.commit()
+                personal_info = crud.add_personal_info(user=user, full_name=full_name, description=description,
+                                                       phone=phone, birth_date=birth_date)
 
-            questionnaire = models.Questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
-            db.session.add(questionnaire)
-            db.session.commit()
-        except:
+            crud.add_questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
 
+        except Exception as e:
+            print(e)
             return redirect(url_for('questionnaire'))
 
         return make_response(render_template('adoption/thank_you.html'))
-
-
-class Info(Resource):
-    method_decorators = [csrf.exempt]
-
-    def post(self):
-        pets = request.form.getlist('pets')
-
-        pet_ids = [int(pet) for pet in pets]
-        print(pet_ids)
-        print(request.form)
 
 
 class QuestionnaireHTMX(Resource, DataMixin):
@@ -267,10 +249,8 @@ class QuestionnaireHTMX(Resource, DataMixin):
         breed, breeds_list = self.breeds_filter(breed, specie)
 
         user = current_user
-        personal_info = (
-            models.PersonalInfo.query.filter_by(id=user.personal_info_id).first()
-            if user.is_authenticated else None
-        )
+
+        personal_info = crud.get_personal_info(user=user)
 
         if personal_info is None:
             birth_date_error = Validation.date_format(birth_date)
@@ -280,10 +260,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
         personal_info_disabled = 'disabled' if personal_info else ''
 
         if personal_info:
-            full_name = personal_info.full_name
-            phone = personal_info.phone
-            description = personal_info.description
-            birth_date = personal_info.birth_date.strftime('%m/%d/%Y')
+            full_name, phone, description, birth_date = crud.get_personal_info_fields(personal_info)
 
         query = Pet.query
         query = self.query_filter(query, specie, gender, size, age, sterilize, breed)
@@ -300,15 +277,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
         ]):
             submit_button_disabled = ''
 
-        pagination = {
-            'total_pages': -(-total_pets // per_page),
-            'current_page': page,
-            'has_next': page < -(-total_pets // per_page),
-            'has_prev': page > 1,
-            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
-            'prev_num': page - 1 if page > 1 else None,
-            'show': total_pets > 6
-        }
+        pagination = self.paginate(total_pets, page, per_page)
 
         selected_input = {
             'specie': specie,
