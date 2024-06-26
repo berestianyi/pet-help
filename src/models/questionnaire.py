@@ -63,6 +63,6 @@ class QuestionnaireView(ModelView):
         'pet.name': 'Pet Name'
     }
 
+
 admin.add_view(PersonalInfoView(PersonalInfo, db.session))
 admin.add_view(QuestionnaireView(Questionnaire, db.session))
-

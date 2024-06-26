@@ -158,7 +158,12 @@ class Questionnaire(Resource, DataMixin):
         pagination = self.paginate(total_pets, page, per_page)
 
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
-        pet_status_list = [{"id": pet.id, "name": pet.name, "image": pet.image, "checked": ""} for pet in pets]
+        pet_status_list = [
+            {"id": pet.id, "name": pet.name, "age": pet.age,
+             "image": pet.image, "size": pet.size.value,  "gender": pet.gender.value,
+             "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
+             "checked": ""} for pet in pets]
+
         user = current_user
 
         personal_info = crud.get_personal_info(user=user)
@@ -294,7 +299,10 @@ class QuestionnaireHTMX(Resource, DataMixin):
             pet_id = 0
 
         pet_status_list = [
-            {"id": pet.id, "name": pet.name, "image": pet.image, "checked": "checked" if pet.id == int(pet_id) else ""}
+            {"id": pet.id, "name": pet.name, "age": pet.age,
+             "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
+             "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
+             "checked": "checked" if pet.id == int(pet_id) else ""}
             for pet in pets]
 
         return make_response(render_template(
