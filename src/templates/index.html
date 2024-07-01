@@ -2,24 +2,22 @@
 
 
 {% block body %}
-    <div class="d-flex flex-column flex-wrap">
-        <div class="d-flex flex-row flex-wrap justify-content-between" style="height: 1024px;">
-            <div class="h-100" style="margin-top: 200px; width: 500px; min-width: 400px">
+    <div class="main-container">
+        <div class="child-container-with-dog">
+            <div class="child-child-container-with-dog">
                 <h1 style="font-size: 96px">They need your care!</h1>
                 <h1>Take the tailed one into the family</h1>
                 <div style="margin-top: 200px">
-                    <button type="button" class="adopt-animal text-light w-75 mb-3" style="font-size: 40px;">Adopt an
-                        animal
+                    <button type="button" class="adopt-animal text-light mb-3">Adopt an animal
                     </button>
                 </div>
                 <div>
-                    <button type="button" class="help-shelter text-dark w-75" style="font-size: 40px">Help shelter
+                    <button type="button" class="help-shelter text-dark">Help shelter
                     </button>
                 </div>
             </div>
-            <div style="min-width: 400px; width: 700px">
-                <img class="w-100" src="{{ url_for('static', filename='images/index/dog1.png') }}" alt="..."
-                     style="border-radius: 50% 0 0 0">
+            <div class="dog-photo">
+                <img src="{{ url_for('static', filename='images/index/dog1.png') }}" alt="...">
             </div>
         </div>
         <div class="d-flex flex-row flex-wrap justify-content-center justify-content-lg-between mt-5">
