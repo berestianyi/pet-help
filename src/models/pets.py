@@ -24,6 +24,7 @@ class Species(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     pets = db.relationship('Pet', backref='specie s', lazy=True)
+    in_shelter = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<Species {self.name}>'
@@ -49,8 +50,10 @@ class Pet(db.Model):
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
     species = db.relationship('Species', backref='pet', lazy=True)
     image = db.Column(db.String(300), nullable=True)
+    description = db.Column(db.String(300), nullable=True)
+    in_shelter = db.Column(db.Boolean, default=False)
 
-    def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed, image):
+    def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed, image, description, in_shelter):
         self.id = pk
         self.name = name
         self.gender = gender
@@ -60,6 +63,8 @@ class Pet(db.Model):
         self.size = size
         self.species_id = species_id,
         self.image = image
+        self.description = description
+        self.in_shelter = in_shelter
 
     def to_dict(self):
         return {
@@ -71,7 +76,9 @@ class Pet(db.Model):
             'is_sterilized': self.is_sterilized,
             'size': self.size.value,
             'species_id': self.species_id if self.species_id else None,
-            'image': self.image
+            'image': self.image,
+            'description': self.description,
+            'in_shelter': self.in_shelter,
         }
 
 

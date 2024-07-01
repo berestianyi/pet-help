@@ -160,7 +160,7 @@ class Questionnaire(Resource, DataMixin):
         pets = query.offset((page - 1) * per_page).limit(per_page).all()
         pet_status_list = [
             {"id": pet.id, "name": pet.name, "age": pet.age,
-             "image": pet.image, "size": pet.size.value,  "gender": pet.gender.value,
+             "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
              "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
              "checked": ""} for pet in pets]
 
@@ -326,4 +326,69 @@ class QuestionnaireHTMX(Resource, DataMixin):
             phone=phone,
             personal_info_disabled=personal_info_disabled,
             submit_button_disabled=submit_button_disabled,
+        ))
+
+
+class GiveShelter(Resource, DataMixin):
+
+    def get(self):
+        species = Species.query.all()
+        species_list = [specie.name for specie in species]
+        species_list.append('Not in list')
+        size_list = list(PetSize)
+        gender_list = list(PetGender)
+
+        selected = {
+            'specie': 'Specie',
+            'gender': 'Gender',
+            'size': 'Size',
+            'sterilized': 'Sterilized?',
+        }
+
+        is_specie_exist = True
+
+        return make_response(render_template(
+            'adoption/give_a_shelter.html',
+            species=species_list,
+            sizes=size_list,
+            genders=gender_list,
+            sterilizeds=self.sterilized,
+            age=0,
+            selected=selected,
+            is_specie_exist=is_specie_exist,
+            pet_name='',
+            new_specie='',
+            description='',
+            file=''
+        ))
+
+
+class GiveShelterHTMX(Resource, DataMixin):
+    def post(self):
+        value = request.form
+
+        species = Species.query.all()
+        species_list = [specie.name for specie in species]
+        species_list.append('Not in list')
+        species_list.remove(value.get('specie'))
+
+        selected = {
+            'specie': value.get('specie'),
+            'gender': value.get('gender'),
+            'size': value.get('size'),
+            'sterilized': value.get('sterilized'),
+        }
+
+        return make_response(render_template(
+            'adoption/give_a_shelter.html',
+            age=value.get('age'),
+            selected=selected,
+            pet_name=value.get('pet_name'),
+            new_specie=value.get('new_specie'),
+            description=value.get('description'),
+            file=value.get('file'),
+            sterilizeds=self.sterilized_filter(value.get('sterilized')),
+            sizes=self.sizes_filter(value.get('size')),
+            species=species_list,
+            genders=self.genders_filter(value.get('gender'))
         ))
