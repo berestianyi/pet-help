@@ -2,48 +2,6 @@
     {
         "model": "Pet",
         "fields": {
-            "id": 9,
-            "name": "Pupy",
-            "breed": "Ocicat",
-            "gender": "Male",
-            "age": 6,
-            "is_sterilized": false,
-            "size": "Small",
-            "species_id": 2,
-            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 6,
-            "name": "Bobie",
-            "breed": "Arabian Mau",
-            "gender": "Female",
-            "age": 1,
-            "is_sterilized": false,
-            "size": "Small",
-            "species_id": 2,
-            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 8,
-            "name": "Bobik",
-            "breed": "Korean Bobtail",
-            "gender": "Male",
-            "age": 2,
-            "is_sterilized": true,
-            "size": "Medium",
-            "species_id": 2,
-            "image": "uploads/adorable-cat-relaxing-indoors.jpg"
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
             "id": 1,
             "name": "Fin",
             "breed": "Bulldog",
@@ -52,7 +10,9 @@
             "is_sterilized": true,
             "size": "Small",
             "species_id": 1,
-            "image": "uploads/man-with-dog-allergy-front-view.jpg"
+            "image": "uploads/man-with-dog-allergy-front-view.jpg",
+            "description": null,
+            "in_shelter": true
         }
     },
     {
@@ -66,7 +26,9 @@
             "is_sterilized": false,
             "size": "Small",
             "species_id": 1,
-            "image": "uploads/woman-trying-concentrate-her-dog.jpg"
+            "image": "uploads/woman-trying-concentrate-her-dog.jpg",
+            "description": null,
+            "in_shelter": true
         }
     },
     {
@@ -80,7 +42,9 @@
             "is_sterilized": true,
             "size": "Large",
             "species_id": 1,
-            "image": "uploads/amazing-beagle-dog-resting-after-active-games-balcony-summer-day.jpg"
+            "image": "uploads/amazing-beagle-dog-resting-after-active-games-balcony-summer-day.jpg",
+            "description": null,
+            "in_shelter": true
         }
     },
     {
@@ -94,21 +58,9 @@
             "is_sterilized": true,
             "size": "Large",
             "species_id": 1,
-            "image": "uploads/full-shot-cute-dog-making-mess.jpg"
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
-            "id": 7,
-            "name": "Hokye",
-            "breed": "Cyprus",
-            "gender": "Female",
-            "age": 4,
-            "is_sterilized": true,
-            "size": "Small",
-            "species_id": 2,
-            "image": "uploads/dog-laying-floor-after-making-mess.jpg"
+            "image": "uploads/full-shot-cute-dog-making-mess.jpg",
+            "description": null,
+            "in_shelter": true
         }
     },
     {
@@ -122,7 +74,73 @@
             "is_sterilized": false,
             "size": "Medium",
             "species_id": 1,
-            "image": "uploads/full-shot-cute-dog-making-mess.jpg"
+            "image": "uploads/full-shot-cute-dog-making-mess.jpg",
+            "description": null,
+            "in_shelter": true
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 6,
+            "name": "Bobie",
+            "breed": "Arabian Mau",
+            "gender": "Female",
+            "age": 1,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg",
+            "description": null,
+            "in_shelter": true
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 7,
+            "name": "Hokye",
+            "breed": "Cyprus",
+            "gender": "Female",
+            "age": 4,
+            "is_sterilized": true,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/dog-laying-floor-after-making-mess.jpg",
+            "description": null,
+            "in_shelter": true
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 8,
+            "name": "Bobik",
+            "breed": "Korean Bobtail",
+            "gender": "Male",
+            "age": 2,
+            "is_sterilized": true,
+            "size": "Medium",
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg",
+            "description": null,
+            "in_shelter": true
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 9,
+            "name": "Pupy",
+            "breed": "Ocicat",
+            "gender": "Male",
+            "age": 6,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/adorable-cat-relaxing-indoors.jpg",
+            "description": null,
+            "in_shelter": true
         }
     }
 ]
