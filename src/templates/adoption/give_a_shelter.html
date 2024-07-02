@@ -5,5 +5,11 @@
 
     <form method="POST">
         {% include 'adoption/htmx/shelter_form.html' %}
+        <div class="d-flex justify-content-center align-items-start">
+            <div class="input-group mb-3 w-25" style="min-width: 425px;">
+                <input type="file" name="file" class="form-control" id="inputGroupFile02" value="{{ file }}">
+            </div>
+        </div>
     </form>
+
 {% endblock %}

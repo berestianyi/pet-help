@@ -2,9 +2,8 @@ from flask import render_template, make_response, request, redirect, url_for, se
 from flask_login import current_user
 from flask_restful import Resource
 
-from src import csrf, db, app
+from src import csrf, app
 from src.models import Pet, Species, PetGender, PetSize
-from src import models
 from src.utils.validation.validation import Validation
 
 from src import crud
@@ -24,15 +23,6 @@ class DataMixin:
     sterilized = {
         'Yes': True,
         'No': False,
-    }
-
-    html_all_option = {
-        'species': False,
-        'breeds': False,
-        'genders': False,
-        'sizes': False,
-        'ages': False,
-        'sterilized': False
     }
 
     def query_filter(self, query, specie, gender, size, age, sterilize, breed):
@@ -65,7 +55,7 @@ class DataMixin:
             else:
                 breeds = [pet.breed for pet in
                           Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id)]
-                self.html_all_option['breeds'] = False
+
         else:
             if specie == 'All species':
                 breeds = [pet.breed for pet in Pet.query.all()]
@@ -74,60 +64,54 @@ class DataMixin:
             else:
                 breeds = [pet.breed for pet in
                           Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id)]
-                self.html_all_option['breeds'] = False
                 breeds.remove(breed)
                 breeds.append('All breeds')
 
-            self.html_all_option['breeds'] = True
+            breeds.append('All breeds')
 
         return breed, breeds
 
-    def species_filter(self, specie):
-        if specie == 'All species':
-            self.html_all_option['species'] = False
+    def species_filter(self, specie, additional_word):
+        if specie == additional_word:
             species = [specie.name for specie in Species.query.all()]
         else:
             species_list = Species.query.filter(Species.name != specie).all()
             species = [specie.name for specie in species_list]
-            self.html_all_option['species'] = True
+            species.append(additional_word)
         return species
 
-    def genders_filter(self, gender_):
-        if gender_ == 'All genders':
-            self.html_all_option['genders'] = False
-            genders = list(PetGender)
+    def genders_filter(self, gender_, additional_word):
+        if gender_ == additional_word:
+            genders = [gender.value for gender in PetGender]
         else:
-            genders = [gender for gender in PetGender if gender != PetGender[gender_.upper()]]
-            self.html_all_option['genders'] = True
+            genders = [gender.value for gender in PetGender if gender.value != gender_]
+            genders.append(additional_word)
         return genders
 
-    def sizes_filter(self, size_):
-        if size_ == 'All sizes':
-            self.html_all_option['sizes'] = False
-            sizes = list(PetSize)
+    def sizes_filter(self, size_, additional_word):
+        if size_ == additional_word:
+            sizes = [size.value for size in PetSize]
         else:
-            sizes = [size for size in PetSize if size != PetSize[size_.upper()]]
-            self.html_all_option['sizes'] = True
+            sizes = [size.value for size in PetSize if size.value != size_]
+            sizes.append(additional_word)
         return sizes
 
-    def ages_filter(self, age):
-        if age == 'All ages':
-            self.html_all_option['ages'] = False
+    def ages_filter(self, age, additional_word):
+        if age == additional_word:
             new_ages = self.ages.copy()
         else:
-            self.html_all_option['ages'] = True
             new_ages = self.ages.copy()
             new_ages.pop(age, None)
+            new_ages.update({additional_word: additional_word})
         return new_ages
 
-    def sterilized_filter(self, sterilize):
-        if sterilize == 'Sterilized?':
-            self.html_all_option['sterilized'] = False
+    def sterilized_filter(self, sterilize, additional_word):
+        if sterilize == additional_word:
             new_sterilized = self.sterilized.copy()
         else:
-            self.html_all_option['sterilized'] = True
             new_sterilized = self.sterilized.copy()
             new_sterilized.pop(sterilize, None)
+            new_sterilized.update({additional_word: additional_word})
         return new_sterilized
 
     @staticmethod
@@ -148,7 +132,7 @@ class Questionnaire(Resource, DataMixin):
     def get(self):
         species = [s.name for s in Species.query.all()]
         breeds = [p.breed for p in Pet.query.all()]
-        genders, sizes = list(PetGender), list(PetSize)
+        genders, sizes = [gender.value for gender in PetGender], [size.value for size in PetSize]
         page = request.form.get('page_num', 1, type=int)
         per_page = request.form.get('per_page', 6, type=int)
 
@@ -194,7 +178,6 @@ class Questionnaire(Resource, DataMixin):
             ages=self.ages,
             sterilized=self.sterilized,
             selected=selected_input,
-            html_option=self.html_all_option,
             pagination=pagination,
             user=user,
             full_name=full_name,
@@ -246,11 +229,11 @@ class QuestionnaireHTMX(Resource, DataMixin):
         page = request.form.get('page_num', 1, type=int)
         per_page = int(request.form.get('per_page', 6, type=int))
 
-        species_list = self.species_filter(specie)
-        genders_list = self.genders_filter(gender)
-        sizes_list = self.sizes_filter(size)
-        ages_list = self.ages_filter(age)
-        sterilizes_list = self.sterilized_filter(sterilize)
+        species_list = self.species_filter(specie, 'All species')
+        genders_list = self.genders_filter(gender, 'All genders')
+        sizes_list = self.sizes_filter(size, 'All sizes')
+        ages_list = self.ages_filter(age, 'All ages')
+        sterilizes_list = self.sterilized_filter(sterilize, 'Sterilized?')
         breed, breeds_list = self.breeds_filter(breed, specie)
 
         user = current_user
@@ -311,7 +294,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
             pets_id=[pet.id for pet in pets],
             page_num=page,
             pagination=pagination,
-            html_option=self.html_all_option,
             selected=selected_input,
             breeds=breeds_list,
             species=species_list,
@@ -335,8 +317,8 @@ class GiveShelter(Resource, DataMixin):
         species = Species.query.all()
         species_list = [specie.name for specie in species]
         species_list.append('Not in list')
-        size_list = list(PetSize)
-        gender_list = list(PetGender)
+        size_list = [size.value for size in PetSize]
+        gender_list = [gender.value for gender in PetGender]
 
         selected = {
             'specie': 'Specie',
@@ -359,18 +341,26 @@ class GiveShelter(Resource, DataMixin):
             pet_name='',
             new_specie='',
             description='',
-            file=''
+            file='',
+            range=0
         ))
+
+    def post(self):
+        value = request.form
+
+
+        pass
+
 
 
 class GiveShelterHTMX(Resource, DataMixin):
     def post(self):
         value = request.form
+        print(value)
 
-        species = Species.query.all()
-        species_list = [specie.name for specie in species]
-        species_list.append('Not in list')
-        species_list.remove(value.get('specie'))
+        species_list = self.species_filter(value.get('specie'), 'Specie')
+        if value.get('specie') != 'Not in list':
+            species_list.append('Not in list')
 
         selected = {
             'specie': value.get('specie'),
@@ -379,16 +369,22 @@ class GiveShelterHTMX(Resource, DataMixin):
             'sterilized': value.get('sterilized'),
         }
 
+        if value.get('specie') == 'Not in list':
+            is_specie_exist = False
+        else:
+            is_specie_exist = True
+
         return make_response(render_template(
-            'adoption/give_a_shelter.html',
+            'adoption/htmx/shelter_form.html',
+            is_specie_exist=is_specie_exist,
             age=value.get('age'),
             selected=selected,
-            pet_name=value.get('pet_name'),
-            new_specie=value.get('new_specie'),
-            description=value.get('description'),
-            file=value.get('file'),
-            sterilizeds=self.sterilized_filter(value.get('sterilized')),
-            sizes=self.sizes_filter(value.get('size')),
+            pet_name='' if value.get('petName') is None else value.get('petName'),
+            new_specie='' if value.get('newSpecie') is None else value.get('newSpecie'),
+            range=0 if value.get('range') is None else value.get('range'),
+            description='' if value.get('description') is None else value.get('description'),
+            sterilizeds=self.sterilized_filter(value.get('sterilized'), 'Sterilized?'),
+            sizes=self.sizes_filter(value.get('size'), 'Size'),
             species=species_list,
-            genders=self.genders_filter(value.get('gender'))
+            genders=self.genders_filter(value.get('gender'), 'Gender')
         ))
