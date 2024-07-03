@@ -38,7 +38,8 @@ class Species(db.Model):
             'name': self.name,
         }
 
-    def __init__(self, name, in_shelter):
+    def __init__(self, pk, name, in_shelter):
+        self.id = pk
         self.name = name
         self.in_shelter = in_shelter
 
@@ -58,7 +59,7 @@ class Pet(db.Model):
     in_shelter = db.Column(db.Boolean, default=False)
 
     def __init__(self, pk, name, gender, age, is_sterilized, size, species_id, breed, image, description, in_shelter):
-        self.id = pk | None
+        self.id = pk
         self.name = name
         self.gender = gender
         self.breed = breed

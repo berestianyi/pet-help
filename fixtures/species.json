@@ -3,14 +3,16 @@
         "model": "Species",
         "fields": {
             "id": 1,
-            "name": "Dog"
+            "name": "Dog",
+            "in_shelter": true
         }
     },
     {
         "model": "Species",
         "fields": {
             "id": 2,
-            "name": "Cat"
+            "name": "Cat",
+            "in_shelter": true
         }
     }
 ]
