@@ -65,6 +65,13 @@ class Validation:
             return None
 
     @staticmethod
+    def only_number(value) -> str | None:
+        if not re.match(r'^\d+(\.\d+)?$', value):
+            return 'Number is not valid'
+        else:
+            return None
+
+    @staticmethod
     def at_least_3_chars(value) -> str | None:
         if len(value) < 3:
             return 'Field is too short'
@@ -75,6 +82,13 @@ class Validation:
     def correct_phone_number(value) -> str | None:
         if not re.match(r'\(\d{3}\) \d{3}-\d{4}', value):
             return 'Phone number is invalid.'
+        else:
+            return None
+
+    @staticmethod
+    def is_not_in_value(value, check_value) -> str | None:
+        if value == check_value:
+            return f'{check_value} is in {value}'
         else:
             return None
 
@@ -101,4 +115,25 @@ def validate_register_form(username, email, password, password2):
         Validation.email_only(email),
         Validation.existing_username(username),
         Validation.existing_email(email),
+    ]
+
+
+def validate_give_shelter_form(name, breed, specie, size, gender, sterilized, age, description):
+    return [
+        Validation.english_characters_only(name),
+        Validation.length(name, 3, 64),
+        Validation.english_characters_only(breed),
+        Validation.length(breed, 3, 64),
+        Validation.english_characters_only(specie),
+        Validation.length(specie, 2, 64),
+        Validation.length(size, 2, 64),
+        Validation.length(gender, 2, 64),
+        Validation.length(sterilized, 2, 64),
+        Validation.only_number(age),
+        Validation.english_characters_only(description),
+        Validation.length(description, 3, 64),
+        Validation.is_not_in_value(specie, 'Specie'),
+        Validation.is_not_in_value(size, 'Size'),
+        Validation.is_not_in_value(gender, 'Gender'),
+        Validation.is_not_in_value(sterilized, 'Sterilized?'),
     ]

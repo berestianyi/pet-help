@@ -23,7 +23,7 @@ def load_fixtures_json():
             species_data = json.load(file)
             for record in species_data:
                 fields = record['fields']
-                species = Species(pk=fields['id'], name=fields['name'], in_shelter=fields['in_shelter'])
+                species = Species(name=fields['name'], in_shelter=fields['in_shelter'])
                 db.session.add(species)
             db.session.commit()
 
@@ -32,7 +32,6 @@ def load_fixtures_json():
             for record in pet_data:
                 fields = record['fields']
                 pet = Pet(
-                    pk=fields['id'],
                     name=fields['name'],
                     breed=fields['breed'],
                     gender=PetGender(fields['gender']),

@@ -4,7 +4,7 @@ from flask_restful import Resource
 
 from src import csrf, app
 from src.models import Pet, Species, PetGender, PetSize
-from src.utils.validation.validation import Validation
+from src.utils.validation.validation import Validation, validate_give_shelter_form
 
 from src import crud
 
@@ -47,7 +47,8 @@ class DataMixin:
 
         return query
 
-    def breeds_filter(self, breed, specie):
+    @staticmethod
+    def breeds_filter(breed, specie):
         if breed == 'All breeds':
             if specie == 'All species':
                 breed = 'All breeds'
@@ -71,7 +72,8 @@ class DataMixin:
 
         return breed, breeds
 
-    def species_filter(self, specie, additional_word):
+    @staticmethod
+    def species_filter(specie, additional_word):
         if specie == additional_word:
             species = [specie.name for specie in Species.query.all()]
         else:
@@ -80,7 +82,8 @@ class DataMixin:
             species.append(additional_word)
         return species
 
-    def genders_filter(self, gender_, additional_word):
+    @staticmethod
+    def genders_filter(gender_, additional_word):
         if gender_ == additional_word:
             genders = [gender.value for gender in PetGender]
         else:
@@ -88,7 +91,8 @@ class DataMixin:
             genders.append(additional_word)
         return genders
 
-    def sizes_filter(self, size_, additional_word):
+    @staticmethod
+    def sizes_filter(size_, additional_word):
         if size_ == additional_word:
             sizes = [size.value for size in PetSize]
         else:
@@ -125,6 +129,10 @@ class DataMixin:
             'prev_num': page - 1 if page > 1 else None,
             'show': total_pets > 6
         }
+
+    @staticmethod
+    def empty_string(value):
+        return '' if value is None else value
 
 
 class Questionnaire(Resource, DataMixin):
@@ -342,15 +350,31 @@ class GiveShelter(Resource, DataMixin):
             new_specie='',
             description='',
             file='',
-            range=0
+            range=0,
+            pet_breed=''
         ))
 
     def post(self):
         value = request.form
 
+        if value['petName'] == 'Not in list':
+            specie = crud.add_specie(value['newSpecie'])
+        else:
+            specie = crud.get_specie_by_name(value['specie'])
+
+        crud.add_pet_to_shelter(
+            name=value['petName'],
+            breed=value['petBreed'],
+            size=value['size'],
+            image=value['file'],
+            species_id=specie.id,
+            gender=value['gender'],
+            age=value['range'],
+            is_sterilized=value['sterilized'],
+            description=value['description'],
+        )
 
         pass
-
 
 
 class GiveShelterHTMX(Resource, DataMixin):
@@ -379,12 +403,40 @@ class GiveShelterHTMX(Resource, DataMixin):
             is_specie_exist=is_specie_exist,
             age=value.get('age'),
             selected=selected,
-            pet_name='' if value.get('petName') is None else value.get('petName'),
-            new_specie='' if value.get('newSpecie') is None else value.get('newSpecie'),
+            pet_name=self.empty_string(value.get('petName')),
+            pet_breed=self.empty_string(value.get('petBreed')),
+            new_specie=self.empty_string(value.get('newSpecie')),
             range=0 if value.get('range') is None else value.get('range'),
-            description='' if value.get('description') is None else value.get('description'),
+            description=self.empty_string(value.get('description')),
             sterilizeds=self.sterilized_filter(value.get('sterilized'), 'Sterilized?'),
             sizes=self.sizes_filter(value.get('size'), 'Size'),
             species=species_list,
             genders=self.genders_filter(value.get('gender'), 'Gender')
         ))
+
+
+class GiveShelterButtonSubmitHTMX(Resource, DataMixin):
+    def post(self):
+        value = request.form
+        if value.get('specie') == 'Not in list':
+            specie = value.get('newSpecie')
+        else:
+            specie = value.get('specie')
+
+        validation_results = validate_give_shelter_form(
+            name=self.empty_string(value.get('petName')),
+            age=self.empty_string(value.get('range')),
+            size=self.empty_string(value.get('size')),
+            gender=self.empty_string(value.get('gender')),
+            sterilized=self.empty_string(value.get('sterilized')),
+            description=self.empty_string(value.get('description')),
+            breed=self.empty_string(value.get('petBreed')),
+            specie=self.empty_string(specie),
+        )
+        print(validation_results)
+        submit_button = False
+
+        if all(result is None for result in validation_results):
+            submit_button = True
+
+        return make_response(render_template('adoption/htmx/submit_button.html', submit_button=submit_button))
