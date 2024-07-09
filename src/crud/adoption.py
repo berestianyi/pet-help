@@ -1,5 +1,9 @@
-from src.models import Questionnaire, Pet, Species, PetGender, PetSize
-from src import db, photos
+import os
+
+from werkzeug.utils import secure_filename
+
+from src.models import Questionnaire, Pet, Species, PetGender, PetSize, PetStatus
+from src import db, app
 
 
 def add_questionnaire(pet_id, personal_info_id):
@@ -11,20 +15,24 @@ def add_questionnaire(pet_id, personal_info_id):
 
 def add_pet_to_shelter(name, gender, breed, age, is_sterilized, size, species_id, image, description):
 
-    if image and photos.file_allowed(image, image.filename):
-        image = photos.save(image)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER_FOR_SHELTER'], image.filename)
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    # Save the file
+    image.save(file_path)
 
     new_pet = Pet(
         name=name,
         gender=PetGender(gender),
         breed=breed,
         age=age,
-        is_sterilized=is_sterilized,
+        is_sterilized=False if is_sterilized == 'No' else True,
         size=PetSize(size),
         species_id=species_id,
-        image=image,
+        image=file_path,
         description=description,
-        in_shelter=False
+        in_shelter=False,
+        status=PetStatus.PENDING
     )
 
     db.session.add(new_pet)
@@ -44,3 +52,10 @@ def add_specie(name):
 def get_specie_by_name(species_name):
     species = Species.query.filter_by(name=species_name).first()
     return species
+
+
+def change_pet_status(pet_id, status: PetStatus) -> Pet:
+    pet = Pet.query.filter_by(id=pet_id).first()
+    pet.status = status
+    db.session.commit()
+    return pet

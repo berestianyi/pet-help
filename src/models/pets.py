@@ -20,6 +20,12 @@ class PetGender(enum.Enum):
     OTHER = "Other"
 
 
+class PetStatus(enum.Enum):
+    PENDING = "PENDING"
+    AVAILABLE = "AVAILABLE"
+    ADOPTED = "ADOPTED"
+
+
 class Species(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
@@ -56,8 +62,10 @@ class Pet(db.Model):
     image = db.Column(db.String(300), nullable=True)
     description = db.Column(db.String(300), nullable=True)
     in_shelter = db.Column(db.Boolean, default=False)
+    status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
 
-    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, in_shelter):
+    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, in_shelter,
+                 status):
         self.name = name
         self.gender = gender
         self.breed = breed
@@ -68,6 +76,7 @@ class Pet(db.Model):
         self.image = image
         self.description = description
         self.in_shelter = in_shelter
+        self.status = status
 
     def to_dict(self):
         return {
@@ -82,6 +91,7 @@ class Pet(db.Model):
             'image': self.image,
             'description': self.description,
             'in_shelter': self.in_shelter,
+            'status': self.status.value,
         }
 
 

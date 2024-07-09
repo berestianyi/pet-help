@@ -1,10 +1,10 @@
-from flask import render_template, make_response, request, redirect, url_for, send_from_directory
+from flask import render_template, make_response, request, redirect, url_for, send_from_directory, flash
 from flask_login import current_user
 from flask_restful import Resource
 
-from src import csrf, app
+from src import csrf, app, ALLOWED_EXTENSIONS
 from src.models import Pet, Species, PetGender, PetSize
-from src.utils.validation.validation import Validation, validate_give_shelter_form
+from src.utils.validation.validation import Validation, validate_give_shelter_form, validate_image_format
 
 from src import crud
 
@@ -361,20 +361,24 @@ class GiveShelter(Resource, DataMixin):
             specie = crud.add_specie(value['newSpecie'])
         else:
             specie = crud.get_specie_by_name(value['specie'])
-
-        crud.add_pet_to_shelter(
-            name=value['petName'],
-            breed=value['petBreed'],
-            size=value['size'],
-            image=value['file'],
-            species_id=specie.id,
-            gender=value['gender'],
-            age=value['range'],
-            is_sterilized=value['sterilized'],
-            description=value['description'],
-        )
-
-        pass
+        print(request.files['file'])
+        print(request.files['file'].filename)
+        if validate_image_format(request.files['file'].filename):
+            crud.add_pet_to_shelter(
+                name=value['petName'],
+                breed=value['petBreed'],
+                size=value['size'],
+                image=request.files['file'],
+                species_id=specie.id,
+                gender=value['gender'],
+                age=value['range'],
+                is_sterilized=value['sterilized'],
+                description=value['description'],
+            )
+            return redirect(url_for('mainpage'))
+        else:
+            flash('Wrong image format')
+            return redirect(url_for('giveshelter'))
 
 
 class GiveShelterHTMX(Resource, DataMixin):

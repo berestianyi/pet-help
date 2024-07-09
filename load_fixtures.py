@@ -42,6 +42,7 @@ def load_fixtures_json():
                     image=fields['image'],
                     description=fields['description'],
                     in_shelter=fields['in_shelter'],
+                    status=fields['status'],
                 )
                 db.session.add(pet)
             db.session.commit()

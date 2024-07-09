@@ -3,6 +3,7 @@ from typing import Tuple
 
 from flask import render_template, make_response
 
+from src import ALLOWED_EXTENSIONS
 from src.models.user import User
 
 
@@ -16,7 +17,7 @@ class Validation:
 
     @staticmethod
     def english_characters_only(value) -> str | None:
-        if not re.match(r'^[A-Za-z0-9]*$', value):
+        if not re.match(r'^[A-Za-z0-9 ]*$', value):
             return 'Field must contain only English characters and numbers.'
         return None
 
@@ -137,3 +138,7 @@ def validate_give_shelter_form(name, breed, specie, size, gender, sterilized, ag
         Validation.is_not_in_value(gender, 'Gender'),
         Validation.is_not_in_value(sterilized, 'Sterilized?'),
     ]
+
+
+def validate_image_format(filename) -> bool:
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
