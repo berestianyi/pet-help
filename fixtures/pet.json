@@ -12,7 +12,7 @@
             "species_id": 1,
             "image": "uploads/man-with-dog-allergy-front-view.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -28,7 +28,7 @@
             "species_id": 1,
             "image": "uploads/woman-trying-concentrate-her-dog.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -44,7 +44,7 @@
             "species_id": 1,
             "image": "uploads/amazing-beagle-dog-resting-after-active-games-balcony-summer-day.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -60,7 +60,7 @@
             "species_id": 1,
             "image": "uploads/full-shot-cute-dog-making-mess.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -76,7 +76,7 @@
             "species_id": 1,
             "image": "uploads/full-shot-cute-dog-making-mess.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -92,7 +92,7 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -108,7 +108,7 @@
             "species_id": 2,
             "image": "uploads/dog-laying-floor-after-making-mess.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -124,7 +124,7 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     },
     {
@@ -140,7 +140,7 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "in_shelter": true
+            "status": "AVAILABLE"
         }
     }
 ]

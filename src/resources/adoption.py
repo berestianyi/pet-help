@@ -1,9 +1,9 @@
 from flask import render_template, make_response, request, redirect, url_for, send_from_directory, flash
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_restful import Resource
 
 from src import csrf, app, ALLOWED_EXTENSIONS
-from src.models import Pet, Species, PetGender, PetSize
+from src.models import Pet, Species, PetGender, PetSize, PetStatus
 from src.utils.validation.validation import Validation, validate_give_shelter_form, validate_image_format
 
 from src import crud
@@ -26,6 +26,7 @@ class DataMixin:
     }
 
     def query_filter(self, query, specie, gender, size, age, sterilize, breed):
+        query = query.filter(Pet.status == PetStatus.AVAILABLE)
         if specie != 'All species':
             specie_name = Species.query.filter_by(name=specie).first()
             query = query.filter(Pet.species_id == specie_name.id)
@@ -136,7 +137,7 @@ class DataMixin:
 
 
 class Questionnaire(Resource, DataMixin):
-
+    @login_required
     def get(self):
         species = [s.name for s in Species.query.all()]
         breeds = [p.breed for p in Pet.query.all()]
@@ -196,6 +197,7 @@ class Questionnaire(Resource, DataMixin):
             submit_button_disabled='disabled',
         ))
 
+    @login_required
     def post(self):
         full_name, description = request.form.get('fullName'), request.form.get('description')
         birth_date, phone = request.form.get('datepicker'), request.form.get('phoneNumber')
@@ -321,6 +323,7 @@ class QuestionnaireHTMX(Resource, DataMixin):
 
 class GiveShelter(Resource, DataMixin):
 
+    @login_required
     def get(self):
         species = Species.query.all()
         species_list = [specie.name for specie in species]
@@ -354,6 +357,7 @@ class GiveShelter(Resource, DataMixin):
             pet_breed=''
         ))
 
+    @login_required
     def post(self):
         value = request.form
 
@@ -440,7 +444,7 @@ class GiveShelterButtonSubmitHTMX(Resource, DataMixin):
         print(validation_results)
         submit_button = False
 
-        if all(result is None for result in validation_results):
+        if all(result is None for result in validation_results) and value.get('file') is not None:
             submit_button = True
 
         return make_response(render_template('adoption/htmx/submit_button.html', submit_button=submit_button))

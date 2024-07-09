@@ -2,7 +2,7 @@ import json
 import os
 
 from src import app, db
-from src.models import Species, Pet, PetGender, PetSize
+from src.models import Species, Pet, PetGender, PetSize, PetStatus
 
 FIXTURES_DIR = os.path.join(os.path.dirname(__file__), 'fixtures')
 
@@ -23,7 +23,7 @@ def load_fixtures_json():
             species_data = json.load(file)
             for record in species_data:
                 fields = record['fields']
-                species = Species(name=fields['name'], in_shelter=fields['in_shelter'])
+                species = Species(name=fields['name'], status=PetStatus(fields['status']))
                 db.session.add(species)
             db.session.commit()
 
@@ -41,8 +41,7 @@ def load_fixtures_json():
                     species_id=fields['species_id'],
                     image=fields['image'],
                     description=fields['description'],
-                    in_shelter=fields['in_shelter'],
-                    status=fields['status'],
+                    status=PetStatus(fields['status']),
                 )
                 db.session.add(pet)
             db.session.commit()

@@ -8,12 +8,12 @@
                 <h1 style="font-size: 96px">They need your care!</h1>
                 <h1>Take the tailed one into the family</h1>
                 <div style="margin-top: 200px">
-                    <button type="button" class="adopt-animal text-light mb-3">Adopt an animal
-                    </button>
+                    <a href="{{ url_for('questionnaire') }}"><button type="button" class="adopt-animal text-light mb-3">Adopt an animal
+                    </button></a>
                 </div>
                 <div>
-                    <button type="button" class="help-shelter text-dark">Help shelter
-                    </button>
+                    <a href="{{ url_for('giveshelter') }}"><button type="button" href="{{ url_for('giveshelter') }}" class="help-shelter text-dark">Give a shelter
+                    </button></a>
                 </div>
             </div>
             <div class="dog-photo">
@@ -43,15 +43,15 @@
                 <div class="d-flex flex-row flex-wrap justify-content-between align-items-end"
                      style="height: 250px; width: 100%">
                     <div style="width: 350px" class="d-flex justify-content-center">
-                        <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
-                            Take the animal
-                        </button>
+                         <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
+                            <a class="text-decoration-none text-light" href="{{ url_for('questionnaire') }}">Take the animal</a>
+                         </button>
                     </div>
 
                     <div style="width: 350px" class="d-flex justify-content-center">
-                        <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
-                            Arrange the animal
-                        </button>
+                         <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
+                            <a class="text-decoration-none text-light" href="{{ url_for('giveshelter') }}">Arrange the animal</a>
+                         </button>
                     </div>
                 </div>
             </div>

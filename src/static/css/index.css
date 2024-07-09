@@ -181,3 +181,36 @@
     }
 
 }
+
+.pagination .page-link {
+    color: #198754;
+}
+
+.pagination .active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    color: #004B22;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+
+    background: #198754;
+}
+
+input[type="range"]::-moz-range-thumb {
+    background: #198754;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 128, 0, 0.5);
+    border-color: #008000;
+}
+
+.form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 128, 0, 0.5);
+    border-color: #008000;
+}

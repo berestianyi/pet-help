@@ -17,8 +17,6 @@ def add_pet_to_shelter(name, gender, breed, age, is_sterilized, size, species_id
 
     file_path = os.path.join(app.config['UPLOAD_FOLDER_FOR_SHELTER'], image.filename)
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-    # Save the file
     image.save(file_path)
 
     new_pet = Pet(
@@ -29,9 +27,8 @@ def add_pet_to_shelter(name, gender, breed, age, is_sterilized, size, species_id
         is_sterilized=False if is_sterilized == 'No' else True,
         size=PetSize(size),
         species_id=species_id,
-        image=file_path,
+        image='uploads/' + image.filename,
         description=description,
-        in_shelter=False,
         status=PetStatus.PENDING
     )
 

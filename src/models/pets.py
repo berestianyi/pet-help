@@ -27,10 +27,10 @@ class PetStatus(enum.Enum):
 
 
 class Species(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
-    pets = db.relationship('Pet', backref='specie s', lazy=True)
-    in_shelter = db.Column(db.Boolean, default=False)
+    pets = db.relationship('Pet', back_populates='species', lazy=True)
+    status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
 
     def __repr__(self):
         return f'<Species {self.name}>'
@@ -42,15 +42,16 @@ class Species(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'status': self.status.value,
         }
 
-    def __init__(self, name, in_shelter):
+    def __init__(self, name, status):
         self.name = name
-        self.in_shelter = in_shelter
+        self.status = status
 
 
 class Pet(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     breed = db.Column(db.String(80), unique=True, nullable=True)
     gender = db.Column(Enum(PetGender), nullable=False, default=PetGender.FEMALE)
@@ -58,14 +59,12 @@ class Pet(db.Model):
     is_sterilized = db.Column(db.Boolean, nullable=False, default=False)
     size = db.Column(Enum(PetSize), nullable=False, default=PetSize.MEDIUM)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
-    species = db.relationship('Species', backref='pet', lazy=True)
+    species = db.relationship('Species',  back_populates='pets', lazy=True)
     image = db.Column(db.String(300), nullable=True)
     description = db.Column(db.String(300), nullable=True)
-    in_shelter = db.Column(db.Boolean, default=False)
     status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
 
-    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, in_shelter,
-                 status):
+    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, status):
         self.name = name
         self.gender = gender
         self.breed = breed
@@ -75,7 +74,6 @@ class Pet(db.Model):
         self.species_id = species_id,
         self.image = image
         self.description = description
-        self.in_shelter = in_shelter
         self.status = status
 
     def to_dict(self):
@@ -90,7 +88,6 @@ class Pet(db.Model):
             'species_id': self.species_id if self.species_id else None,
             'image': self.image,
             'description': self.description,
-            'in_shelter': self.in_shelter,
             'status': self.status.value,
         }
 
@@ -108,7 +105,7 @@ class PetView(ModelView):
                                   thumbnail_size=(100, 100, True))
     }
 
-    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species', 'image']
+    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species', 'image', 'description', 'status']
 
 
 admin.add_view(PetView(Pet, db.session))

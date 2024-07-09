@@ -19,7 +19,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 app.config['WTF_CSRF_CHECK_DEFAULT'] = False
 app.config['UPLOAD_FOLDER'] = '/src/static/'
-app.config['UPLOAD_FOLDER_FOR_SHELTER'] = './static/uploads/'
+app.config['UPLOAD_FOLDER_FOR_SHELTER'] = './src/static/uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
