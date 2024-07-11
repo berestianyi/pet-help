@@ -1,0 +1,28 @@
+version: '3.10'
+
+services:
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1031
+      - POSTGRES_DB=PetHelp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/PetHelp
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    command: poetry run flask run --host=0.0.0.0
+
+volumes:
+  postgres_data:

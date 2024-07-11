@@ -3,55 +3,71 @@
 
 {% block body %}
     <div class="main-container">
+
         <div class="child-container-with-dog">
             <div class="child-child-container-with-dog">
-                <h1 style="font-size: 96px">They need your care!</h1>
-                <h1>Take the tailed one into the family</h1>
-                <div style="margin-top: 200px">
-                    <a href="{{ url_for('questionnaire') }}"><button type="button" class="adopt-animal text-light mb-3">Adopt an animal
-                    </button></a>
+                <div class="child-container-with-h">
+                    <h1 class="big-h">They need your care!</h1>
+                    <h1 class="small-h">Take the tailed one into the family</h1>
                 </div>
-                <div>
-                    <a href="{{ url_for('giveshelter') }}"><button type="button" href="{{ url_for('giveshelter') }}" class="help-shelter text-dark">Give a shelter
-                    </button></a>
+                <div class="adopt-btn-container">
+                    <a href="{{ url_for('questionnaire') }}">
+                        <button type="button" class="adopt-animal text-light mb-3">Adopt an animal
+                        </button>
+                    </a>
+                </div>
+                <div class="give-btn-container">
+                    <a href="{{ url_for('giveshelter') }}">
+                        <button type="button" href="{{ url_for('giveshelter') }}" class="help-shelter text-dark">
+                            Give a
+                            shelter
+                        </button>
+                    </a>
                 </div>
             </div>
             <div class="dog-photo">
                 <img src="{{ url_for('static', filename='images/index/dog1.png') }}" alt="...">
             </div>
         </div>
-        <div class="d-flex flex-row flex-wrap justify-content-center justify-content-lg-between mt-5">
-            <div style="min-width: 400px; width: 700px">
+        <div  class="info-container">
+            <div style="min-width: 350px; width: 700px">
                 <h1>About us</h1>
                 <h2>PetsHelp is a project whose idea is to help homeless animals, treat them, rehabilitate them, and
                     place them in a family. Our goal is for every animal to have a loving owner. We strive for the
                     shelter to be a temporary shelter for animals, and not their permanent home.</h2>
             </div>
-            <div style="min-width: 400px; width: 560px">
+            <div style="min-width: 350px; width: 560px">
                 <img class="w-100" src="{{ url_for('static', filename='images/index/pet2.jfif') }}" alt="..."
                      style="border-radius: 45% 0 0 45%">
             </div>
         </div>
-        <div class="d-flex flex-row flex-wrap justify-content-center justify-content-lg-between mt-5">
-            <div style="min-width: 400px; width: 560px">
+        <div class="info-container">
+            <div style="min-width: 350px; width: 560px">
                 <img class="w-100" src="{{ url_for('static', filename='images/index/dog2.jfif') }}" alt="..."
                      style="border-radius: 0 45% 45% 0">
             </div>
-            <div style="min-width: 400px; width: 700px">
-                <h1 style="text-align: center">You can take an animal from a shelter, or adopt an animal if you found it
+            <div style="min-width: 350px; width: 700px">
+                <h1 style="text-align: center">You can take an animal from a shelter, or adopt an animal if you
+                    found it
                     on the street.</h1>
                 <div class="d-flex flex-row flex-wrap justify-content-between align-items-end"
                      style="height: 250px; width: 100%">
                     <div style="width: 350px" class="d-flex justify-content-center">
-                         <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
-                            <a class="text-decoration-none text-light" href="{{ url_for('questionnaire') }}">Take the animal</a>
-                         </button>
+                        <button type="button" class="adopt-animal-btns text-light w-75 mb-3"
+                                style="font-size: 28px;">
+                            <a class="text-decoration-none text-light" href="{{ url_for('questionnaire') }}">Take
+                                the
+                                animal</a>
+                        </button>
                     </div>
 
                     <div style="width: 350px" class="d-flex justify-content-center">
-                         <button type="button" class="adopt-animal-btns text-light w-75 mb-3" style="font-size: 28px;">
-                            <a class="text-decoration-none text-light" href="{{ url_for('giveshelter') }}">Arrange the animal</a>
-                         </button>
+                        <button type="button" class="adopt-animal-btns text-light w-75 mb-3"
+                                style="font-size: 28px;">
+                            <a class="text-decoration-none text-light" href="{{ url_for('giveshelter') }}">Arrange
+                                the
+                                animal</a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -69,20 +85,23 @@
 
                 <div>
                     <div style="width: 380px; height: 380px">
-                        <img class="w-100" src="{{ url_for('static', filename='images/index/Help_financially.png') }}"
+                        <img class="w-100"
+                             src="{{ url_for('static', filename='images/index/Help_financially.png') }}"
                              alt="..." style="object-fit: cover;">
                     </div>
                     <h2>Take an animal into the family</h2>
                 </div>
                 <div>
                     <div style="width: 380px; height: 380px">
-                        <img class="w-100" src="{{ url_for('static', filename='images/index/Become_a_volunteer.png') }}"
+                        <img class="w-100"
+                             src="{{ url_for('static', filename='images/index/Become_a_volunteer.png') }}"
                              alt="..." style="object-fit: cover;">
                     </div>
                     <h2>Become a volunteer</h2>
                 </div>
             </div>
         </div>
+
     </div>
 
 {% endblock %}
