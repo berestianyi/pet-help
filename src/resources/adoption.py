@@ -53,19 +53,21 @@ class DataMixin:
         if breed == 'All breeds':
             if specie == 'All species':
                 breed = 'All breeds'
-                breeds = [pet.breed for pet in Pet.query.all()]
+                breeds = [pet.breed for pet in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
             else:
                 breeds = [pet.breed for pet in
-                          Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id)]
+                          Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id,
+                                           Pet.status == PetStatus.AVAILABLE)]
 
         else:
             if specie == 'All species':
-                breeds = [pet.breed for pet in Pet.query.all()]
+                breeds = [pet.breed for pet in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
                 breeds.remove(breed)
                 breeds.append('All breeds')
             else:
                 breeds = [pet.breed for pet in
-                          Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id)]
+                          Pet.query.filter(Pet.species_id == Species.query.filter_by(
+                              name=specie).first().id, Pet.status == PetStatus.AVAILABLE)]
                 breeds.remove(breed)
                 breeds.append('All breeds')
 
@@ -140,7 +142,7 @@ class Questionnaire(Resource, DataMixin):
     @login_required
     def get(self):
         species = [s.name for s in Species.query.all()]
-        breeds = [p.breed for p in Pet.query.all()]
+        breeds = [p.breed for p in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
         genders, sizes = [gender.value for gender in PetGender], [size.value for size in PetSize]
         page = request.form.get('page_num', 1, type=int)
         per_page = request.form.get('per_page', 6, type=int)
@@ -155,7 +157,7 @@ class Questionnaire(Resource, DataMixin):
             {"id": pet.id, "name": pet.name, "age": pet.age,
              "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
              "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
-             "checked": ""} for pet in pets]
+             "checked": "", "description": pet.description, "breed": pet.breed, "specie": pet.species} for pet in pets]
 
         user = current_user
 
@@ -226,18 +228,13 @@ class QuestionnaireHTMX(Resource, DataMixin):
     def post(self):
         print(request.form)
         pet_id = request.form.get('selectedCard')
-        full_name = request.form.get('fullName')
-        phone = request.form.get('phoneNumber')
-        description = request.form.get('description')
-        birth_date = request.form.get('datepicker')
         specie = request.form.get('species')
         gender = request.form.get('genders')
         size = request.form.get('sizes')
         age = request.form.get('ages')
         sterilize = request.form.get('sterilized')
         breed = request.form.get('breeds')
-        page = request.form.get('page_num', 1, type=int)
-        per_page = int(request.form.get('per_page', 6, type=int))
+        load_more = request.form.get('loadMore')
 
         species_list = self.species_filter(specie, 'All species')
         genders_list = self.genders_filter(gender, 'All genders')
@@ -246,36 +243,8 @@ class QuestionnaireHTMX(Resource, DataMixin):
         sterilizes_list = self.sterilized_filter(sterilize, 'Sterilized?')
         breed, breeds_list = self.breeds_filter(breed, specie)
 
-        user = current_user
-
-        personal_info = crud.get_personal_info(user=user)
-
-        if personal_info is None:
-            birth_date_error = Validation.date_format(birth_date)
-        else:
-            birth_date_error = None
-
-        personal_info_disabled = 'disabled' if personal_info else ''
-
-        if personal_info:
-            full_name, phone, description, birth_date = crud.get_personal_info_fields(personal_info)
-
         query = Pet.query
         query = self.query_filter(query, specie, gender, size, age, sterilize, breed)
-        total_pets = query.count()
-
-        submit_button_disabled = 'disabled'
-
-        if all([
-            Validation.date_format(birth_date) is None,
-            Validation.correct_phone_number(phone) is None,
-            Validation.at_least_3_chars(description) is None,
-            Validation.at_least_3_chars(full_name) is None,
-            pet_id is not None
-        ]):
-            submit_button_disabled = ''
-
-        pagination = self.paginate(total_pets, page, per_page)
 
         selected_input = {
             'specie': specie,
@@ -286,7 +255,12 @@ class QuestionnaireHTMX(Resource, DataMixin):
             'breed': breed,
         }
 
-        pets = query.offset((page - 1) * per_page).limit(per_page).all()
+        if load_more is None:
+            load_more = 0
+        else:
+            load_more = 6
+
+        pets = query.limit(6 + load_more).all()
 
         if pet_id is None:
             pet_id = 0
@@ -295,15 +269,14 @@ class QuestionnaireHTMX(Resource, DataMixin):
             {"id": pet.id, "name": pet.name, "age": pet.age,
              "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
              "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
-             "checked": "checked" if pet.id == int(pet_id) else ""}
+             "checked": "checked" if pet.id == int(pet_id) else "",
+             "description": pet.description, "breed": pet.breed, "specie": pet.species}
             for pet in pets]
 
         return make_response(render_template(
             'adoption/questionnaire.html',
             pets=pet_status_list,
             pets_id=[pet.id for pet in pets],
-            page_num=page,
-            pagination=pagination,
             selected=selected_input,
             breeds=breeds_list,
             species=species_list,
@@ -311,13 +284,6 @@ class QuestionnaireHTMX(Resource, DataMixin):
             genders=genders_list,
             ages=ages_list,
             sterilized=sterilizes_list,
-            birth_date_str=birth_date_error,
-            birth_date=birth_date,
-            description=description,
-            full_name=full_name,
-            phone=phone,
-            personal_info_disabled=personal_info_disabled,
-            submit_button_disabled=submit_button_disabled,
         ))
 
 
@@ -448,3 +414,7 @@ class GiveShelterButtonSubmitHTMX(Resource, DataMixin):
             submit_button = True
 
         return make_response(render_template('adoption/htmx/submit_button.html', submit_button=submit_button))
+
+class Adopt(Resource):
+    def get(self, pet_id):
+        pass

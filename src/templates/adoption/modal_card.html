@@ -1,25 +1,28 @@
-<div class="modal" tabindex="-1">
+<div class="modal" id="card{{ pet.id }}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Pet name</h5>
+                <h5 class="modal-title">{{ pet.specie }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column align-items-center">
                     <div class="d-flex flex-row justify-content-center">
-                        <img src="..." class="img-thumbnail" alt="...">
+                        <img src="{{ url_for('static', filename=pet.image) }}" class="img-thumbnail" alt="...">
                     </div>
-                    <p>Name</p>
+                    <h3>{{ pet.name }}</h3>
                     <div class="d-flex flex-row justify-content-center">
-                        <p>Dog • Bulldog</p>
+                        <h5>{{ pet.breed }}</h5>
                     </div>
-                    <div class="d-flex flex-row justify-content-center">
-                        <p>Small • sterilized • Male • 5 y.o.</p>
-                    </div>
-                    <div class="d-flex flex-row justify-content-center">
-                        <p>Descriptione</p>
-                    </div>
+                </div>
+                <div class="d-flex flex-column justify-content-start">
+                    <h6>Size: {{ pet.size }}</h6>
+                    <h6>Sterilized: {{ pet.sterilized }}</h6>
+                    <h6>Gender: {{ pet.gender }}</h6>
+                    <h6>Ages: {{ pet.age }} y.o.</h6>
+                </div>
+                <div class="d-flex flex-row justify-content-start">
+                    <p>Description: {{ pet.description }}</p>
                 </div>
             </div>
             <div class="modal-footer">

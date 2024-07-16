@@ -1,12 +1,10 @@
-<div class="w-100 d-flex flex-wrap justify-content-center h-auto" hx-post="/questionnaire/htmx" hx-trigger="change from:#selectedCardId"
-     hx-target="#test" hx-swap="outerHTML"  hx-vals='{"page_num": {{ page_num }} }'>
+<div class="w-100 d-flex flex-column flex-wrap justify-content-center h-auto" hx-post="/questionnaire/htmx" hx-trigger="change from:#loadMore"
+     hx-target="#test" hx-swap="outerHTML" hx-vals="{'loadMore': '234234'}">
     <div class="w-100 d-flex justify-content-center"><h4>Select a pet</h4></div>
     <div class="d-flex flex-wrap justify-content-center">
         {% if pets %}
             {% for pet in pets %}
-                <input type="radio" id="card{{ pet.id }}" name="selectedCard" class="card-input-element"
-                       value="{{ pet.id }}" {{ pet.checked }}>
-                <label for="card{{ pet.id }}" class="card m-2" data-card-id="{{ pet.id }}"
+                <button type="button" data-bs-toggle="modal" data-bs-target="#card{{ pet.id }}" class="card m-2" data-card-id="{{ pet.id }}"
                        style="width: 200px; height: 250px">
                     <img src="{{ url_for('static', filename=pet.image) }}"
                          class="card-img-top h-75" alt="..." style="object-fit: cover;">
@@ -14,7 +12,8 @@
                         <h6 class="card-text">{{ pet.name }} <span style="font-weight: lighter">{{ pet.age }} y.o.</span></h6>
                         <p class="card-text" style="font-size: 12px">{{ pet.gender }}, {{ pet.size }}, {{ pet.sterilized }}</p>
                     </div>
-                </label>
+                </button>
+                {% include 'adoption/modal_card.html' %}
             {% endfor %}
         {% else %}
             <div class="d-flex">
@@ -22,43 +21,9 @@
             </div>
         {% endif %}
     </div>
-{% if pagination.show %}
-    <div class="d-flex flex-row justify-content-center mt-3 mb-4">
-        <button type="button" class="btn btn-outline-success">Load more</button>
+    <div class="d-flex flex-row justify-content-center mt-3 mb-4" >
+        <button type="button" id="loadMore" class="btn btn-outline-success">Load more</button>
     </div>
-{% endif %}
-{#    {% if pagination.show %}#}
-{#        <nav class="m-auto" aria-label="Page navigation example">#}
-{#            <ul class="pagination">#}
-{#                {% if pagination.has_prev %}#}
-{#                    <li class="page-item">#}
-{#                        <button class="page-link text-success" hx-post="/questionnaire/htmx"#}
-{#                                hx-target="#test" hx-swap="outerHTML" hx-trigger="click"#}
-{#                                hx-vals='{"pets": "{{ pets_id }}", "page_num": "{{ pagination.prev_num }}"}'>Previous#}
-{#                        </button>#}
-{#                    </li>#}
-{#                {% endif %}#}
-{#                {% for page_num in range(1, pagination.total_pages + 1) %}#}
-{#                    <li class="page-item {% if page_num == pagination.current_page %}active{% endif %}">#}
-{#                        <button class="page-link" hx-post="/questionnaire/htmx"#}
-{#                                hx-target="#test" hx-swap="outerHTML" hx-trigger="click"#}
-{#                                hx-vals='{"page_num": {{ page_num }} }' hx-trigger="click">{{ page_num }}</button>#}
-{#                    </li>#}
-{#                {% endfor %}#}
-{#                {% if pagination.has_next %}#}
-{#                    <li class="page-item">#}
-{#                        <button class="page-link text-success" hx-post="/questionnaire/htmx"#}
-{#                                hx-target="#test" hx-swap="outerHTML" hx-trigger="click"#}
-{#                                hx-vals='{"pets": "{{ pets_id }}", "page_num": "{{ pagination.next_num }}"}'>Next#}
-{#                        </button>#}
-{#                    </li>#}
-{#                {% endif %}#}
-{#            </ul>#}
-{#        </nav>#}
-{#    {% endif %}#}
 </div>
-{#<div class="d-flex justify-content-center mt-3 mb-5">#}
-{#    <button type="submit" class="btn btn-success btn-lg" {{ submit_button_disabled }}>Send a form</button>#}
-{#</div>#}
 
 

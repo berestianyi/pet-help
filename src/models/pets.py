@@ -61,7 +61,7 @@ class Pet(db.Model):
     size = db.Column(Enum(PetSize), nullable=False, default=PetSize.MEDIUM)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
     species = db.relationship('Species',  back_populates='pets', lazy=True)
-    slug = db.Column(db.String(90), unique=True, nullable=False)
+    slug = db.Column(db.String(90), unique=True, nullable=True)
     image = db.Column(db.String(300), nullable=True)
     description = db.Column(db.String(300), nullable=True)
     status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)

@@ -1,7 +1,7 @@
 <div id="test" class="d-flex flex-column align-items-center mt-5" hx-post="/questionnaire/htmx"
-     hx-target="#test" hx-swap="outerHTML" hx-trigger="change" hx-vals='{"page_num": {{ page_num }} }'>
+     hx-target="#test" hx-swap="outerHTML" hx-trigger="change">
     <div class="d-flex flex-row flex-wrap justify-content-center">
-        <h1>Questionnaire</h1>
+        <h1>Pet filter</h1>
     </div>
     <div class="d-flex flex-row flex-wrap justify-content-center">
         {% include 'adoption/htmx/pet_filter.html' %}
