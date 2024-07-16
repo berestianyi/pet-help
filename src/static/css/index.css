@@ -8,6 +8,7 @@
 
 
 @media (max-width: 767px) {
+
     .dog-background {
         background-image: url("../images/index/dog1.jpg");
         background-size: cover;
@@ -22,62 +23,215 @@
     .hh1 {
         color: white;
         font-size: 50px;
+        margin-left: 20px;
     }
 
     .hh2 {
         color: white;
         font-size: 30px;
+        margin-left: 20px;
     }
 
     .btns {
-
+        margin-top: 60px;
+        margin-bottom: 100px;
+        margin-left: 20px;
     }
 
     .adopt-animal {
-        width: 180px;
+        width: 200px;
         height: 40px;
         background-color: #004B22;
         border: none;
         border-radius: 20px;
         font-size: 20px;
+        color: rgba(232, 232, 232, 0.94);
     }
 
     .help-shelter {
-        width: 180px;
+        width: 200px;
         height: 40px;
         border-color: #004B22;
         border-radius: 20px;
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(255, 255, 255, 0.39);
         font-size: 20px;
+        color: #004B22;
     }
 
     .dog-container {
-        margin-top: 200px;
-        width: 350px;
-        min-width: 350px
+        margin-top: 400px;
+        width: 320px;
+        min-width: 320px
     }
 
     .info-container {
-        min-width: 350px;
-        max-width: 560px
+        min-width: 320px;
+        max-width: 560px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
     }
 
     .image-container {
         min-width: 350px;
-        max-width: 560px
+        max-width: 560px;
+        margin: 10px;
+    }
+
+    .img-left {
+        border-radius: 20% 20% 20% 20%;
+    }
+
+    .img-right {
+        border-radius: 20% 20% 20% 20%
+    }
+
+    .info-container h1 {
+        font-size: 50px;
+    }
+
+    .info-container h2 {
+        text-align: center;
+    }
+
+    .btns-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .small-form {
+        width: 320px;
     }
 }
 
 
 @media (min-width: 768px) and (max-width: 1281px) {
+    .dog-background {
+        background-image: url("../images/index/dog1.jpg");
+        background-size: cover;
+        height: auto;
+    }
 
+    .dog {
+        display: none;
+        visibility: hidden;
+    }
+
+    .hh1 {
+        color: white;
+        font-size: 50px;
+        margin-left: 20px;
+    }
+
+    .hh2 {
+        color: white;
+        font-size: 30px;
+        margin-left: 20px;
+    }
+
+    .btns {
+        margin-top: 60px;
+        margin-bottom: 100px;
+        margin-left: 200px;
+    }
+
+    .adopt-animal {
+        width: 200px;
+        height: 40px;
+        background-color: #004B22;
+        border: none;
+        border-radius: 20px;
+        font-size: 20px;
+        color: rgba(232, 232, 232, 0.94);
+    }
+
+    .help-shelter {
+        width: 200px;
+        height: 40px;
+        border-color: #004B22;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 0.39);
+        font-size: 20px;
+        color: #004B22;
+    }
+
+    .dog-container {
+        margin-top: 400px;
+        margin-left: 100px;
+        width: 500px;
+        min-width: 500px
+    }
+
+    .info-container {
+        min-width: 320px;
+        max-width: 560px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .image-container {
+        min-width: 350px;
+        max-width: 560px;
+        margin: 10px;
+    }
+
+    .img-left {
+        border-radius: 20% 20% 20% 20%;
+    }
+
+    .img-right {
+        border-radius: 20% 20% 20% 20%
+    }
+
+    .info-container h1 {
+        font-size: 50px;
+    }
+
+    .info-container h2 {
+        text-align: center;
+    }
+
+    .btns-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .small-form {
+        width: 450px;
+    }
 }
 
 
 @media (min-width: 1281px) {
+
     .dog {
         min-width: 400px;
-        width: 700px
+        width: 800px
+    }
+
+    .dog img {
+        border-radius: 45% 0 0 0;
+    }
+
+    .hh1 {
+        margin-top: 100px;
+        color: black;
+        font-size: 96px;
+        margin-left: 20px;
+    }
+
+    .hh2 {
+        color: black;
+        font-size: 60px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     .dog-container {
@@ -86,22 +240,31 @@
         min-width: 350px
     }
 
-     .adopt-animal {
-        width: 250px;
-        height: 60px;
+
+    .btns {
+        margin-top: 60px;
+        margin-bottom: 100px;
+        margin-left: 20px;
+    }
+
+    .adopt-animal {
+        width: 300px;
+        height: 70px;
         background-color: #004B22;
         border: none;
-        border-radius: 15px;
-        font-size: 20px;
+        border-radius: 20px;
+        font-size: 30px;
+        color: rgba(232, 232, 232, 0.94);
     }
 
     .help-shelter {
-        width: 250px;
-        height: 60px;
+        width: 300px;
+        height: 70px;
         border-color: #004B22;
-        border-radius: 15px;
-        background-color: rgba(0, 0, 0, 0);
-        font-size: 20px;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 0.39);
+        font-size: 30px;
+        color: #004B22;
     }
 
     .info-container {
@@ -112,6 +275,30 @@
     .image-container {
         min-width: 350px;
         width: 560px
+    }
+
+    .img-left {
+        border-radius: 0 45% 45% 0
+    }
+
+    .img-right {
+        border-radius: 45% 0 0 45%
+    }
+
+    .btns-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .btns-info button {
+        margin: 10px;
+    }
+
+    .small-form {
+        width: 450px;
     }
 }
 

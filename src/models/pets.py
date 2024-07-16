@@ -6,6 +6,7 @@ from flask_admin.form.upload import ImageUploadField
 from sqlalchemy import Enum
 
 from src import db, admin
+from src.utils.utils import text_to_slug
 
 
 class PetSize(enum.Enum):
@@ -60,6 +61,7 @@ class Pet(db.Model):
     size = db.Column(Enum(PetSize), nullable=False, default=PetSize.MEDIUM)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'), nullable=False)
     species = db.relationship('Species',  back_populates='pets', lazy=True)
+    slug = db.Column(db.String(90), unique=True, nullable=False)
     image = db.Column(db.String(300), nullable=True)
     description = db.Column(db.String(300), nullable=True)
     status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
@@ -71,10 +73,11 @@ class Pet(db.Model):
         self.age = age
         self.is_sterilized = is_sterilized
         self.size = size
-        self.species_id = species_id,
+        self.species_id = species_id
         self.image = image
         self.description = description
-        self.status = status
+        self.status = status,
+        self.slug = text_to_slug(name + breed)
 
     def to_dict(self):
         return {
@@ -89,6 +92,7 @@ class Pet(db.Model):
             'image': self.image,
             'description': self.description,
             'status': self.status.value,
+            'slug': self.slug,
         }
 
 
