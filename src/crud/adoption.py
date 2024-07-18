@@ -29,7 +29,6 @@ def add_pet_to_shelter(name, gender, breed, age, is_sterilized, size, species_id
         species_id=species_id,
         image='uploads/' + image.filename,
         description=description,
-        status=PetStatus.PENDING
     )
 
     db.session.add(new_pet)

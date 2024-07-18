@@ -52,6 +52,9 @@ class Species(db.Model):
 
 
 class Pet(db.Model):
+    """
+
+    """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     breed = db.Column(db.String(80), unique=True, nullable=True)
@@ -66,7 +69,7 @@ class Pet(db.Model):
     description = db.Column(db.String(300), nullable=True)
     status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
 
-    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, status):
+    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description):
         self.name = name
         self.gender = gender
         self.breed = breed
@@ -76,7 +79,6 @@ class Pet(db.Model):
         self.species_id = species_id
         self.image = image
         self.description = description
-        self.status = status,
         self.slug = text_to_slug(name + breed)
 
     def to_dict(self):

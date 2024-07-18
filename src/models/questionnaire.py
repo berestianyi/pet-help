@@ -1,12 +1,5 @@
-from datetime import date
-
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.contrib.sqla.fields import QuerySelectField
-
 from src import db, admin
-from src.models import Pet
-from src.models.user import User
-from sqlalchemy import Enum, ForeignKey, Column, Integer, String
 
 
 class PersonalInfo(db.Model):

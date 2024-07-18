@@ -1,0 +1,10 @@
+{% extends "base_nav_and_footer.html" %}
+
+{% block title %}{{ pet.name }}{% endblock %}
+{% block body %}
+    <form>
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            {% include 'user/personal_info.html' %}
+        </div>
+    </form>
+{% endblock %}
