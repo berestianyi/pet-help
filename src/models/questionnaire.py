@@ -1,3 +1,6 @@
+import enum
+from datetime import datetime
+
 from flask_admin.contrib.sqla import ModelView
 from src import db, admin
 
@@ -31,6 +34,8 @@ class Questionnaire(db.Model):
     personal_info_id = db.Column(db.Integer, db.ForeignKey('personal_info.id'), nullable=False)
     pet_id = db.Column(db.Integer, db.ForeignKey('pet.id'), nullable=False)
     pet = db.relationship('Pet', backref='questionnaires')
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     def to_dict(self):
         return {
@@ -46,14 +51,22 @@ class PersonalInfoView(ModelView):
 
 
 class QuestionnaireView(ModelView):
-    column_list = ['personal_info.full_name', 'personal_info.birth_date', 'personal_info.age', 'personal_info.description', 'personal_info.phone', 'pet.name']
+    column_list = [
+        'personal_info.full_name',
+        'personal_info.birth_date',
+        'personal_info.age',
+        'personal_info.description',
+        'personal_info.phone',
+        'pet.name'
+    ]
     column_labels = {
         'personal_info.full_name': 'Full Name',
         'personal_info.birth_date': 'Birth Date',
         'personal_info.age': 'Age',
         'personal_info.description': 'Description',
         'personal_info.phone': 'Phone',
-        'pet.name': 'Pet Name'
+        'pet.name': 'Pet Name',
+        'pet.id': 'Pet ID',
     }
 
 

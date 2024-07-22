@@ -27,7 +27,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                <><button type="button" class="btn btn-success" href="{{ url_for('adopt', pet_id=pet.id) }}">Adopt pet</button>
+                <a href="{{ url_for('adopt_endpoint', pet_id=pet.id ) }}">
+                    <button type="button" class="btn btn-success">Adopt pet</button>
+                </a>
             </div>
         </div>
     </div>

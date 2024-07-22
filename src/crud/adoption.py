@@ -55,3 +55,8 @@ def change_pet_status(pet_id, status: PetStatus) -> Pet:
     pet.status = status
     db.session.commit()
     return pet
+
+
+def get_pet_by_id(pet_id) -> Pet:
+    pet = Pet.query.filter_by(id=pet_id).first()
+    return pet

@@ -25,6 +25,7 @@ class PetStatus(enum.Enum):
     PENDING = "PENDING"
     AVAILABLE = "AVAILABLE"
     ADOPTED = "ADOPTED"
+    BOOKED = "BOOKED"
 
 
 class Species(db.Model):

@@ -389,4 +389,8 @@ class Adopt(Resource):
 
     """
     def get(self, pet_id):
-        return make_response(render_template('adoption/card_page.html'))
+        pet = crud.get_pet_by_id(pet_id)
+        return make_response(render_template('adoption/card_page.html', pet=pet))
+
+    def post(self):
+        pass

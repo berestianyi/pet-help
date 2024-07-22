@@ -2,8 +2,39 @@
 
 {% block title %}{{ pet.name }}{% endblock %}
 {% block body %}
-    <form>
-        <div class="d-flex flex-row flex-wrap justify-content-center">
+    <form class="d-flex flex-row flex-wrap justify-content-center align-items-start">
+        <div class="d-flex flex-column flex-wrap justify-content-center m-3">
+            <h2>Pet you want to adopt</h2>
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename=pet.image) }}" class="img-thumbnail" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pet.name }}</h5>
+                            <p class="card-text">{{ pet.size }} ⊛ {{ pet.sterilized }} ⊛ {{ pet.gender }} ⊛ {{ pet.age }}
+                        y.o. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{#            <div class="d-flex flex-row flex-wrap justify-content-center">#}
+{#                <div style="width: 200px; height: auto">#}
+{#                    <img src="{{ url_for('static', filename=pet.image) }}" class="img-thumbnail" alt="...">#}
+{#                </div>#}
+{#                <div class="d-flex flex-column justify-content-center flex-wrap" style="max-width: 250px">#}
+{#                    <div class="d-flex flex-column align-items-center">#}
+{#                        <h3>{{ pet.name }}</h3>#}
+{#                        <h4>{{ pet.breed }}</h4>#}
+{#                    </div>#}
+{#                    <p class="text-center">{{ pet.size }} ⊛ {{ pet.sterilized }} ⊛ {{ pet.gender }} ⊛ {{ pet.age }}#}
+{#                        y.o. </p>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="d-flex flex-column flex-wrap justify-content-center m-3">
+            <h2>Your personal info</h2>
             {% include 'user/personal_info.html' %}
         </div>
     </form>
