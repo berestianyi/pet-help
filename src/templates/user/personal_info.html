@@ -1,38 +1,41 @@
-<div class="mb-3">
-    <label for="fullName" class="form-label">Write your full name</label>
-    <input type="text" class="form-control" id="fullName" name="fullName"
-           placeholder="Taras Hryhorovych Shevchenko" value="{{ full_name }}" {{ personal_info_disabled }}>
-</div>
-<div class="mb-3">
-    <label for="description" class="form-label">Tell about yourself</label>
-    <textarea class="form-control" id="description" name="description" rows="3" {{ personal_info_disabled }}>{{ description }}</textarea>
-</div>
-<div class="row">
-    <div class="col">
-        <label for="datepicker" class="form-label">Select your date of birth</label>
-        <input id="datepicker" name="datepicker" width="200" value="{{ birth_date }}" {{ personal_info_disabled }}/>
-        {% if birth_date_error %}
-            <p>{{ birth_date_error }}</p>
-        {% endif %}
-        <script>
-            $('#datepicker').datepicker({
-                uiLibrary: 'bootstrap5'
-            });
-        </script>
+<div style="min-width: 300px">
+    <div class="mb-3">
+        <label for="fullName" class="form-label">Write your full name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName"
+               placeholder="Taras Hryhorovych Shevchenko" value="{{ full_name }}" {{ personal_info_disabled }}>
     </div>
-    <div class="col">
-        <p class="mb-2">Write your phone number</p>
-        <div class="input-group mb-3" style="width: 200px">
-            <span class="input-group-text" id="basic-addon1">+38</span>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                   placeholder="(999) 999-9999"
-                   aria-label="Phone"
-                   aria-describedby="basic-addon1" value="{{ phone }}" {{ personal_info_disabled }}>
+    <div class="mb-3">
+        <label for="description" class="form-label">Tell about yourself</label>
+        <textarea class="form-control" id="description" name="description"
+                  rows="3" {{ personal_info_disabled }}>{{ description }}</textarea>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="datepicker" class="form-label">Select your date of birth</label>
+            <input id="datepicker" name="datepicker" width="200" value="{{ birth_date }}" {{ personal_info_disabled }}/>
+            {% if birth_date_error %}
+                <p>{{ birth_date_error }}</p>
+            {% endif %}
+            <script>
+                $('#datepicker').datepicker({
+                    uiLibrary: 'bootstrap5'
+                });
+            </script>
         </div>
-        <script>
-            $(document).ready(function () {
-                $("#phoneNumber").inputmask("(999) 999-9999");
-            });
-        </script>
+        <div class="col">
+            <p class="mb-2">Write your phone number</p>
+            <div class="input-group mb-3" style="width: 200px">
+                <span class="input-group-text" id="basic-addon1">+38</span>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                       placeholder="(999) 999-9999"
+                       aria-label="Phone"
+                       aria-describedby="basic-addon1" value="{{ phone }}" {{ personal_info_disabled }}>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $("#phoneNumber").inputmask("(999) 999-9999");
+                });
+            </script>
+        </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-from flask import render_template, make_response, request, redirect, url_for, send_from_directory, flash
+from flask import render_template, make_response, request, redirect, url_for, send_from_directory, flash, current_app
 from flask_login import current_user, login_required
 from flask_restful import Resource
 
@@ -153,7 +153,6 @@ class Questionnaire(Resource, DataMixin):
              "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
              "checked": "", "description": pet.description, "breed": pet.breed, "specie": pet.species} for pet in pets]
 
-
         selected_input = {
             'specie': 'All species',
             'gender': 'All genders',
@@ -179,8 +178,6 @@ class Questionnaire(Resource, DataMixin):
 
     @login_required
     def post(self):
-
-
         return make_response(render_template('adoption/thank_you.html'))
 
 
@@ -388,9 +385,59 @@ class Adopt(Resource):
     """
 
     """
+    method_decorators = [csrf.exempt]
+
     def get(self, pet_id):
         pet = crud.get_pet_by_id(pet_id)
-        return make_response(render_template('adoption/card_page.html', pet=pet))
+        user = current_user
+
+        personal_info = crud.get_personal_info(user)
+        if personal_info:
+            full_name, phone, description, birth_date = crud.get_personal_info_fields(personal_info)
+        else:
+            full_name = phone = description = birth_date = ''
+
+        pet_status_list = {"id": pet.id, "name": pet.name, "age": pet.age,
+                           "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
+                           "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
+                           "checked": "", "description": pet.description, "breed": pet.breed, "specie": pet.species}
+
+        return make_response(render_template(
+            'adoption/card_page.html',
+            pet=pet_status_list,
+            user=user,
+            full_name=full_name,
+            phone=phone,
+            description=description,
+            birth_date=birth_date
+        ))
 
     def post(self):
-        pass
+        try:
+            full_name = request.form.get('fullName')
+            phone = request.form.get('phoneNumber')
+            description = request.form.get('description')
+            birth_date = request.form.get('datepicker')
+            pet_id = request.form.get('petId')
+            user = current_user
+
+            crud.update_personal_info(
+                user=user,
+                full_name=full_name,
+                phone=phone,
+                description=description,
+                birth_date=birth_date
+            )
+
+            crud.change_pet_status(
+                pet_id,
+                PetStatus.ADOPTED
+            )
+            personal_info = crud.get_personal_info(user)
+
+            crud.add_questionnaire(pet_id=pet_id, personal_info_id=personal_info.id)
+
+            return make_response(render_template('adoption/thank_you.html'))
+        except Exception as e:
+            current_app.logger.error(f"Error in POST /adopt: {str(e)}")
+            return {"message": "An error occurred while processing your request."}, 500

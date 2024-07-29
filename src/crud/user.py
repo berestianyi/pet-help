@@ -4,7 +4,8 @@ from src import db
 
 def get_personal_info(user):
     if user.is_authenticated:
-        return PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+        personal_info = PersonalInfo.query.filter_by(id=user.personal_info_id).first()
+        return personal_info
     return None
 
 
@@ -34,3 +35,16 @@ def add_user(username, email, password):
     db.session.add(new_user)
     db.session.commit()
     return new_user
+
+
+def update_personal_info(user, full_name, phone, description, birth_date):
+    personal_info = get_personal_info(user)
+    if personal_info:
+        personal_info.full_name = full_name
+        personal_info.phone = phone
+        personal_info.description = description
+        personal_info.birth_date = birth_date
+        db.session.commit()
+        return personal_info
+    return None
+
