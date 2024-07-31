@@ -2,22 +2,6 @@
     {
         "model": "Pet",
         "fields": {
-            "id": 1,
-            "name": "Fin",
-            "breed": "Bulldog",
-            "gender": "Male",
-            "age": 3,
-            "is_sterilized": true,
-            "size": "Small",
-            "species_id": 1,
-            "image": "uploads/man-with-dog-allergy-front-view.jpg",
-            "description": null,
-            "status": "AVAILABLE"
-        }
-    },
-    {
-        "model": "Pet",
-        "fields": {
             "id": 2,
             "name": "Sonya",
             "breed": "Beagle",
@@ -28,7 +12,8 @@
             "species_id": 1,
             "image": "uploads/woman-trying-concentrate-her-dog.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "sonyabeagle"
         }
     },
     {
@@ -44,7 +29,8 @@
             "species_id": 1,
             "image": "uploads/amazing-beagle-dog-resting-after-active-games-balcony-summer-day.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "jackenglish-springer-spaniel"
         }
     },
     {
@@ -60,7 +46,8 @@
             "species_id": 1,
             "image": "uploads/full-shot-cute-dog-making-mess.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "mikebullmastiff"
         }
     },
     {
@@ -76,7 +63,8 @@
             "species_id": 1,
             "image": "uploads/full-shot-cute-dog-making-mess.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "jessicaenglish-cocker-spaniel"
         }
     },
     {
@@ -92,7 +80,8 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "bobiearabian-mau"
         }
     },
     {
@@ -108,7 +97,8 @@
             "species_id": 2,
             "image": "uploads/dog-laying-floor-after-making-mess.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "hokyecyprus"
         }
     },
     {
@@ -124,7 +114,8 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "bobikkorean-bobtail"
         }
     },
     {
@@ -140,7 +131,144 @@
             "species_id": 2,
             "image": "uploads/adorable-cat-relaxing-indoors.jpg",
             "description": null,
-            "status": "AVAILABLE"
+            "status": "AVAILABLE",
+            "slug": "pupyocicat"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 1,
+            "name": "Fin",
+            "breed": "Bulldog",
+            "gender": "Male",
+            "age": 3,
+            "is_sterilized": true,
+            "size": "Small",
+            "species_id": 1,
+            "image": "uploads/man-with-dog-allergy-front-view.jpg",
+            "description": "Fin is a lively and affectionate dog with a playful spirit and a warm heart. With her soft, glossy coat and bright, expressive eyes, she captures the attention and affection of everyone she meets. ",
+            "status": "AVAILABLE",
+            "slug": "finbulldog"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 10,
+            "name": "Luna",
+            "breed": "Labrador",
+            "gender": "Female",
+            "age": 3,
+            "is_sterilized": true,
+            "size": "Medium",
+            "species_id": 1,
+            "image": "uploads/dog-allergies.jpg",
+            "description": "Luna loves to play fetch",
+            "status": "AVAILABLE",
+            "slug": "lunalabrador"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 16,
+            "name": "Rock",
+            "breed": "British Shorthair",
+            "gender": "Male",
+            "age": 2,
+            "is_sterilized": true,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/British-shorthair-cat-compressed-1.jpg",
+            "description": "Lovely pet",
+            "status": "AVAILABLE",
+            "slug": "rockbritish-shorthair"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 15,
+            "name": "Jojo",
+            "breed": "British Shorthair",
+            "gender": "Male",
+            "age": 1,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/british-shorthair_FotoMirta_Shutterstock-800x533.jpg",
+            "description": "Lovely cat",
+            "status": "AVAILABLE",
+            "slug": "jojobritish-shorthair"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 14,
+            "name": "Bomby",
+            "breed": "Bombay Cat",
+            "gender": "Female",
+            "age": 2,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 2,
+            "image": "uploads/bombay-cat-1.jpg",
+            "description": "Lovely pet",
+            "status": "AVAILABLE",
+            "slug": "bombybombay-cat"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 13,
+            "name": "Ron",
+            "breed": "Beagle",
+            "gender": "Female",
+            "age": 9,
+            "is_sterilized": false,
+            "size": "Medium",
+            "species_id": 1,
+            "image": "uploads/Beagle-dog-standing-on-a-field_Artyom-Gantsev_Shutterstock.jpg",
+            "description": "Lovely pet",
+            "status": "AVAILABLE",
+            "slug": "ronbeagle"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 12,
+            "name": "Jacob",
+            "breed": "Beagle",
+            "gender": "Male",
+            "age": 4,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 1,
+            "image": "uploads/Beagle-dog-standing-on-a-field_Artyom-Gantsev_Shutterstock.jpg",
+            "description": "Good doggy",
+            "status": "AVAILABLE",
+            "slug": "jacobbeagle"
+        }
+    },
+    {
+        "model": "Pet",
+        "fields": {
+            "id": 11,
+            "name": "Boss",
+            "breed": "Pitbull",
+            "gender": "Male",
+            "age": 8,
+            "is_sterilized": false,
+            "size": "Small",
+            "species_id": 1,
+            "image": "uploads/funny-portrait-of-cute-corgi-dog-outdoors-free-photo.jpg",
+            "description": "Pitbull",
+            "status": "AVAILABLE",
+            "slug": "bosspitbull"
         }
     }
 ]
