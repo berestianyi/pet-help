@@ -131,7 +131,6 @@ def validate_give_shelter_form(name, breed, specie, size, gender, sterilized, ag
         Validation.length(gender, 2, 64),
         Validation.length(sterilized, 2, 64),
         Validation.only_number(age),
-        Validation.english_characters_only(description),
         Validation.length(description, 3, 64),
         Validation.is_not_in_value(specie, 'Specie'),
         Validation.is_not_in_value(size, 'Size'),
