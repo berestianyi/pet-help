@@ -53,12 +53,10 @@ class Species(db.Model):
 
 
 class Pet(db.Model):
-    """
 
-    """
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
-    breed = db.Column(db.String(80), unique=True, nullable=True)
+    breed = db.Column(db.String(80), nullable=True)
     gender = db.Column(Enum(PetGender), nullable=False, default=PetGender.FEMALE)
     age = db.Column(db.Integer, nullable=False)
     is_sterilized = db.Column(db.Boolean, nullable=False, default=False)
@@ -70,7 +68,7 @@ class Pet(db.Model):
     description = db.Column(db.String(300), nullable=True)
     status = db.Column(Enum(PetStatus), nullable=True, default=PetStatus.PENDING)
 
-    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description):
+    def __init__(self, name, gender, age, is_sterilized, size, species_id, breed, image, description, status: PetStatus):
         self.name = name
         self.gender = gender
         self.breed = breed
@@ -81,6 +79,7 @@ class Pet(db.Model):
         self.image = image
         self.description = description
         self.slug = text_to_slug(name + breed)
+        self.status = status
 
     def to_dict(self):
         return {
@@ -112,7 +111,18 @@ class PetView(ModelView):
                                   thumbnail_size=(100, 100, True))
     }
 
-    form_columns = ['name', 'breed', 'gender', 'age', 'is_sterilized', 'size', 'species', 'image', 'description', 'status']
+    form_columns = [
+        'name',
+        'breed',
+        'gender',
+        'age',
+        'is_sterilized',
+        'size',
+        'species',
+        'image',
+        'description',
+        'status'
+    ]
 
 
 admin.add_view(PetView(Pet, db.session))
