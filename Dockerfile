@@ -2,7 +2,7 @@ FROM python:3.12-alpine
 
 LABEL authors="Berestianyi Ivan"
 
-RUN apk add --no-cache build-base libjpeg-turbo-dev zlib-dev && \
+RUN apk add --no-cache build-base libjpeg-turbo-dev zlib-dev libffi-dev && \
     pip install poetry==1.8.3
 
 ENV POETRY_NO_INTERACTION=1 \
