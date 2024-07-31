@@ -2,9 +2,10 @@ from flask import render_template, make_response, request, redirect, url_for, se
 from flask_login import current_user, login_required
 from flask_restful import Resource
 
-from src import csrf, app, ALLOWED_EXTENSIONS
+from src import csrf, app
+from src.crud.adoption import DataCrudMixin
 from src.models import Pet, Species, PetGender, PetSize, PetStatus
-from src.utils.validation.validation import Validation, validate_give_shelter_form, validate_image_format
+from src.utils.validation.validation import validate_give_shelter_form, validate_image_format
 
 from src import crud
 
@@ -14,126 +15,18 @@ def uploaded_file(filename):
     return send_from_directory('static', filename)
 
 
-class DataMixin:
-    ages = {
-        '0-3': (0, 3),
-        '4-6': (4, 6),
-        '7+': (7, 30)}
+class Questionnaire(Resource, DataCrudMixin):
+    """
+            Resource for handling pet questionnaire forms and displaying available pets.
+            """
 
-    sterilized = {
-        'Yes': True,
-        'No': False,
-    }
-
-    def query_filter(self, query, specie, gender, size, age, sterilize, breed):
-        query = query.filter(Pet.status == PetStatus.AVAILABLE)
-        if specie != 'All species':
-            specie_name = Species.query.filter_by(name=specie).first()
-            query = query.filter(Pet.species_id == specie_name.id)
-            if breed != 'All breeds':
-                query = query.filter(Pet.breed == breed)
-        else:
-            if breed != 'All breeds':
-                query = query.filter(Pet.breed == breed)
-        if gender != 'All genders':
-            query = query.filter(Pet.gender == PetGender[gender.upper()])
-        if size != 'All sizes':
-            query = query.filter(Pet.size == PetSize[size.upper()])
-        if age != 'All ages':
-            age_range = self.ages.get(age)
-            if age_range:
-                query = query.filter(Pet.age >= age_range[0], Pet.age <= age_range[1])
-        if sterilize != 'Sterilized?':
-            query = query.filter(Pet.is_sterilized == self.sterilized[sterilize])
-
-        return query
-
-    @staticmethod
-    def breeds_filter(breed, specie):
-        if breed == 'All breeds':
-            if specie == 'All species':
-                breed = 'All breeds'
-                breeds = [pet.breed for pet in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
-            else:
-                breeds = [pet.breed for pet in
-                          Pet.query.filter(Pet.species_id == Species.query.filter_by(name=specie).first().id,
-                                           Pet.status == PetStatus.AVAILABLE)]
-
-        else:
-            if specie == 'All species':
-                breeds = [pet.breed for pet in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
-                breeds.remove(breed)
-            else:
-                breeds = [pet.breed for pet in
-                          Pet.query.filter(Pet.species_id == Species.query.filter_by(
-                              name=specie).first().id, Pet.status == PetStatus.AVAILABLE)]
-                breeds.remove(breed)
-            breeds.append('All breeds')
-
-        return breed, breeds
-
-    @staticmethod
-    def species_filter(specie, additional_word):
-        if specie == additional_word:
-            species = [specie.name for specie in Species.query.all()]
-        else:
-            species_list = Species.query.filter(Species.name != specie).all()
-            species = [specie.name for specie in species_list]
-            species.append(additional_word)
-        return species
-
-    @staticmethod
-    def genders_filter(gender_, additional_word):
-        if gender_ == additional_word:
-            genders = [gender.value for gender in PetGender]
-        else:
-            genders = [gender.value for gender in PetGender if gender.value != gender_]
-            genders.append(additional_word)
-        return genders
-
-    @staticmethod
-    def sizes_filter(size_, additional_word):
-        if size_ == additional_word:
-            sizes = [size.value for size in PetSize]
-        else:
-            sizes = [size.value for size in PetSize if size.value != size_]
-            sizes.append(additional_word)
-        return sizes
-
-    def ages_filter(self, age, additional_word):
-        if age == additional_word:
-            new_ages = self.ages.copy()
-        else:
-            new_ages = self.ages.copy()
-            new_ages.pop(age, None)
-            new_ages.update({additional_word: additional_word})
-        return new_ages
-
-    def sterilized_filter(self, sterilize, additional_word):
-        if sterilize == additional_word:
-            new_sterilized = self.sterilized.copy()
-        else:
-            new_sterilized = self.sterilized.copy()
-            new_sterilized.pop(sterilize, None)
-            new_sterilized.update({additional_word: additional_word})
-        return new_sterilized
-
-    @staticmethod
-    def paginate(total_pets, page, per_page) -> dict:
-        return {
-            'total_pages': -(-total_pets // per_page),
-            'next_num': page + 1 if page < -(-total_pets // per_page) else None,
-            'has_next': page < -(-total_pets // per_page),
-        }
-
-    @staticmethod
-    def empty_string(value):
-        return '' if value is None else value
-
-
-class Questionnaire(Resource, DataMixin):
     @login_required
     def get(self):
+        """
+                        Handles GET requests to display the pet questionnaire form with available pets.
+
+                        :return: Renders the pet questionnaire template with pet data and filters.
+                        """
         species = [s.name for s in Species.query.all()]
         breeds = [p.breed for p in Pet.query.filter(Pet.status == PetStatus.AVAILABLE)]
         genders, sizes = [gender.value for gender in PetGender], [size.value for size in PetSize]
@@ -181,11 +74,19 @@ class Questionnaire(Resource, DataMixin):
         return make_response(render_template('adoption/thank_you.html'))
 
 
-class QuestionnaireHTMX(Resource, DataMixin):
+class QuestionnaireHTMX(Resource, DataCrudMixin):
     method_decorators = [csrf.exempt]
+    """
+            Resource for handling HTMX-based questionnaire submissions and filtering pets.
+            """
 
     def post(self):
-        print(request.form)
+        """
+                       Handles POST requests to filter pets based on questionnaire form inputs.
+
+                       :return: Renders the filtered pet list template with updated pet data.
+                       """
+
         pet_id = request.form.get('selectedCard')
         specie = request.form.get('species')
         gender = request.form.get('genders')
@@ -252,10 +153,18 @@ class QuestionnaireHTMX(Resource, DataMixin):
         ))
 
 
-class GiveShelter(Resource, DataMixin):
+class GiveShelter(Resource, DataCrudMixin):
+    """
+            Resource for handling shelter form submissions and displaying the shelter form.
+            """
 
     @login_required
     def get(self):
+        """
+                        Handles GET requests to display the shelter form.
+
+                        :return: Renders the shelter form template with relevant data.
+                        """
         species = Species.query.all()
         species_list = [specie.name for specie in species]
         species_list.append('Not in list')
@@ -290,14 +199,18 @@ class GiveShelter(Resource, DataMixin):
 
     @login_required
     def post(self):
+        """
+                        Handles POST requests to submit the shelter form.
+
+                        :return: Redirects to the main page or back to the shelter form with an error message.
+                        """
         value = request.form
 
         if value['petName'] == 'Not in list':
             specie = crud.add_specie(value['newSpecie'])
         else:
             specie = crud.get_specie_by_name(value['specie'])
-        print(request.files['file'])
-        print(request.files['file'].filename)
+
         if validate_image_format(request.files['file'].filename):
             crud.add_pet_to_shelter(
                 name=value['petName'],
@@ -316,7 +229,10 @@ class GiveShelter(Resource, DataMixin):
             return redirect(url_for('giveshelter'))
 
 
-class GiveShelterHTMX(Resource, DataMixin):
+class GiveShelterHTMX(Resource, DataCrudMixin):
+    """
+            Resource to handle shelter form submissions via HTMX.
+        """
     def post(self):
         value = request.form
         print(value)
@@ -354,7 +270,10 @@ class GiveShelterHTMX(Resource, DataMixin):
         ))
 
 
-class GiveShelterButtonSubmitHTMX(Resource, DataMixin):
+class GiveShelterButtonSubmitHTMX(Resource, DataCrudMixin):
+    """
+            Resource to handle the submission of the shelter form button via HTMX.
+            """
     def post(self):
         value = request.form
         if value.get('specie') == 'Not in list':
@@ -383,11 +302,18 @@ class GiveShelterButtonSubmitHTMX(Resource, DataMixin):
 
 class Adopt(Resource):
     """
-
-    """
+        Resource for handling pet adoption requests.
+        """
     method_decorators = [csrf.exempt]
 
     def get(self, pet_id):
+        """
+                        Handles the GET request to view a pet's adoption page.
+
+                        :param pet_id: The ID of the pet to view.
+                        :return: Renders the pet's adoption card page.
+
+                """
         pet = crud.get_pet_by_id(pet_id)
         user = current_user
 
@@ -397,10 +323,11 @@ class Adopt(Resource):
         else:
             full_name = phone = description = birth_date = ''
 
-        pet_status_list = {"id": pet.id, "name": pet.name, "age": pet.age,
-                           "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
-                           "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
-                           "checked": "", "description": pet.description, "breed": pet.breed, "specie": pet.species}
+        pet_status_list = {
+            "id": pet.id, "name": pet.name, "age": pet.age,
+            "image": pet.image, "size": pet.size.value, "gender": pet.gender.value,
+            "sterilized": "Sterilized" if pet.is_sterilized else "Not sterilized",
+            "checked": "", "description": pet.description, "breed": pet.breed, "specie": pet.species}
 
         return make_response(render_template(
             'adoption/card_page.html',
@@ -413,6 +340,11 @@ class Adopt(Resource):
         ))
 
     def post(self):
+        """
+                        Handles the POST request to submit an adoption application.
+
+                        :return: Renders a thank you page upon successful submission.
+                """
         try:
             full_name = request.form.get('fullName')
             phone = request.form.get('phoneNumber')
