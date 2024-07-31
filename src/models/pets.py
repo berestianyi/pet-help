@@ -125,4 +125,4 @@ class PetView(ModelView):
     ]
 
 
-admin.add_view(PetView(Pet, db.session))
+# admin.add_view(PetView(Pet, db.session))
